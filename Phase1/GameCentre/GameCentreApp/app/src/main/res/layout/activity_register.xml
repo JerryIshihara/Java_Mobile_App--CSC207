@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background2"
+    tools:context=".RegisterActivity">
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
+
+    <EditText
+        android:id="@+id/usernameRegisterText"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="160dp"
+        android:background="@color/colorPrimary"
+        android:ems="10"
+        android:hint="@string/userName"
+        android:inputType="text|textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <EditText
+        android:id="@+id/passwordRegisterText"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="29dp"
+        android:background="@color/colorPrimary"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameRegisterText" />
+
+    <Button
+        android:id="@+id/registerAttemptButton"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginBottom="151dp"
+        android:text="@string/Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegisterText"
+        android:onClick="onclickRegisterButton"/>
+
+    <Button
+        android:id="@+id/Return"
+        android:layout_width="97dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/Return"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerAttemptButton"
+        android:onClick="onClickReturn"/>
+
+
+</android.support.constraint.ConstraintLayout>
