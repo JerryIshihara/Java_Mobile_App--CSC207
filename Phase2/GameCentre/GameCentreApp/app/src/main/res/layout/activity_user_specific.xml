@@ -5,43 +5,76 @@
     android:id="@+id/userName"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FEF496"
+    android:background="@drawable/usercentre_background"
     tools:context=".UserSpecificActivity">
-
-    <Button
-        android:id="@+id/slidingTilesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginBottom="272dp"
-        android:onClick="launchSlidingTileGame"
-        android:text="@string/SlidingTile"
-        app:layout_constraintBottom_toTopOf="@+id/logOut"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/logOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="92dp"
-        android:onClick="onClickLogOut"
-        android:text="@string/logOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/centreUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="sans-serif"
         android:text="@string/userName"
         android:textColor="@color/cardview_light_background"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/gameCentre"
+        android:layout_width="395dp"
+        android:layout_height="550dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="15dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/slidingTileBotton"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/button"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/slidingtile_botton"
+                android:onClick="onClickSlidingTileGame"/>
+
+            <ImageView
+                android:id="@+id/sudokuBotton"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/button"
+                app:srcCompat="@drawable/sudoku_botton"
+                android:onClick="onclickSudokugame"/>
+
+            <ImageView
+                android:id="@+id/subtractBotton"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/button"
+                app:srcCompat="@drawable/subtractsquare"
+                android:onClick="onclickSubtractSquareGame"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="30dp"
+        android:contentDescription="@string/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/exit"
+        android:onClick="onClickLogOut"/>
 
 </android.support.constraint.ConstraintLayout>

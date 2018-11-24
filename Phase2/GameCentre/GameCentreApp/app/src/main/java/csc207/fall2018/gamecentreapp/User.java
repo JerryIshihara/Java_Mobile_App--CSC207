@@ -1,12 +1,10 @@
 package csc207.fall2018.gamecentreapp;
 
-import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A class representing the players of games.
  */
-public class User implements Serializable {
+public class User {
     /**
      * The name of the user.
      */
@@ -18,6 +16,7 @@ public class User implements Serializable {
 
     /**
      * A constructor of the user.
+     *
      * @param userName the name of a user
      * @param password the password of a user.
      */
@@ -35,6 +34,7 @@ public class User implements Serializable {
 
     /**
      * Set the password according to input.
+     *
      * @param password a string which can be represented as the password of the user.
      */
     public void setPassword(String password) {
@@ -50,27 +50,29 @@ public class User implements Serializable {
 
     /**
      * Set the userName according to input.
+     *
      * @param userName a string which is the name of the user.
      */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    @Override
+
+
     public String toString() {
         return getUserName();
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return getUserName().equals(user.getUserName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUserName());
-    }
 }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        User user = (User) o;
+//        return getUserName().equals(user.getUserName());
+//    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getUserName());
+//    }
+//}

@@ -1,73 +1,24 @@
 package csc207.fall2018.gamecentreapp;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * A class storing all users' information and managing users to play the games.
  */
-public class UserManager {
-    /**
-     * A static variable to check whether there is only one UserManager initialized.
-     */
-    private static UserManager userManagerInstance = null;
-    /**
-     * The name of a file which is used to collect all users'unformation.
-     */
-    private static final String userInfo = "userInfo.ser";
-    /**
-     * A list containing users.
-     */
-    private static List<User> userList = new ArrayList<>();
-    /**
-     *  The current user.
-     */
-    private static User currentUser = null;
+public class UserManager implements Serializable {
 
-    /**
-     * Read the file containing users'information.
-     */
-    private static void readFile() {
-        try {
-            FileInputStream fileIn = new FileInputStream(userInfo);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            userList = (ArrayList<User>)in.readObject();
-            fileIn.close();
-        } catch (Exception i) {
-            writeFile();
-        }
-    }
+    private static UserManager userManagerInstance;
 
-    /**
-     * Write a file containing the users'information.
-     */
-    private static void writeFile() {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(userInfo);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(userList);
-            out.close();
-            fileOut.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
+    private static User currentUser;
 
-    /**
-     * A constructor of the UserManager.
-     */
+    private static ArrayList<User> users = new ArrayList<>();
+
+
     private UserManager() {
     }
 
-    /**
-     * Check whether there is only one UserManager initialized.
-     * @return a non-null UserManager.
-     */
     public static UserManager getInstance() {
         if (userManagerInstance == null) {
             userManagerInstance = new UserManager();
@@ -75,105 +26,127 @@ public class UserManager {
         return userManagerInstance;
     }
 
-    /**
-     * Check whether UserManager stores the user's information.
-     * @param user an User playing the game
-     * @return boolean value whether the user's information is stored in the UserManager.
-     */
-    public boolean hasThisUser(User user) {
-        readFile();
-        if (userList.size() == 0) return false;
-        else for (User u : userList) {
-            if (user.equals(u)) {
+    public boolean isRegistered(User user) {
+        String userName = user.getUserName();
+        for (User user1 : users) {
+            if (user1.getUserName().equals(userName)) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * Check whether user is able to login.
-     * @param user an user playing the game.
-     * @return  the boolean value whether user can login.
-     */
+    public void signUp(User user) {
+        users.add(user);
+        currentUser = user;
+    }
+
     public boolean checkUserValidation(User user) {
-        readFile();
-        if (userList.size() == 0) return false;
-        else for (User u : userList) {
-            if (u.equals(user) & u.getPassword().equals(user.getPassword())) {
-                return true;
+        if (!isRegistered(user)) return false;
+        for (User user1 : users) {
+            if (user1.getUserName().equals(user.getUserName())) {
+                return user.getPassword().equals(user1.getPassword());
             }
         }
         return false;
     }
 
-    /**
-     * Check whether currentUser is null.
-     * @return boolean value whether there is someone logged in.
-     */
-    public boolean isLoggedIn() {
-        return currentUser != null;
-    }
-
-    /**
-     * Login the gameApp
-     * @param user an User playing then game.
-     */
-    public void logIn(User user) {
-        readFile();
+    public void loginUser(User user) {
         if (!isLoggedIn() && checkUserValidation(user)) {
             currentUser = user;
         }
     }
 
-    /**
-     * Logout the gameApp
-     */
+    private boolean isLoggedIn() {
+        return currentUser != null;
+    }
+
     public void logOut() {
         currentUser = null;
     }
 
-    /**
-     * Sign up for a new account.
-     * @param user an User playing the game.
-     */
-    public void signUp(User user) {
-        readFile();
-        if (!hasThisUser(user)) {
-            if (currentUser == null) {
-                currentUser = user;
-                userList.add(user);
-                writeFile();
-            }
-        }
-    }
-
-//
-//    private static void addUser(User user) {
-
-    /**
-     * Return the name of the current user.
-     */
-    public static String getCurrentUserName() {
+    public String getCurrentUserName() {
         if (currentUser != null) {
             return currentUser.getUserName();
         } else {
-            return "1";
+            return "No Username";
         }
-
-    }
-
-    public static String testHasFile(){
-        try {
-            FileInputStream fileIn = new FileInputStream(userInfo);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            ArrayList tmp = (ArrayList<User>) in.readObject();
-            in.close();
-            fileIn.close();
-            if(tmp.size() != 0) return "has file in local";
-        } catch (Exception i) {
-            return "error";
-        }
-        return "what happened";
     }
 }
+
+
+//    public boolean isRegistered(User user) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor c = db.rawQuery("SELECT * FROM " + fileName + " WHERE NAME = " + user.getUserName(), null);
+//        return c != null;
+//    }
+//
+//
+//    public void signUp(User user) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String name = user.getUserName();
+//        String password = user.getPassword();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("NAME", name);
+//        contentValues.put("PASSWORD", password);
+//        db.insert(fileName, null, contentValues);
+//    }
+//
+//
+//    public boolean checkUserValidation(User user) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor c = db.rawQuery("SELECT * FROM " + fileName + " WHERE NAME = " + user.getUserName(), null);
+//        int passwordIndex = c.getColumnIndex("PASSWORD");
+//        return user.getPassword().equals(c.getString(passwordIndex));
+//    }
+//
+//
+//    /**
+//     * Check whether currentUser is null.
+//     *
+//     * @return boolean value whether there is someone logged in.
+//     */
+//    public boolean isLoggedIn() {
+//        return currentUser != null;
+//    }
+//
+//    /**
+//     * Login the gameApp
+//     *
+//     * @param user an User playing then game.
+//     */
+//    public void loginUser(User user) {
+//        if (!isLoggedIn() && checkUserValidation(user)) {
+//            currentUser = user;
+//        }
+//    }
+//
+//    /**
+//     * Logout the gameApp
+//     */
+//    public void logOut() {
+//        currentUser = null;
+//    }
+//
+//    /**
+//     * Return the name of the current user.
+//     */
+//    public static String getCurrentUserName() {
+//        if (currentUser != null) {
+//            return currentUser.getUserName();
+//        } else {
+//            return "No User Right Now";
+//        }
+//    }
+//
+//    @Override
+//    public void onCreate(SQLiteDatabase db) {
+//        db.execSQL("CREATE TABLE IF NOT EXISTS " + fileName + " (NAME VARCHAR, PASSWORD VARCHAR)");
+//    }
+//
+//    @Override
+//    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+//        db.execSQL("DROP TABLE IF EXISTS " + fileName);
+//        onCreate(db);
+//    }
+//    }
