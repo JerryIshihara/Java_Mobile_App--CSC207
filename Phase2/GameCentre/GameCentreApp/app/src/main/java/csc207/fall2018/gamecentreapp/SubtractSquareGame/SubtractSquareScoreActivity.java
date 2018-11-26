@@ -11,7 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.ScoreBoard;
+import csc207.fall2018.gamecentreapp.DataBase.ScoreBoard;
 
 public class SubtractSquareScoreActivity extends AppCompatActivity {
 
@@ -34,21 +34,21 @@ public class SubtractSquareScoreActivity extends AppCompatActivity {
             scores.add("No score yet, play right now!");
         } else {
             c.moveToFirst();
-            int i = 0;
+            int i = 1;
             int nameIndex = c.getColumnIndex("NAME");
             int gameIndex = c.getColumnIndex("GAME");
             int scoreIndex = c.getColumnIndex("SCORE");
 
             while (c.moveToNext()) {
-                String temp = "No." + Integer.toString(i) + "  |  " +
-                        "Game: " + c.getString(gameIndex) + "  |  " +
-                        "Name: " + c.getString(nameIndex) + "  |  " +
-                        "Score: " + c.getString(scoreIndex);
+                String temp = "No." + Integer.toString(i) + " |    "
+                        + c.getString(gameIndex) + "  |  "
+                        + c.getString(nameIndex) + "  |  "
+                        + "Score: "+ c.getString(scoreIndex);
                 scores.add(temp);
                 i++;
             }
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scores);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, scores);
         listView.setAdapter(arrayAdapter);
     }
 

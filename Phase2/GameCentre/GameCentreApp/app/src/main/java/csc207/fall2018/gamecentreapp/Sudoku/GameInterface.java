@@ -53,7 +53,7 @@ public class GameInterface extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int position = getIntent().getExtras().getInt("position");
-                        if (checkInvalidity(input.getText().toString())){
+                        if (checkInputValidity(input.getText().toString())){
                             int newValue = Integer.parseInt(input.getText().toString());
                             enteredValue(position,newValue);
                             gridViewArrayAdapter.notifyDataSetChanged();
@@ -132,10 +132,10 @@ public class GameInterface extends AppCompatActivity {
         int counter = 0;
         int currentPosition = 0;
         while(currentPosition < 81){
-            int x = currentPosition / 9;
-            int y = currentPosition % 9;
+            int row = currentPosition % 9;
+            int col = currentPosition / 9;
             if (SudokuGenerator.getInstance(0)
-                    .checkAll(sudoku.get(x).get(y), x, y, sudoku)){
+                    .checkAll(sudoku.get(row).get(col), row, col, sudoku)){
                 counter++;
             }
             currentPosition++;
@@ -156,7 +156,7 @@ public class GameInterface extends AppCompatActivity {
         SudokuGenerator.getInstance(0).changeValue(position,newValue);
     }
 
-    public boolean checkInvalidity(String input){
+    public boolean checkInputValidity(String input){
         return (input.equals("0") || input.equals("1") || input.equals("2") || input.equals("3")
                 || input.equals("4") || input.equals("5") || input.equals("6") || input.equals("7")
                 || input.equals("8") || input.equals("9"));

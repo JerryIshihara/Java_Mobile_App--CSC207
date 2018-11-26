@@ -14,20 +14,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".GameCentreActivity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".UserSpecificActivity" />
+        <activity android:name=".GameCentreActivity.RegisterActivity" />
+        <activity android:name=".GameCentreActivity.UserSpecificActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareStartActivity" />
         <activity android:name=".slidingtiles.StartingActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareScoreActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareGameCentreActivity"></activity>
+        <activity android:name=".SubtractSquareGame.SubtractSquareGameCentreActivity" />
+        <activity android:name=".Sudoku.GameInterface" />
+        <activity android:name=".Sudoku.SudokuGameActivity" />
+        <activity android:name=".slidingtiles.GameActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareSelectActivity" />
+        <activity android:name=".slidingtiles.SlidingtileSelectSizeActivity"></activity>
     </application>
 
 </manifest>

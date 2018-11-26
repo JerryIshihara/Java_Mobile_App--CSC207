@@ -1,14 +1,15 @@
 package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
+import java.io.Serializable;
 import java.util.Random;
-
-import csc207.fall2018.gamecentreapp.State;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The state of the SubtractSquare game.
  */
 
-public class SubtractSquareState {
+public class SubtractSquareState implements Serializable {
 
     //    private static final int WIN = 1;
 //
@@ -22,6 +23,10 @@ public class SubtractSquareState {
      */
     private boolean p1Turn;
 
+    private String p1Name;
+
+    private String p2Name;
+
     /**
      * The current number after subtraction in the game.
      */
@@ -29,18 +34,29 @@ public class SubtractSquareState {
 
 
     // New Game State
-    public SubtractSquareState() {
+    public SubtractSquareState(String p1Name, String p2Name) {
         this.p1Turn = true;
+        this.p1Name = p1Name;
+        this.p2Name = p2Name;
         // can be adjust by difficulty
         this.currentTotal = getRandomInt(70, 200);
     }
 
 
-    private SubtractSquareState(boolean p1_turn, int current_total) {
+    private SubtractSquareState(boolean p1_turn, int current_total, String p1Name, String p2Name) {
+        this.p1Name = p1Name;
+        this.p2Name = p2Name;
         this.p1Turn = p1_turn;
         this.currentTotal = current_total;
     }
 
+    public String getP1Name() {
+        return p1Name;
+    }
+
+    public String getP2Name() {
+        return p2Name;
+    }
 
     /**
      * Return whether it is p1's turn.
@@ -52,22 +68,20 @@ public class SubtractSquareState {
     }
 
 
-//    /**
-//////     * Get all possible moves for a player.
-//////     *
-//////     * @return a list containing of all moves.
-//////     */
-//////    public List getPossibleMoves() {
-//////        List<Integer> moves = new ArrayList<>();
-//////        int i = 1;
-//////        while (i < this.current_total + 1) {
-//////            if (i * i <= this.current_total) {
-//////                moves.add(i * i);
-//////            }
-//////            i++;
-//////        }
-//////        return moves;
-//////    }
+    /**
+     * Get all possible moves for a player.
+     *
+     * @return a list containing of all moves.
+     */
+    public ArrayList<Integer> getPossibleMoves() {
+        ArrayList<Integer> moves = new ArrayList<>();
+        int i = 1;
+        while (i * i <= this.currentTotal) {
+            moves.add(i * i);
+            i++;
+        }
+        return moves;
+    }
 
     /**
      * Get current_total
@@ -86,7 +100,7 @@ public class SubtractSquareState {
      */
     public SubtractSquareState makeMove(String move) {
         int moveInt = Integer.parseInt(move);
-        return new SubtractSquareState(!p1Turn, this.currentTotal - moveInt);
+        return new SubtractSquareState(!p1Turn, this.currentTotal - moveInt, this.p1Name, this.p2Name);
     }
 
 //    /**
@@ -107,7 +121,6 @@ public class SubtractSquareState {
 //        }
 //        return LOSE;
 //    }
-
 
 
     private int getRandomInt(int min, int max) {

@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -17,6 +20,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.UserManager;
 
 /**
  * The game activity.
@@ -59,12 +63,13 @@ public class GameActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
+        final Board board = boardManager.getBoard();
         createTileButtons(this);
         setContentView(R.layout.slidingtile_activity_main);
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
+        gridView.setNumColumns(board.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -77,8 +82,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
+                        columnWidth = displayWidth / board.NUM_COLS;
+                        columnHeight = displayHeight / board.NUM_ROWS;
 
                         display();
                     }
@@ -93,8 +98,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private void createTileButtons(Context context) {
         Board board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != board.NUM_ROWS; row++) {
+            for (int col = 0; col != board.NUM_COLS; col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
@@ -109,8 +114,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
         Board board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / Board.NUM_ROWS;
-            int col = nextPos % Board.NUM_COLS;
+            int row = nextPos / board.NUM_ROWS;
+            int col = nextPos % board.NUM_COLS;
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
@@ -125,20 +130,18 @@ public class GameActivity extends AppCompatActivity implements Observer {
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
     }
 
+
     /**
      * Load the board manager from fileName.
      *
      * @param fileName the name of the file
      */
     private void loadFromFile(String fileName) {
-
         try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-                inputStream.close();
-            }
+            File inputFile = new File(getFilesDir(), fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
+            boardManager = (BoardManager) objectInputStream.readObject();
+            objectInputStream.close();
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
@@ -155,10 +158,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     public void saveToFile(String fileName) {
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
-            outputStream.close();
+            File outputFile = new File(getFilesDir(), fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+            objectOutputStream.writeObject(boardManager);
+            objectOutputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }

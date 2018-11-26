@@ -13,11 +13,15 @@ public class SubtractSquareGame implements Serializable {
     /**
      * current state of the game.
      */
+    private static final String GAME_NAME = "Subtract Square";
+
     private SubtractSquareState currentState;
 
-    private String p1Name;
+    private int undoBatch;
 
-    private String p2Name;
+//    private String p1Name;
+//
+//    private String p2Name;
 
     private ArrayList<SubtractSquareState> pastStates;
 
@@ -32,9 +36,8 @@ public class SubtractSquareGame implements Serializable {
 //    }
 
     public SubtractSquareGame(String p1Name, String p2Name) {
-        this.p1Name = p1Name;
-        this.p2Name = p2Name;
-        this.currentState = new SubtractSquareState();
+        this.undoBatch = 3;
+        this.currentState = new SubtractSquareState(p1Name, p2Name);
         this.pastStates = new ArrayList<>();
     }
 
@@ -46,41 +49,25 @@ public class SubtractSquareGame implements Serializable {
 //        return p2Name;
 //    }
 
-    public String getCurrentPlayerName(){
-        return currentState.isP1_turn() ? p1Name : p2Name;
+    public String getCurrentPlayerName() {
+        return currentState.isP1_turn() ? currentState.getP1Name() : currentState.getP2Name();
     }
 
     public SubtractSquareState getCurrentState() {
         return currentState;
     }
 
-    //    /**
-//     * Set P1 Name for SubtractSquareGame.
-//     *
-//     * @param name String representing the name for player 1.
-//     */
-//    public void setP1Name(String name) {
-//        this.p1Name = name;
-//    }
-//
-//    /**
-//     * Set P1 Name for SubtractSquareGame.
-//     *
-//     * @param name String representing the name for player 2.
-//     */
-//    public void setP2Name(String name) {
-//        this.p2Name = name;
-//    }
+    public static String getGameName() {
+        return GAME_NAME;
+    }
 
-//    /**
-//     * return the name of the game.
-//     *
-//     * @return the name of the game.
-//     */
-//    public String toString() {
-//        return "SubtractSquareGame";
-//    }
+    public int getUndoBatch() {
+        return undoBatch;
+    }
 
+    public void setUndoBatch(int undoBatch) {
+        this.undoBatch = undoBatch;
+    }
 
     public void applyMove(String move) {
         try {
@@ -110,7 +97,7 @@ public class SubtractSquareGame implements Serializable {
 
     public String getWinner() {
         if (is_over()) {
-            return (currentState.isP1_turn()) ? p2Name : p1Name;
+            return (currentState.isP1_turn()) ? currentState.getP2Name() : currentState.getP1Name();
         }
         return "Not finished";
     }

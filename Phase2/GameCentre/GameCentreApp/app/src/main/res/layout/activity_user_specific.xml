@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/usercentre_background"
-    tools:context=".UserSpecificActivity">
+    tools:context=".GameCentreActivity.UserSpecificActivity">
 
     <TextView
         android:id="@+id/centreUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="sans-serif"
         android:text="@string/userName"
-        android:textColor="@color/cardview_light_background"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,14 +67,14 @@
 
     <ImageView
         android:id="@+id/logout"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="20dp"
+        android:layout_height="27dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="30dp"
         android:contentDescription="@string/button"
+        android:onClick="onClickLogOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/exit"
-        android:onClick="onClickLogOut"/>
+        app:srcCompat="@drawable/exit" />
 
 </android.support.constraint.ConstraintLayout>

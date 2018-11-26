@@ -1,10 +1,12 @@
-package csc207.fall2018.gamecentreapp;
+package csc207.fall2018.gamecentreapp.DataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import csc207.fall2018.gamecentreapp.User;
 
 public class UserDataBase extends SQLiteOpenHelper {
 

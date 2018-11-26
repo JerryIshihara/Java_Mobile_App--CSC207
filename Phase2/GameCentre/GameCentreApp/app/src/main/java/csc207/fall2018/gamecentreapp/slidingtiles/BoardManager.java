@@ -16,6 +16,8 @@ class BoardManager implements Serializable {
      */
     private Board board;
 
+    private int size;
+
     /**
      * Manage a board that has been pre-populated.
      *
@@ -34,17 +36,34 @@ class BoardManager implements Serializable {
         return board;
     }
 
-    /**
-     * Manage a new shuffled board.
-     */
-    BoardManager() {
+//    /**
+//     * Manage a new shuffled board.
+//     */
+//    BoardManager() {
+//        List<Tile> tiles = new ArrayList<>();
+//        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+//        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
+//            tiles.add(new Tile(tileNum));
+//        }
+//        Collections.shuffle(tiles);
+//        this.board = new Board(tiles);
+//    }
+
+
+    // TODO: hard coded, need to change later
+    BoardManager(int size) {
+        this.size = size;
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = size * size;
+        ArrayList<Integer> tmpSize = new ArrayList<>();
+        tmpSize.add(size);
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum));
+            tiles.add(new Tile(tileNum, tmpSize));
         }
         Collections.shuffle(tiles);
-        this.board = new Board(tiles);
+//        ArrayList<Integer> tmpSize = new ArrayList<>();
+//        tmpSize.add(size);
+        this.board = new Board(tiles, size);
     }
 
     /**
@@ -71,14 +90,14 @@ class BoardManager implements Serializable {
      * @return whether the tile at position is surrounded by a blank tile
      */
     boolean isValidTap(int position) {
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
+        int row = position / board.NUM_ROWS;
+        int col = position % board.NUM_COLS;
         int blankId = board.numTiles();
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -92,8 +111,8 @@ class BoardManager implements Serializable {
      */
     private int findBlankTile() {
         int position = 0;
-        while (board.getTile(position / Board.NUM_COLS, position %
-                Board.NUM_COLS).getId() != board.numTiles()) {
+        while (board.getTile(position / board.NUM_COLS, position %
+                board.NUM_COLS).getId() != board.numTiles()) {
             position++;
         }
         return position;
@@ -105,11 +124,11 @@ class BoardManager implements Serializable {
      * @param position the position
      */
     void touchMove(int position) {
-        int row = position / Board.NUM_COLS;    // fixed, not Board.NUM_ROWS
-        int col = position % Board.NUM_COLS;
+        int row = position / board.NUM_COLS;    // fixed, not Board.NUM_ROWS
+        int col = position % board.NUM_COLS;
         if (isValidTap(position)) {
             int index = findBlankTile();
-            board.swapTiles(row, col, index / Board.NUM_COLS, index % Board.NUM_COLS);
+            board.swapTiles(row, col, index / board.NUM_COLS, index % board.NUM_COLS);
         }
     }
 }

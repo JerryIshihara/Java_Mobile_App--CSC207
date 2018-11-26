@@ -1,18 +1,24 @@
-package csc207.fall2018.gamecentreapp;
+package csc207.fall2018.gamecentreapp.GameCentreActivity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.User;
+import csc207.fall2018.gamecentreapp.UserManager;
 
 
 /**
@@ -115,14 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadFromFile(String fileName) {
-
         try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                userManager = (UserManager) input.readObject();
-                inputStream.close();
-            }
+            File inputFile = new File(getFilesDir(), fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
+            userManager = (UserManager) objectInputStream.readObject();
+            objectInputStream.close();
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
@@ -132,12 +135,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Save the subtract square to fileName.
+     *
+     * @param fileName the name of the file
+     */
     public void saveToFile(String fileName) {
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(userManager);
-            outputStream.close();
+            File outputFile = new File(getFilesDir(), fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+            objectOutputStream.writeObject(userManager);
+            objectOutputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }

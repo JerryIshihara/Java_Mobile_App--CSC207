@@ -147,4 +147,8 @@
     <string name="ranking">Ranking</string>
     <string name="goback">goBack</string>
     <string name="game_name">Game Name</string>
+    <string name="please_select_a_model">Please select a model</string>
+    <string name="two_players">Two Players</string>
+    <string name="play_vs_computer">Play vs Computer</string>
+    <string name="please_select_a_mode">Please select a mode</string>
 </resources>

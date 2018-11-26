@@ -8,11 +8,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.UserSpecificActivity;
 
 public class SubtractSquareStartActivity extends AppCompatActivity {
 
@@ -38,15 +39,19 @@ public class SubtractSquareStartActivity extends AppCompatActivity {
         String p2 = p2Name.getText().toString();
 
         if (!(p1.equals("") || p2.equals(""))) {
-            subtractSquareGame = new SubtractSquareGame(p1, p2);
-            switchToGame();
+            if (p2.equals("PC")){
+                Toast.makeText(getApplicationContext(), "PC is a reserved name for PC MODE", Toast.LENGTH_SHORT).show();
+            } else {
+                subtractSquareGame = new SubtractSquareGame(p1, p2);
+                switchToGame();
+            }
         } else {
             Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onclickGoBack(View view) {
-        Intent goBackIntent = new Intent(getApplicationContext(), UserSpecificActivity.class);
+        Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareSelectActivity.class);
         startActivity(goBackIntent);
     }
 
@@ -75,16 +80,16 @@ public class SubtractSquareStartActivity extends AppCompatActivity {
 //    }
 
     /**
-     * Save the board manager to fileName.
+     * Save the subtract square to fileName.
      *
      * @param fileName the name of the file
      */
     public void saveToFile(String fileName) {
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(subtractSquareGame);
-            outputStream.close();
+            File outputFile = new File(getFilesDir(), fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+            objectOutputStream.writeObject(subtractSquareGame);
+            objectOutputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -93,6 +98,7 @@ public class SubtractSquareStartActivity extends AppCompatActivity {
     private void switchToGame() {
         saveToFile(TEMP_FILE_NAME);
         Intent tmp = new Intent(this, SubtractSquareActivity.class);
+        tmp.putExtra("PC_MODE", false);
         startActivity(tmp);
     }
 }

@@ -1,13 +1,10 @@
-package csc207.fall2018.gamecentreapp;
+package csc207.fall2018.gamecentreapp.DataBase;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
 
 public class ScoreBoard extends SQLiteOpenHelper {
 
@@ -53,6 +50,11 @@ public class ScoreBoard extends SQLiteOpenHelper {
     public Cursor getScoreByGameAndName(String name, String game) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE GAME = '" + game + "' AND NAME = '" + name + "' ORDER BY SCORE DESC LIMIT 10", null);
+    }
+
+    public void deleteScoresByGame(String gameName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE GAME = '" + gameName + "'");
     }
 
 }

@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -37,8 +40,8 @@ public class StartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boardManager = new BoardManager();
-        saveToFile(TEMP_SAVE_FILENAME);
+//        boardManager = new BoardManager();
+//        saveToFile(TEMP_SAVE_FILENAME);
 
         setContentView(R.layout.slidingtile_activity_starting_);
         addStartButtonListener();
@@ -54,8 +57,8 @@ public class StartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new BoardManager();
-                switchToGame();
+//                Intent tmp = new Intent(this, SlidingtileSelectSizeActivity.class);
+                switchToSelectSize();
             }
         });
     }
@@ -123,20 +126,23 @@ public class StartingActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
+    private void switchToSelectSize() {
+        Intent tmp = new Intent(this, SlidingtileSelectSizeActivity.class);
+        startActivity(tmp);
+    }
+
+
     /**
      * Load the board manager from fileName.
      *
      * @param fileName the name of the file
      */
     private void loadFromFile(String fileName) {
-
         try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-                inputStream.close();
-            }
+            File inputFile = new File(getFilesDir(), fileName);
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
+            boardManager = (BoardManager) objectInputStream.readObject();
+            objectInputStream.close();
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
@@ -153,10 +159,10 @@ public class StartingActivity extends AppCompatActivity {
      */
     public void saveToFile(String fileName) {
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
-            outputStream.close();
+            File outputFile = new File(getFilesDir(), fileName);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+            objectOutputStream.writeObject(boardManager);
+            objectOutputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
