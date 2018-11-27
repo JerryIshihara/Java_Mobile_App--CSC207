@@ -182,14 +182,16 @@ public class GameActivity extends AppCompatActivity implements Observer {
     }
 
     public void onclickGoBack(View view) {
+        saveToDataBase();
         Intent goBackIntent = new Intent(this, StartingActivity.class);
         startActivity(goBackIntent);
     }
 
     public void onclickUndo(View view) {
         boolean undoable = boardManager.UndoMove();
-        if (!undoable){
-            Toast.makeText(this, "It's the first state", Toast.LENGTH_SHORT).show();;
+        if (!undoable) {
+            Toast.makeText(this, "It's the first state", Toast.LENGTH_SHORT).show();
+            ;
         }
     }
 
@@ -206,6 +208,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
             e.printStackTrace();
         }
         Session session = Session.getInstance(this);
-        dataBase.saveState(session.getCurrentUserName(),BoardManager.getGameName(), stream);
+        dataBase.deleteState(session.getCurrentUserName(), BoardManager.getGameName());
+        dataBase.saveState(session.getCurrentUserName(), BoardManager.getGameName(), stream);
     }
 }

@@ -164,7 +164,7 @@ class SudokuGenerator {
         moves.add(pos);
     }
 
-    public ArrayList<Integer> getMoves() {
+    ArrayList<Integer> getMoves() {
         return moves;
     }
 

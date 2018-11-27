@@ -22,55 +22,96 @@ public class MiniMaxNode {
         this.score = 0;
     }
 
+    private class MiniMaxGame extends SubtractSquareGame{
+        SubtractSquareGame  game;
+        SubtractSquareState state;
+        MiniMaxGame(SubtractSquareGame game, SubtractSquareState state){
+            super(game.getCurrentState().getP1Name(), game.getCurrentState().getP2Name());
+            this.game = game;
+            this.state = state;
+        }
+        MiniMaxGame getNewCurrentState(SubtractSquareState state){
+            return new MiniMaxGame(this.game, state);
+        }
+        String getP1Name(){return this.game.getCurrentState().getP1Name();}
+        String getP2Name(){return this.game.getCurrentState().getP2Name();}
+    }
+    public int iterativeMiniMax(SubtractSquareGame game){
+        MiniMaxGame miniMaxGame = new MiniMaxGame(game, game.getCurrentState());
+        return iterativeMiniMax(miniMaxGame);
+    }
 
-    // private MiniMaxNode(SubtractSquareState currentState, int idNum){
-    //    this.currentState = currentState;
-    //  this.idNum = idNum;
-    //  this.children = null;
-    //  this.score = 0;
-    // this.move = 0;
-    //  }
+    private boolean dealWithSquare(MiniMaxGame miniMaxGame){
+        return (miniMaxGame.game.checkSquare(miniMaxGame.game.getCurrentState().getCurrentTotal()));
 
-    //  private MiniMaxNode(SubtractSquareState currentState, int idNum, int move ){
-    //   this.currentState = currentState;
-    //  this.idNum = idNum;
-    //  this.move = move;
-    //   this.children = null;
-    // this.score = 0;
-    //}
-//
-//    public int iterativeMiniMax(SubtractSquareGame game) {
-//        if (game.is_over()) {
-//            return 0;
-//        }
-//        ArrayList<MiniMaxNode> collection = new ArrayList<>();
-//        MiniMaxNode node = new MiniMaxNode(game.getCurrentState());
-//        collection.add(node);
-//        MiniMaxNode node1 = new MiniMaxNode();
-//        while (!collection.isEmpty()) {
-//            node1 = collection.remove(collection.size() - 1);
-//            game.setCurrentState(node1.currentState);
-//            if (game.is_over()) {
-//                dealWithEnd(game, node1);
-//            } else if (node1.children.size() == 0) {
-//                dealWithEmpty(node1, collection);
-//            } else {
-//                dealWithMax(node1);
-//            }
-//        }
-//        return findMiniMax(node1);
-//    }
-//
-//    private void dealWithEnd(SubtractSquareGame game, MiniMaxNode node1) {
-//        game.setCurrentState(node1.currentState);
-//        if (game.getWinner().equals(game.getCurrentPlayerName())) {
-//            node1.score = 1;
-//        } else if (!game.getWinner().equals(game.getP1Name()) && !game.getWinner().equals(game.getP2Name())) {
-//            node1.score = 0;
-//        } else {
-//            node1.score = -1;
-//        }
-//    }
+    }
+
+    private boolean dealWithSquarePlusTwo(MiniMaxGame miniMaxGame){
+        int i = miniMaxGame.game.getCurrentState().getCurrentTotal() ;
+        int k = 0;
+        while(k < i){
+            if(k * k + 2 == i){return true;}
+            k++;
+        }
+        return false;
+    }
+
+    private boolean dealWithSquarePlusFive(MiniMaxGame miniMaxGame){
+        int i = miniMaxGame.game.getCurrentState().getCurrentTotal() ;
+        int k = 0;
+        while(k < i){
+            if(k * k + 5 == i){return true;}
+            k++;
+        }
+        return false;
+    }
+
+   private int iterativeMiniMax(MiniMaxGame miniMaxGame) {
+       if (miniMaxGame.game.is_over()) {
+           return 0;
+      }
+       if(dealWithSquare(miniMaxGame)) {
+           return miniMaxGame.game.getCurrentState().getCurrentTotal();
+       }
+       if(dealWithSquarePlusTwo(miniMaxGame)){
+           return miniMaxGame.game.getCurrentState().getCurrentTotal() - 2;
+       }
+       if(dealWithSquarePlusFive(miniMaxGame)){
+           return miniMaxGame.game.getCurrentState().getCurrentTotal() - 5;
+       }
+       if (miniMaxGame.state.getCurrentTotal() > 40){
+           return 1;
+       }
+       ArrayList<MiniMaxNode> collection = new ArrayList<>();
+       MiniMaxNode node = new MiniMaxNode(miniMaxGame.game.getCurrentState());
+       collection.add(node);
+       MiniMaxNode node1 = new MiniMaxNode();
+       while (!collection.isEmpty()) {
+           node1 = collection.remove(collection.size() - 1);
+           MiniMaxGame newGame = miniMaxGame.getNewCurrentState(node1.currentState);
+           if (newGame.state.getCurrentTotal() == 0) {
+               dealWithEnd(newGame, node1);
+           } else if (node1.children.size() == 0) {
+               dealWithEmpty(node1, collection);
+           } else {
+               dealWithMax(node1);
+           }
+       }
+        return findMiniMax(node1);
+   }
+
+   private void dealWithEnd(MiniMaxGame newGame, MiniMaxNode node1) {
+        MiniMaxGame newGame2 = newGame.getNewCurrentState(node1.currentState);
+       String winner = (newGame2.state.isP1_turn()) ? newGame2.state.getP2Name() : newGame2.state.getP1Name();
+       String player = newGame2.state.isP1_turn() ? newGame2.state.getP1Name() : newGame2.state.getP2Name();
+       if (winner.equals(player)) {
+           node1.score = 1;
+       } else if (!winner.equals(newGame2.state.getP1Name()) && !winner.equals(newGame2.state.getP2Name())) {
+           node1.score = 0;
+       } else {
+           node1.score = -1;
+       }
+   }
 
     private void dealWithEmpty(MiniMaxNode node1, ArrayList<MiniMaxNode> collection) {
         ArrayList<SubtractSquareState> states = new ArrayList<>();

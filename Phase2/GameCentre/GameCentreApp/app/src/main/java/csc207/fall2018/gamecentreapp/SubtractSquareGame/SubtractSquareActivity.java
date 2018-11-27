@@ -79,7 +79,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
                     saveToFile(TEMP_FILE_NAME);
                     // PC CHOICE
                     MiniMaxNode pcChoice = new MiniMaxNode();
-                    int choice = pcChoice.recursiveMiniMax(subtractSquareGame);
+                    int choice = pcChoice.iterativeMiniMax(subtractSquareGame);
                     input.setText(String.valueOf(choice));
                 } else {
                     Toast.makeText(getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
@@ -153,6 +153,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Session session = Session.getInstance(this);
+        dataBase.deleteState(session.getCurrentUserName(), SubtractSquareGame.getGameName());
         dataBase.saveState(session.getCurrentUserName(),SubtractSquareGame.getGameName(), stream);
     }
 

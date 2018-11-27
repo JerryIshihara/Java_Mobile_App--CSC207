@@ -45,22 +45,18 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
     public void onclickNewGame(View view) {
         GameStateDataBase dataBase = new GameStateDataBase(this);
-        dataBase.deleteState(session.getCurrentUserName(),SubtractSquareGame.getGameName());
+        dataBase.deleteState(session.getCurrentUserName(), SubtractSquareGame.getGameName());
 
         Intent newGameIntent = new Intent(getApplicationContext(), SubtractSquareSelectActivity.class);
         startActivity(newGameIntent);
     }
 
     public void onclickLoadGame(View view) {
-        GameStateDataBase dataBase = new GameStateDataBase(this);
-        Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(),SubtractSquareGame.getGameName());
+        boolean loadable = loadFromDataBase();
 
-        if (cursor.getCount() == 0) {
+        if (! loadable) {
             Toast.makeText(this, "No previous played game, start new one!", Toast.LENGTH_SHORT).show();
         } else {
-            int stateIndex = cursor.getColumnIndex(GameStateDataBase.COL3);
-            cursor.moveToFirst();
-            byteToState(cursor.getBlob(stateIndex));
             switchToGame();
         }
     }
@@ -104,18 +100,27 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
         }
     }
 
-    private void byteToState(byte[] byteState) {
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteState);
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            subtractSquareGame = (SubtractSquareGame) objectInputStream.readObject();
-        } catch (IOException e) {
-            // Error in de-serialization
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            // You are converting an invalid stream to Student
-            e.printStackTrace();
+    private boolean loadFromDataBase(/*byte[] byteState*/) {
+        GameStateDataBase dataBase = new GameStateDataBase(this);
+        Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(), SubtractSquareGame.getGameName());
+
+        boolean result = cursor.getCount() != 0;
+
+        if (!result) {
+            Toast.makeText(this, "No previous played game, start new one!", Toast.LENGTH_SHORT).show();
+        } else {
+            int stateIndex = cursor.getColumnIndex(GameStateDataBase.COL3);
+            cursor.moveToFirst();
+            try {
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(cursor.getBlob(stateIndex));
+                ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+                subtractSquareGame = (SubtractSquareGame) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                // Error in de-serialization
+                e.printStackTrace();
+            }
         }
+        return result;
     }
 
     private void switchToGame() {

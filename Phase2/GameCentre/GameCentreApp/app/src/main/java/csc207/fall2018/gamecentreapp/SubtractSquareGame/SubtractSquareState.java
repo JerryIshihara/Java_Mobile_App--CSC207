@@ -39,7 +39,7 @@ public class SubtractSquareState implements Serializable {
         this.p1Name = p1Name;
         this.p2Name = p2Name;
         // can be adjust by difficulty
-        this.currentTotal = getRandomInt(70, 200);
+        this.currentTotal = getRandomInt(30, 40);
     }
 
 

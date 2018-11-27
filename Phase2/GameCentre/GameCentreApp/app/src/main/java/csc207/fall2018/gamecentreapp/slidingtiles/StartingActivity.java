@@ -1,6 +1,7 @@
 package csc207.fall2018.gamecentreapp.slidingtiles;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +20,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.GameCentreActivity.UserSpecificActivity;
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.Session;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -59,6 +65,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                Intent tmp = new Intent(this, SlidingtileSelectSizeActivity.class);
+                destoyLoadGame();
                 switchToSelectSize();
             }
         });
@@ -72,10 +79,13 @@ public class StartingActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastLoadedText();
-                switchToGame();
+//                loadFromFile(SAVE_FILENAME);
+                boolean loadable = loadFromDataBase();
+                if (loadable) {
+                    saveToFile(TEMP_SAVE_FILENAME);
+                    makeToastLoadedText();
+                    switchToGame();
+                }
             }
         });
     }
@@ -95,9 +105,14 @@ public class StartingActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveToFile(SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastSavedText();
+//                saveToFile(SAVE_FILENAME);
+                if (hasLoadGame()) {
+                    loadFromFile(TEMP_SAVE_FILENAME);
+                    saveToDataBase();
+                    makeToastSavedText();
+                } else {
+                    makeToastNotSavedText();
+                }
             }
         });
     }
@@ -107,6 +122,10 @@ public class StartingActivity extends AppCompatActivity {
      */
     private void makeToastSavedText() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void makeToastNotSavedText() {
+        Toast.makeText(this, "No previous game", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -172,5 +191,58 @@ public class StartingActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    private void saveToDataBase() {
+        GameStateDataBase dataBase = new GameStateDataBase(this);
+        byte[] stream = null;
+
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(boardManager);
+            stream = byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Session session = Session.getInstance(this);
+        dataBase.saveState(session.getCurrentUserName(), BoardManager.getGameName(), stream);
+    }
+
+    private boolean loadFromDataBase(/*byte[] byteState*/) {
+        GameStateDataBase dataBase = new GameStateDataBase(this);
+        Session session = Session.getInstance(this);
+        Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(), BoardManager.getGameName());
+
+        boolean result = cursor.getCount() != 0;
+
+        if (!result) {
+            Toast.makeText(this, "No previous played game, start new one!", Toast.LENGTH_SHORT).show();
+        } else {
+            int stateIndex = cursor.getColumnIndex(GameStateDataBase.COL3);
+            cursor.moveToFirst();
+            try {
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(cursor.getBlob(stateIndex));
+                ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+                boardManager = (BoardManager) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                // Error in de-serialization
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    private void destoyLoadGame() {
+        Session session = Session.getInstance(this);
+        GameStateDataBase gameStateDataBase = new GameStateDataBase(this);
+        gameStateDataBase.deleteState(session.getCurrentUserName(), BoardManager.getGameName());
+    }
+
+    private boolean hasLoadGame() {
+        GameStateDataBase dataBase = new GameStateDataBase(this);
+        Session session = Session.getInstance(this);
+        Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(), BoardManager.getGameName());
+        return cursor.getCount() != 0;
     }
 }
