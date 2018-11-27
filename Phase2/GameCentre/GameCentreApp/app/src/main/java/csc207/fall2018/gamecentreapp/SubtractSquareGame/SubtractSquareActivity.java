@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.Session;
 import csc207.fall2018.gamecentreapp.UndoPaymentDialog;
 
 public class SubtractSquareActivity extends AppCompatActivity {
@@ -49,6 +50,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
     }
 
     public void onclickGoBack(View view) {
+        saveToDataBase();
         Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);
     }
@@ -150,8 +152,8 @@ public class SubtractSquareActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        dataBase.saveState("Subtract Square", stream);
+        Session session = Session.getInstance(this);
+        dataBase.saveState(session.getCurrentUserName(),SubtractSquareGame.getGameName(), stream);
     }
 
     private void updateProgressContext() {

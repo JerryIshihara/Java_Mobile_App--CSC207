@@ -11,6 +11,7 @@ class SudokuGenerator {
     private static SudokuGenerator instance;
     private Random rand= new Random();
     private ArrayList<ArrayList<Integer>> finalSudoku;
+    private ArrayList<Integer> moves = new ArrayList();
 
 
     private SudokuGenerator(int level){
@@ -159,8 +160,15 @@ class SudokuGenerator {
                 &&checkSquare(input,row,col,grid));
     }
 
+    void trackMoves(int pos){
+        moves.add(pos);
+    }
 
-//    public void print(ArrayList<ArrayList<Integer>> grid){
+    public ArrayList<Integer> getMoves() {
+        return moves;
+    }
+
+    //    public void print(ArrayList<ArrayList<Integer>> grid){
 //        for (int x = 0; x<=8; x++){
 //            for (int y = 0; y<=8; y++){
 //                System.out.print(grid.get(x).get(y) + " ");

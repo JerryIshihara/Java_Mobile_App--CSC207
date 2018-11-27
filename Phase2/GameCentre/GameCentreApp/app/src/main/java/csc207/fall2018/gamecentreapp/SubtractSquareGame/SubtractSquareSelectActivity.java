@@ -15,22 +15,26 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.UserManager;
+import csc207.fall2018.gamecentreapp.Session;
+//import csc207.fall2018.gamecentreapp.UserManager;
 
 public class SubtractSquareSelectActivity extends AppCompatActivity {
 
     SubtractSquareGame subtractSquareGame;
 
-    UserManager userManager;
+    //    UserManager userManager;
+    private Session session;
 
     private final static String TEMP_FILE_NAME = "temp_file.ser";
 
-    private final static String USER_FILE_NAME = "userManager.ser";
+//    private final static String USER_FILE_NAME = "userManager.ser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square_select);
+
+        session = Session.getInstance(this);
     }
 
     public void onclickSelectTwoPlayers(View view) {
@@ -39,8 +43,8 @@ public class SubtractSquareSelectActivity extends AppCompatActivity {
     }
 
     public void onclickSelectComputer(View view) {
-        loadFromUserFile();
-        subtractSquareGame = new SubtractSquareGame(userManager.getCurrentUserName(), "PC");
+//        loadFromUserFile();
+        subtractSquareGame = new SubtractSquareGame(session.getCurrentUserName(), "PC");
         saveToFile(TEMP_FILE_NAME);
 
         Intent selectComputer = new Intent(getApplicationContext(), SubtractSquareActivity.class);
@@ -54,22 +58,22 @@ public class SubtractSquareSelectActivity extends AppCompatActivity {
     }
 
 
-    private void loadFromUserFile() {
-        try {
-            File inputFile = new File(getFilesDir(), USER_FILE_NAME);
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
-            userManager = (UserManager) objectInputStream.readObject();
-            objectInputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-
+//    private void loadFromUserFile() {
+//        try {
+//            File inputFile = new File(getFilesDir(), USER_FILE_NAME);
+//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
+//            userManager = (UserManager) objectInputStream.readObject();
+//            objectInputStream.close();
+//        } catch (FileNotFoundException e) {
+//            Log.e("login activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("login activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
+//
+//
     public void saveToFile(String fileName) {
         try {
             File outputFile = new File(getFilesDir(), fileName);

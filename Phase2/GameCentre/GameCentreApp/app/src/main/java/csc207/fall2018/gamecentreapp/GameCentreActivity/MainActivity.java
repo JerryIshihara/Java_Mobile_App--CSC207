@@ -17,8 +17,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.Session;
 import csc207.fall2018.gamecentreapp.User;
-import csc207.fall2018.gamecentreapp.UserManager;
+//import csc207.fall2018.gamecentreapp.UserManager;
 
 
 /**
@@ -67,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
 //——————————————————————————————————————————————————————————————————————————————>>> SQLite
 
 
-    private final static String FILE_NAME = "userManager.ser";
+//    private final static String FILE_NAME = "userManager.ser";
 
-    private UserManager userManager;
+//    private UserManager userManager;
+    private Session session;
 
 
     @Override
@@ -77,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userManager = UserManager.getInstance();
-        saveToFile(FILE_NAME);
+        session = Session.getInstance(this);
+//        userManager = UserManager.getInstance();
+//        saveToFile(FILE_NAME);
     }
 
     /**
@@ -94,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
         String userPassword = userPasswordInput.getText().toString();
 
         User user = new User(userName, userPassword);
-        loadFromFile(FILE_NAME);
+//        loadFromFile(FILE_NAME);
 
         // check if the user has registered
-        if (userManager.isRegistered(user)) {
+        if (session.isRegistered(user)) {
             // check the validation
-            if (userManager.checkUserValidation(user)) {
-                userManager.loginUser(user);
+            if (session.checkUserValidation(user)) {
+                session.loginUser(user);
                 Intent loginIntent = new Intent(getApplicationContext(), UserSpecificActivity.class);
                 startActivity(loginIntent);
                 // wrong information input
@@ -120,34 +123,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadFromFile(String fileName) {
-        try {
-            File inputFile = new File(getFilesDir(), fileName);
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
-            userManager = (UserManager) objectInputStream.readObject();
-            objectInputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
+//    private void loadFromFile(String fileName) {
+//        try {
+//            File inputFile = new File(getFilesDir(), fileName);
+//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
+//            userManager = (UserManager) objectInputStream.readObject();
+//            objectInputStream.close();
+//        } catch (FileNotFoundException e) {
+//            Log.e("login activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("login activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
 
-    /**
-     * Save the subtract square to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            File outputFile = new File(getFilesDir(), fileName);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
-            objectOutputStream.writeObject(userManager);
-            objectOutputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
+//    /**
+//     * Save the subtract square to fileName.
+//     *
+//     * @param fileName the name of the file
+//     */
+//    public void saveToFile(String fileName) {
+//        try {
+//            File outputFile = new File(getFilesDir(), fileName);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+//            objectOutputStream.writeObject(userManager);
+//            objectOutputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 }

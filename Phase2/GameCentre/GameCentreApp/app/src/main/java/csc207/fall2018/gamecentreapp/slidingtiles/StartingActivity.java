@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import csc207.fall2018.gamecentreapp.GameCentreActivity.UserSpecificActivity;
 import csc207.fall2018.gamecentreapp.R;
 
 /**
@@ -128,6 +129,11 @@ public class StartingActivity extends AppCompatActivity {
 
     private void switchToSelectSize() {
         Intent tmp = new Intent(this, SlidingtileSelectSizeActivity.class);
+        startActivity(tmp);
+    }
+
+    public void onclickGoBack(View view) {
+        Intent tmp = new Intent(this, UserSpecificActivity.class);
         startActivity(tmp);
     }
 

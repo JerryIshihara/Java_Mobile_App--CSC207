@@ -1,5 +1,8 @@
 package csc207.fall2018.gamecentreapp;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
 public class Test {
@@ -15,18 +18,30 @@ public class Test {
 //        UserManager userManager1 = UserManager.getInstance();
 //        System.out.println(userManager1.isRegistered(user));
 //        System.out.println(userManager1.checkUserValidation(user));
-        String str = "1a";
-        System.out.println(str.matches("-?(0|[1-9]\\d*)"));
+//        String str = "1a";
+//        System.out.println(str.matches("-?(0|[1-9]\\d*)"));
+//
+//        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("Jerry", "Anna");
+//
+//        System.out.println(subtractSquareGame.getCurrentPlayerName());
+//
+//        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+//
+//        subtractSquareGame.applyMove("9");
+//
+//        System.out.println(subtractSquareGame.getCurrentPlayerName());
 
-        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("Jerry", "Anna");
-
-        System.out.println(subtractSquareGame.getCurrentPlayerName());
-
+        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("", "");
         System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
-
         subtractSquareGame.applyMove("9");
-
-        System.out.println(subtractSquareGame.getCurrentPlayerName());
+        subtractSquareGame.applyMove("9");
+        subtractSquareGame.applyMove("9");
+//        Iterator<> iterator = new  subtractSquareGame.pastStates.iterator();
+        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+        subtractSquareGame.undoMove();
+        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+        subtractSquareGame.undoMove();
+        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
     }
 }
 

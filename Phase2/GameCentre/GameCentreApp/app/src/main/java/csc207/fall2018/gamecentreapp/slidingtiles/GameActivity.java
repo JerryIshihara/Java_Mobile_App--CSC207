@@ -1,12 +1,17 @@
 package csc207.fall2018.gamecentreapp.slidingtiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +24,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.UserManager;
+import csc207.fall2018.gamecentreapp.Session;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
+
 
 /**
  * The game activity.
@@ -68,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.slidingtile_activity_main);
 
         // Add View to activity
-        gridView = findViewById(R.id.grid);
+        gridView = this.findViewById(R.id.grid);
         gridView.setNumColumns(board.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
@@ -127,6 +135,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
+        saveToDataBase();
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
     }
 
@@ -170,5 +179,33 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
+    }
+
+    public void onclickGoBack(View view) {
+        Intent goBackIntent = new Intent(this, StartingActivity.class);
+        startActivity(goBackIntent);
+    }
+
+    public void onclickUndo(View view) {
+        boolean undoable = boardManager.UndoMove();
+        if (!undoable){
+            Toast.makeText(this, "It's the first state", Toast.LENGTH_SHORT).show();;
+        }
+    }
+
+    private void saveToDataBase() {
+        GameStateDataBase dataBase = new GameStateDataBase(this);
+        byte[] stream = null;
+
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(boardManager);
+            stream = byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Session session = Session.getInstance(this);
+        dataBase.saveState(session.getCurrentUserName(),BoardManager.getGameName(), stream);
     }
 }

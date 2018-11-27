@@ -1,14 +1,17 @@
 package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * subtract square game manager
  */
-public class SubtractSquareGame implements Serializable {
+public class SubtractSquareGame implements Serializable, Iterable<SubtractSquareState> {
 
     /**
      * current state of the game.
@@ -23,7 +26,7 @@ public class SubtractSquareGame implements Serializable {
 //
 //    private String p2Name;
 
-    private ArrayList<SubtractSquareState> pastStates;
+    public ArrayList<SubtractSquareState> pastStates;
 
 
 //    /**
@@ -49,16 +52,16 @@ public class SubtractSquareGame implements Serializable {
 //        return p2Name;
 //    }
 
+    public static String getGameName() {
+        return GAME_NAME;
+    }
+
     public String getCurrentPlayerName() {
         return currentState.isP1_turn() ? currentState.getP1Name() : currentState.getP2Name();
     }
 
     public SubtractSquareState getCurrentState() {
         return currentState;
-    }
-
-    public static String getGameName() {
-        return GAME_NAME;
     }
 
     public int getUndoBatch() {
@@ -71,7 +74,7 @@ public class SubtractSquareGame implements Serializable {
 
     public void applyMove(String move) {
         try {
-            this.pastStates.add(this.currentState);
+            this.pastStates.add(0, this.currentState);
             this.currentState = currentState.makeMove(move);
         } catch (NumberFormatException e) {
             Log.e("Exception", "Parse failed: " + e.toString());
@@ -79,14 +82,13 @@ public class SubtractSquareGame implements Serializable {
     }
 
     public boolean undoMove() {
-        int lastState = this.pastStates.size() - 1;
-        if (lastState != -1) {
-            this.currentState = this.pastStates.get(this.pastStates.size() - 1);
-            this.pastStates.remove(lastState);
-            return true;
-        } else {
-            return false;
+        Iterator<SubtractSquareState> stateIterator = pastStates.iterator();
+        boolean undoable = stateIterator.hasNext();
+        if (undoable) {
+            this.currentState = stateIterator.next();
+            deleteState();
         }
+        return undoable;
     }
 
 
@@ -128,6 +130,41 @@ public class SubtractSquareGame implements Serializable {
         return false;
     }
 
+    private SubtractSquareState getState(int index) {
+        return this.pastStates.get(index);
+    }
 
+    private void deleteState() {
+        this.pastStates.remove(0);
+    }
+
+    private int numState(){
+        return this.pastStates.size();
+    }
+
+
+    @NonNull
+    @Override
+    public Iterator<SubtractSquareState> iterator() {
+        return new SubtractSquareStateIterator();
+    }
+
+    private class SubtractSquareStateIterator implements Iterator<SubtractSquareState> {
+
+        int index = 0;
+
+
+        @Override
+        public boolean hasNext() {
+            return index != numState();
+        }
+
+        @Override
+        public SubtractSquareState next() {
+            SubtractSquareState result = getState(index);
+            index ++;
+            return result;
+        }
+    }
 }
 

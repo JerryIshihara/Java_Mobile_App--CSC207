@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.GameCentreActivity.UserSpecificActivity;
+import csc207.fall2018.gamecentreapp.Session;
 
 public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
@@ -27,10 +28,13 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
     private final static String TEMP_FILE_NAME = "temp_file.ser";
 
+    private Session session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = Session.getInstance(this);
         setContentView(R.layout.activity_subtract_square_game_centre);
     }
 
@@ -41,7 +45,7 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
     public void onclickNewGame(View view) {
         GameStateDataBase dataBase = new GameStateDataBase(this);
-        dataBase.deleteState(SubtractSquareGame.getGameName());
+        dataBase.deleteState(session.getCurrentUserName(),SubtractSquareGame.getGameName());
 
         Intent newGameIntent = new Intent(getApplicationContext(), SubtractSquareSelectActivity.class);
         startActivity(newGameIntent);
@@ -49,7 +53,7 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
     public void onclickLoadGame(View view) {
         GameStateDataBase dataBase = new GameStateDataBase(this);
-        Cursor cursor = dataBase.getStateByGame(SubtractSquareGame.getGameName());
+        Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(),SubtractSquareGame.getGameName());
 
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No previous played game, start new one!", Toast.LENGTH_SHORT).show();

@@ -32,7 +32,9 @@
         <activity android:name=".Sudoku.SudokuGameActivity" />
         <activity android:name=".slidingtiles.GameActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareSelectActivity" />
-        <activity android:name=".slidingtiles.SlidingtileSelectSizeActivity"></activity>
+        <activity android:name=".slidingtiles.SlidingtileSelectSizeActivity" />
+        <activity android:name=".slidingtiles.ImageSplitActivity" />
+        <activity android:name=".slidingtiles.ShowActivity"></activity>
     </application>
 
 </manifest>

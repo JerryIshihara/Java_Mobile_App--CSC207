@@ -1,22 +1,30 @@
 package csc207.fall2018.gamecentreapp.slidingtiles;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareState;
+
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable {
+class BoardManager implements Serializable, Iterable<Integer> {
 
     /**
      * The board being managed.
      */
     private Board board;
 
-    private int size;
+    private static final String GAME_NAME = "Sliding Tiles";
+
+//    private int size;
+
+    private ArrayList<Integer> pastMove = new ArrayList<>();
 
     /**
      * Manage a board that has been pre-populated.
@@ -52,7 +60,7 @@ class BoardManager implements Serializable {
 
     // TODO: hard coded, need to change later
     BoardManager(int size) {
-        this.size = size;
+//        this.size = size;
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = size * size;
         ArrayList<Integer> tmpSize = new ArrayList<>();
@@ -64,6 +72,10 @@ class BoardManager implements Serializable {
 //        ArrayList<Integer> tmpSize = new ArrayList<>();
 //        tmpSize.add(size);
         this.board = new Board(tiles, size);
+    }
+
+    public static String getGameName() {
+        return GAME_NAME;
     }
 
     /**
@@ -124,11 +136,51 @@ class BoardManager implements Serializable {
      * @param position the position
      */
     void touchMove(int position) {
+        this.pastMove.add(0, findBlankTile());
+        this.pastMove.add(0, position);
         int row = position / board.NUM_COLS;    // fixed, not Board.NUM_ROWS
         int col = position % board.NUM_COLS;
         if (isValidTap(position)) {
             int index = findBlankTile();
             board.swapTiles(row, col, index / board.NUM_COLS, index % board.NUM_COLS);
+        }
+    }
+
+    boolean UndoMove(){
+        Iterator<Integer> moveIterator = pastMove.iterator();
+        boolean undoable = moveIterator.hasNext();
+        if (undoable) {
+            int firstPosition = moveIterator.next();
+            int secondPosition = moveIterator.next();
+            pastMove.remove(0);
+            pastMove.remove(0);
+            board.swapTiles(firstPosition / board.NUM_COLS,
+                    firstPosition % board.NUM_COLS,
+                    secondPosition / board.NUM_COLS,
+                    secondPosition % board.NUM_COLS);
+        }
+        return undoable;
+    }
+
+
+    @NonNull
+    @Override
+    public Iterator<Integer> iterator() {
+        return new MoveIterator();
+    }
+
+    private class MoveIterator implements Iterator<Integer> {
+
+        int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index != pastMove.size();
+        }
+
+        @Override
+        public Integer next() {
+            return pastMove.get(index);
         }
     }
 }

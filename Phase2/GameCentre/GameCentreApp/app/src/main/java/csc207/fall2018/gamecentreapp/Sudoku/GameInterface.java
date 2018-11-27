@@ -44,6 +44,8 @@ public class GameInterface extends AppCompatActivity {
         ImageView timeImage = (ImageView) findViewById(R.id.image_anim);
         timeImage.setBackgroundResource(R.drawable.timer_animation);
         timeAnimation = (AnimationDrawable) timeImage.getBackground();
+        Button undoButton = findViewById(R.id.undo);
+        undoButton.setEnabled(false);
 
         enterNumber = new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -56,6 +58,8 @@ public class GameInterface extends AppCompatActivity {
                         if (checkInputValidity(input.getText().toString())){
                             int newValue = Integer.parseInt(input.getText().toString());
                             enteredValue(position,newValue);
+                            Button undoButton = findViewById(R.id.undo);
+                            undoButton.setEnabled(true);
                             gridViewArrayAdapter.notifyDataSetChanged();
                         } else{
                             Toast.makeText(GameInterface.this, "Please enter a valid number",
@@ -108,6 +112,7 @@ public class GameInterface extends AppCompatActivity {
                             getIntent().putExtra("position",position);
                             input = new EditText(GameInterface.this);
                             enterNumber.setView(input);
+                            SudokuGenerator.getInstance(0).trackMoves(position);
                             enterNumber.show();
                         }
                     }
@@ -116,6 +121,18 @@ public class GameInterface extends AppCompatActivity {
 
     }
 
+    public void undo(View v) {
+        Button undoButton = (Button) v;
+        Animation bounce = AnimationUtils.loadAnimation(GameInterface.this,R.anim.bounce);
+        undoButton.setAnimation(bounce);
+        int numMoves = SudokuGenerator.getInstance(0).getMoves().size();
+        if(numMoves!=0){
+            int lastMove = SudokuGenerator.getInstance(0).getMoves().remove(numMoves - 1);
+            if(SudokuGenerator.getInstance(0).getMoves().size()==0){undoButton.setEnabled(false);}
+            allValue.set(lastMove, "");
+            gridViewArrayAdapter.notifyDataSetChanged();
+        }else{undoButton.setEnabled(false);}
+    }
 
     public void startAgain(View v) {
         Button restart = (Button) v;

@@ -10,43 +10,47 @@
         android:id="@+id/size3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
+        android:layout_marginStart="148dp"
         android:layout_marginBottom="67dp"
+        android:onClick="onclickSizeThree"
         android:text="Size 3"
         app:layout_constraintBottom_toTopOf="@+id/size4"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onclickSizeThree"/>
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/size4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginBottom="74dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginBottom="67dp"
+        android:onClick="onclickSizeFour"
         android:text="Size 4"
         app:layout_constraintBottom_toTopOf="@+id/size5"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onclickSizeFour"/>
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/size5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginBottom="199dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginBottom="200dp"
+        android:onClick="onclickSizeFive"
         android:text="Size 5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onclickSizeFive"/>
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/goBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="17dp"
-        android:text="@string/goback"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/exit_white"
+        android:onClick="onclickGoBack"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="onclickGoBack"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"/>
 </android.support.constraint.ConstraintLayout>
