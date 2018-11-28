@@ -3,18 +3,28 @@
 ###   1. Heng Kan
 email: heng.kan@mail.utoronto.ca
 phone: 647-871-9658
+username: kanheng
 ###  2. Zhihao Lin
 email: zhihao.lin@mail.utoronto.ca
 phone: 647-675-3620
+username: mac
 ### 3. Hirotaka Ishihara
 email: hirotaka.ishihara@mail.utoronto.ca
 phone: 647-262-9877
+username: hirotakaishihara
 ### 4. Yu Guo
 email: joe.guo@mail.utoronto.ca
 phone: 647-676-1766
+username: guoyu16
 ### 5. Xinda Wang
 email: xinda.wang@mail.utoronto.ca
 phone: 647-222-7155
+username: wangx438
+## Contribution
+### 1. Heng Kan
+
+### 2. Zhihao Lin
+Part of Backend and UI design of Subtract Square game; Minimax Strategy(Recursive) ;Slice image & import image; Documentation files.
 ##  Communication Tools
 We use emails and Facebooks to communicate with each other, so that we can easily exchange our ideas.
 ##  Team Contract

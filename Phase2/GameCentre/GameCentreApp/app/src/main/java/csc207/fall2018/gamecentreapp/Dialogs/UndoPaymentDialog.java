@@ -1,4 +1,4 @@
-package csc207.fall2018.gamecentreapp;
+package csc207.fall2018.gamecentreapp.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

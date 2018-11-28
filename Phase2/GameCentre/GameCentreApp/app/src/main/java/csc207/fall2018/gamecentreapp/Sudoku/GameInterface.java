@@ -32,6 +32,7 @@ public class GameInterface extends AppCompatActivity {
     ArrayList<Object> allValue;
     EditText input;
     ArrayList<Integer> okPosition;
+    private SudokuGenerator sudokuGenerator;
 
 
     @Override

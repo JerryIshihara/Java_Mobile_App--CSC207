@@ -2,6 +2,7 @@ package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class MiniMaxNode {
@@ -80,7 +81,9 @@ public class MiniMaxNode {
            return miniMaxGame.game.getCurrentState().getCurrentTotal() - 5;
        }
        if (miniMaxGame.state.getCurrentTotal() > 40){
-           return 1;
+           ArrayList<Integer> moves = miniMaxGame.state.getPossibleMoves();
+           int index = getRandomInt(0, moves.size() - 1);
+           return moves.get(index);
        }
        ArrayList<MiniMaxNode> collection = new ArrayList<>();
        MiniMaxNode node = new MiniMaxNode(miniMaxGame.game.getCurrentState());
@@ -148,90 +151,13 @@ public class MiniMaxNode {
     }
 
 
-    // Helper class
-    private class GameAndScore {
+    private int getRandomInt(int min, int max) {
 
-        int score;
-
-        SubtractSquareState currentState;
-
-        SubtractSquareGame subtractSquareGame;
-
-        GameAndScore(int score, SubtractSquareGame subtractSquareGame) {
-            this.score = score;
-            this.subtractSquareGame = subtractSquareGame;
-            this.currentState = subtractSquareGame.getCurrentState();
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
         }
-
-
-        SubtractSquareGame getSubtractSquareGame() {
-            return subtractSquareGame;
-        }
-
-        int getScore() {
-            return score;
-        }
-
-        void setScore(int score) {
-            this.score = score;
-        }
-    }
-
-
-    public ArrayList<Integer> recursiveMiniMax(GameAndScore gameScore) {
-
-        SubtractSquareGame game = gameScore.getSubtractSquareGame();
-
-        ArrayList<Integer> moves = game.getCurrentState().getPossibleMoves();
-
-        String player = game.getCurrentPlayerName();
-
-        ArrayList<Integer> scores = new ArrayList<>();
-
-        ArrayList<GameAndScore> choices = new ArrayList<>();
-
-        for (int i : moves) {
-            SubtractSquareGame g = gameScore.getSubtractSquareGame();
-            g.applyMove(String.valueOf(i));
-            choices.add(new GameAndScore(-2, g));
-        }
-
-        for (GameAndScore children : choices) {
-            if (children.getSubtractSquareGame().getWinner().equals(player)) {
-                gameScore.setScore(1);
-                children.setScore(-1);
-                scores.add(-1);
-                int index = choices.indexOf(children);
-                ArrayList<Integer> a = new ArrayList<>();
-                a.add(moves.get(index));
-                a.add(-1);
-                return a;
-            } else if (children.getSubtractSquareGame().is_over()) {
-                children.setScore(1);
-                scores.add(1);
-            } else {
-                MiniMaxNode m = new MiniMaxNode();
-                ArrayList<Integer> tmp = m.recursiveMiniMax(children);
-                scores.add(tmp.get(1));
-            }
-        }
-        return moves;
-
-//        int min = Collections.min(scores);
-//        gameScore.setScore(-1 * min);
-//        ArrayList<Integer> a = new ArrayList<>();
-//        for (GameAndScore children : choices) {
-//            if (children.getScore() == min) {
-//                a.add(moves.get(choices.indexOf(children)));
-//                a.add(gameScore.getScore());
-//            }
-//        }
-//        return a;
-    }
-
-    public int recursiveMiniMax(SubtractSquareGame game) {
-        GameAndScore gameAndScore = new GameAndScore(-1, game);
-        return recursiveMiniMax(gameAndScore).get(0);
+        Random randInt = new Random();
+        return randInt.nextInt((max - min) + 1) + min;
     }
 }
 

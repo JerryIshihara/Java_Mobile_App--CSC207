@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareState;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable, Iterable<Integer> {
+public class BoardManager implements Serializable, Iterable<Integer> {
 
     /**
      * The board being managed.
@@ -68,11 +69,59 @@ class BoardManager implements Serializable, Iterable<Integer> {
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
             tiles.add(new Tile(tileNum, tmpSize));
         }
-        Collections.shuffle(tiles);
+//        Collections.shuffle(tiles);
+        shuffle(tiles);
 //        ArrayList<Integer> tmpSize = new ArrayList<>();
 //        tmpSize.add(size);
         this.board = new Board(tiles, size);
     }
+
+
+    //TODO: complete shuffle for a solvable game
+    private void shuffle(List<Tile> tileList) {
+        int i = 0;
+        while (i != 200) {
+            shuffleOnetime(tileList);
+            i++;
+        }
+    }
+
+    private void shuffleOnetime(List<Tile> tileList) {
+        int numTile = tileList.size();
+        int blankIndex = findBlankTile(tileList);
+        Tile blankTile = tileList.get(blankIndex);
+        int size = (int) Math.sqrt(numTile);
+        int rowIndex = blankIndex / size;
+        int colIndex = blankIndex % size;
+        List<Tile> possible = new ArrayList<>();
+        if (rowIndex != 0) {
+            possible.add(tileList.get(blankIndex - size));
+        }
+        if (rowIndex != size - 1) {
+            possible.add(tileList.get(blankIndex + size));
+        }
+        if (colIndex != 0) {
+            possible.add(tileList.get(blankIndex - 1));
+        }
+        if (colIndex != size - 1) {
+            possible.add(tileList.get(blankIndex + 1));
+        }
+        Tile random = possible.get(new Random().nextInt(possible.size()));
+        int position = tileList.indexOf(random);
+        tileList.set(position, blankTile);
+        tileList.set(blankIndex, random);
+    }
+
+    private int findBlankTile(List<Tile> tileList) {
+        for (int i = 0; i < tileList.size(); i++) {
+            if (tileList.get(i).getId() == tileList.size()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 
     public static String getGameName() {
         return GAME_NAME;
@@ -146,7 +195,7 @@ class BoardManager implements Serializable, Iterable<Integer> {
         }
     }
 
-    boolean UndoMove(){
+    boolean UndoMove() {
         Iterator<Integer> moveIterator = pastMove.iterator();
         boolean undoable = moveIterator.hasNext();
         if (undoable) {

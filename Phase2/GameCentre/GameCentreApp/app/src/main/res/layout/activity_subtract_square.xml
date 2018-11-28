@@ -11,9 +11,10 @@
         android:id="@+id/gameNumber"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="92dp"
-        android:text="TextView"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="25dp"
+        android:contentDescription="Current Total"
+        android:text="Current Total"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -25,13 +26,13 @@
         android:id="@+id/progress"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="50dp"
+        android:text="progress"
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/chronometer" />
 
     <EditText
         android:id="@+id/input"
@@ -58,15 +59,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/goBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="24dp"
         android:onClick="onclickGoBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/exit" />
+        app:srcCompat="@drawable/exit_white" />
 
     <Button
         android:id="@+id/undo"
@@ -86,10 +87,21 @@
         android:layout_marginStart="104dp"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:text="TextView"
+        android:text="undoTimes"
         android:textAlignment="center"
         android:textColor="#bfbfbf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="64dp"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

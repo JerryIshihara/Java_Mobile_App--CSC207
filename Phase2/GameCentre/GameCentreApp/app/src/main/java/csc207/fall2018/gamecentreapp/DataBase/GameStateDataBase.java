@@ -71,4 +71,12 @@ public class GameStateDataBase extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "' AND GAME = '" + gameName + "'", null);
     }
 
+    public void deleteUser(String userName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+//        String userName = userManager.getCurrentUserName();
+//        UserManager userManager = UserManager.getInstance();
+
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
+    }
 }

@@ -9,72 +9,72 @@ class SudokuGenerator {
 
 
     private static SudokuGenerator instance;
-    private Random rand= new Random();
+    private Random rand = new Random();
     private ArrayList<ArrayList<Integer>> finalSudoku;
     private ArrayList<Integer> moves = new ArrayList();
 
 
-    private SudokuGenerator(int level){
+    private SudokuGenerator(int level) {
         finalSudoku = constructor(level);
     }
 
 
-    static SudokuGenerator getInstance(int level){
-        if (instance == null){
+    static SudokuGenerator getInstance(int level) {
+        if (instance == null) {
             instance = new SudokuGenerator(level);
         }
         return instance;
     }
 
-    private ArrayList<ArrayList<Integer>> constructor (int level){
+    private ArrayList<ArrayList<Integer>> constructor(int level) {
 
         ArrayList<ArrayList<Integer>> grid = createBlankSudoku();
         ArrayList<ArrayList<Integer>> available = createAvailable();
 
 
         int pos = 0;
-        while(pos < 81){
+        while (pos < 81) {
             int row = pos / 9;
             int col = pos % 9;
 
-            if (available.get(pos).size() != 0){
+            if (available.get(pos).size() != 0) {
 
                 int i = rand.nextInt(available.get(pos).size());
                 int number = available.get(pos).get(i);
 
-                if (checkAll(number,row,col,grid)){
-                    grid.get(row).set(col,number);
+                if (checkAll(number, row, col, grid)) {
+                    grid.get(row).set(col, number);
                     available.get(pos).remove(i);
                     pos++;
-                }else {
+                } else {
                     available.get(pos).remove(i);
                 }
-            }else{
-                grid.get(row).set(col,0);
-                available.set(pos,oneToNine());
+            } else {
+                grid.get(row).set(col, 0);
+                available.set(pos, oneToNine());
                 pos--;
             }
         }
-        generateHoles(grid,level);
+        generateHoles(grid, level);
         return grid;
     }
 
 
-    private void generateHoles(ArrayList<ArrayList<Integer>> grid, int level){
+    private void generateHoles(ArrayList<ArrayList<Integer>> grid, int level) {
         int numHoles = level * 9;
         ArrayList<Integer> posList = new ArrayList<>();
-        for(int i=0; i<81; i++){
+        for (int i = 0; i < 81; i++) {
             posList.add(i);
         }
         Collections.shuffle(posList);
-        for (int j=0; j < numHoles; j++){
+        for (int j = 0; j < numHoles; j++) {
             int row = posList.get(j) / 9;
             int col = posList.get(j) % 9;
             grid.get(row).set(col, 0);
         }
     }
 
-    void reset(){
+    void reset() {
         instance = null;
     }
 
@@ -83,17 +83,17 @@ class SudokuGenerator {
         return finalSudoku;
     }
 
-    void changeValue(int position, int value){
+    void changeValue(int position, int value) {
         int x = position % 9;
         int y = position / 9;
-        finalSudoku.get(x).set(y,value);
+        finalSudoku.get(x).set(y, value);
     }
 
-    private ArrayList<ArrayList<Integer>> createBlankSudoku(){
+    private ArrayList<ArrayList<Integer>> createBlankSudoku() {
         ArrayList<ArrayList<Integer>> grid = new ArrayList<>();
-        for (int i = 0; i < 9; i++){
-            grid.add(i,new ArrayList<Integer>());
-            for (int j = 0; j<=8; j++){
+        for (int i = 0; i < 9; i++) {
+            grid.add(i, new ArrayList<Integer>());
+            for (int j = 0; j <= 8; j++) {
                 //add check horizontal, vertical, and square method
                 //if all conditions satisfies, then add this value.
                 grid.get(i).add(0);
@@ -103,27 +103,33 @@ class SudokuGenerator {
     }
 
 
-    private ArrayList<Integer> oneToNine(){
+    private ArrayList<Integer> oneToNine() {
         return new ArrayList<Integer>() {{
-            add(1); add(2); add(3); add(4); add(5); add(6);
-            add(7); add(8); add(9);
+            add(1);
+            add(2);
+            add(3);
+            add(4);
+            add(5);
+            add(6);
+            add(7);
+            add(8);
+            add(9);
         }};
     }
 
 
-    private ArrayList<ArrayList<Integer>> createAvailable(){
+    private ArrayList<ArrayList<Integer>> createAvailable() {
         ArrayList<ArrayList<Integer>> available = new ArrayList<>();
-        for (int i = 0; i < 81; i++){
+        for (int i = 0; i < 81; i++) {
             available.add(i, oneToNine());
         }
         return available;
     }
 
 
-
-    private boolean checkHorizontal(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid){
-        for (int i = 0; i< 9; i++){
-            if (inputValue == grid.get(row).get(i) && i!=col){
+    private boolean checkHorizontal(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid) {
+        for (int i = 0; i < 9; i++) {
+            if (inputValue == grid.get(row).get(i) && i != col) {
                 return false;
             }
         }
@@ -131,21 +137,21 @@ class SudokuGenerator {
     }
 
 
-    private boolean checkVertical(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid){
-        for (int i = 0; i < 9; i++){
-            if (inputValue == grid.get(i).get(col) && i!=row){
+    private boolean checkVertical(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid) {
+        for (int i = 0; i < 9; i++) {
+            if (inputValue == grid.get(i).get(col) && i != row) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean checkSquare(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid){
-        int xGroup = (col/3);
-        int yGroup = (row/3);
-        for (int i = 0; i<3; i++){
-            for (int j = 0; j< 3; j++){
-                if (inputValue == grid.get(yGroup*3+i).get(xGroup*3+j) && (row!= (yGroup*3+i) || col!=(xGroup*3+j))){
+    private boolean checkSquare(int inputValue, int row, int col, ArrayList<ArrayList<Integer>> grid) {
+        int xGroup = (col / 3);
+        int yGroup = (row / 3);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (inputValue == grid.get(yGroup * 3 + i).get(xGroup * 3 + j) && (row != (yGroup * 3 + i) || col != (xGroup * 3 + j))) {
                     return false;
                 }
             }
@@ -154,14 +160,27 @@ class SudokuGenerator {
     }
 
 
-    boolean checkAll(int input, int row, int col, ArrayList<ArrayList<Integer>> grid){
-        return (checkHorizontal(input,row,col,grid)
-                && checkVertical(input,row,col,grid)
-                &&checkSquare(input,row,col,grid));
+    boolean checkAll(int input, int row, int col, ArrayList<ArrayList<Integer>> grid) {
+        return (checkHorizontal(input, row, col, grid)
+                && checkVertical(input, row, col, grid)
+                && checkSquare(input, row, col, grid));
     }
 
-    void trackMoves(int pos){
+    void trackMoves(int pos) {
         moves.add(pos);
+        if (!moves.contains(pos)){
+            moves.add(pos);
+        }else{
+            int numMoves = moves.size();
+            for (int i=0; i <numMoves; i++){
+                if (moves.get(i) == pos){
+                    moves.remove(i);
+                    numMoves = moves.size();
+                }
+            }
+            moves.add(pos);
+        }
+
     }
 
     ArrayList<Integer> getMoves() {

@@ -2,9 +2,12 @@ package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +24,7 @@ import java.io.ObjectOutputStream;
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.Session;
-import csc207.fall2018.gamecentreapp.UndoPaymentDialog;
+import csc207.fall2018.gamecentreapp.Dialogs.UndoPaymentDialog;
 
 public class SubtractSquareActivity extends AppCompatActivity {
 
@@ -31,6 +34,11 @@ public class SubtractSquareActivity extends AppCompatActivity {
 
     private boolean pcModel;
 
+    private Chronometer chronometer;
+
+    private long lastPause ;
+
+
 //    private int undoBatch = 3;
 
 
@@ -38,7 +46,14 @@ public class SubtractSquareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square);
-
+        chronometer = findViewById(R.id.chronometer);
+        if(lastPause != 0){
+            chronometer.setBase(chronometer.getBase() + SystemClock.elapsedRealtime() - lastPause - 10000);
+        }else{
+            chronometer.setBase(SystemClock.elapsedRealtime() - 10000);
+        }
+        chronometer.setText("00:10");
+        chronometer.start();
         pcModel = getIntent().getExtras().getBoolean("PC_MODE");
 
         loadFromFile(TEMP_FILE_NAME);
@@ -47,12 +62,14 @@ public class SubtractSquareActivity extends AppCompatActivity {
         updateCurrentTotal();
         updateProgressContext();
         saveToDataBase();
+
     }
 
     public void onclickGoBack(View view) {
         saveToDataBase();
         Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);
+        chronometer = findViewById(R.id.chronometer);
     }
 
     public void onclickEnter(View view) {
@@ -95,7 +112,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
                     MiniMaxNode pcChoice = new MiniMaxNode();
-                    int choice = pcChoice.recursiveMiniMax(subtractSquareGame);
+                    int choice = pcChoice.iterativeMiniMax(subtractSquareGame);
                     input.setText(String.valueOf(choice));
                 }
             }
@@ -154,7 +171,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
         }
         Session session = Session.getInstance(this);
         dataBase.deleteState(session.getCurrentUserName(), SubtractSquareGame.getGameName());
-        dataBase.saveState(session.getCurrentUserName(),SubtractSquareGame.getGameName(), stream);
+        dataBase.saveState(session.getCurrentUserName(), SubtractSquareGame.getGameName(), stream);
     }
 
     private void updateProgressContext() {
@@ -204,7 +221,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
         }
     }
 
-    public void openDialog() {
+    private void openDialog() {
         UndoPaymentDialog undoPaymentDialog = new UndoPaymentDialog();
         undoPaymentDialog.show(getSupportFragmentManager(), "Payment");
     }

@@ -31,17 +31,29 @@ public class Test {
 //
 //        System.out.println(subtractSquareGame.getCurrentPlayerName());
 
-        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("", "");
-        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
-        subtractSquareGame.applyMove("9");
-        subtractSquareGame.applyMove("9");
-        subtractSquareGame.applyMove("9");
-//        Iterator<> iterator = new  subtractSquareGame.pastStates.iterator();
-        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
-        subtractSquareGame.undoMove();
-        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
-        subtractSquareGame.undoMove();
-        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+//        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("", "");
+//        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+//        subtractSquareGame.applyMove("9");
+//        subtractSquareGame.applyMove("9");
+//        subtractSquareGame.applyMove("9");
+////        Iterator<> iterator = new  subtractSquareGame.pastStates.iterator();
+//        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+//        subtractSquareGame.undoMove();
+//        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+//        subtractSquareGame.undoMove();
+//        System.out.println(subtractSquareGame.getCurrentState().getCurrentTotal());
+
+//        String str = "00:00";
+//        str = str.replace(":", "");
+//        int i = Integer.valueOf(str);
+//        System.out.println(str);
+//        System.out.println(i);
+        float intTime = 10;
+        int intScore = (int) (100 * (1 - (intTime/(intTime + 200))));
+        System.out.println(intScore);
+        float intTime1 = 40;
+        int intScore1 = (int) (100 * (1 - (intTime1/(intTime1 + 200))));
+        System.out.println(intScore1);
     }
 }
 

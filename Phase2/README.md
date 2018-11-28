@@ -1,72 +1,124 @@
 # Set up instruction
-1. Get URL from Markus: [https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0490](https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0490)
+1. Get URL from Markus: [https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0621](https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0621)
 2. Use Android studio to clone the address:
 First, create a new Android project. Then input project from external model.
-3. Add Phase1/GameCentre to the gradle project path.
+3. Add Phase2 to the gradle project path.
 4. Select explicit model groups. Then use default gradle wrapper.
 5. You might get the message "Unregistered VS root detected", and you should choose "Add root".
-6. Then download A2 file from Markus and drag it into the Phase1 file.
+6. Then download Phase1 file from Markus and drag it into the Phase2 file.
 
 
 # How to run the program
-Firstly, user enters into an interface, where he is asked to sign up/log in. Afterwards, he is redirected to another interface in which, he can choose what game to play/ to reload previous game/to check previous record. We only write Sliding Tile Game this time. Before the game starts, player is allowed to choose different complexity. He can save and log off, if he finishes playing.
+Firstly, user is directed to login interface, where he can either choose Create Account if he hasn't registered yet or login directly. Afterwards, he is directed to user interface, in which he can choose three different games to play, which are sliding tile, sudoku, subtract square. After user clicks a game, he enters into game start interface and can start playing the game! Different games have common functionalities. For example, save game, load game, user scoreboard, game scoreboard, etc. Meanwhile, they have their own functionalities as well. For instance, Sudoku has start over button which can regenerate a board to play, Subtract square has 'vs computer' mode and Sliding tile can choose different level of complexity. For more details about the functionality of different games, please check the Functionalities part.
 
 
 # Functionalities
 ## Functionality of Game launch centre
-1.sign in/ sign up/log out
-relevant class: UserManager (stores information of all users and manages the user to play the games). 
-relevant method in UserManager: logIn(), logOut(), signUp()
+1. log in/ sign up: user can choose to create a new account if he hasn't gotten one or log in directly.
+relevant class: 
+User: a class representing the users of the game
+Session:
+UserDataBase: a database restoring all users
 
-2. start a new game/ replay the game
-relevant Interface and its subclass: GameInterface (the manager for the game currently played by the user); SlidingTileGameInterface (the manager for sliding tile game)
-relevant method: startNewGame(), replay()
+## Functionality of Sliding Tile
+1. Start new game: start a new sliding tile game.
+relevant class:
+Board: the sliding tiles board
+BoardManager: manage a board, including swapping tiles, checking for a win, and managing taps.
+Tile: A Tile in a sliding tiles puzzle.
+MovementController:
 
-3.load previously saved game
-relevant Interface and its subclass: GameInterface; SlidingTileGameInterface
-relevant method: loadState()
+2. load saved game: load the previous saved game
+relevant class:
+GameStateDataBase: a database restoring all game states
+StartingActivity: The initial activity for the sliding puzzle tile game.
 
+3. save game: save current game state.
+relevant class:
+GameStateDataBase: a database restoring all game states
+StartingActivity: The initial activity for the sliding puzzle tile game.
 
-## Functionality of scoreboard
-1. calculate the score
-relevant Interface and its subclass: Score (get the score of the games); SlidingTileScore (get the score of the sliding tile game)
-relevant method: getScore()
+4. select difficulty level: player can choose either 3*3 or 4*4 or 5*5 sliding board game, representing relatively easy, medium and difficult. 
+relevant class: 
+SlidingtileSelectSizeActivity: an activity relevant to selecting difficulty.
 
-2. store score per game
-relevant Interface and its subclass: Scoreboard (manager for the scoreboard of the game); SlidingTileScoreBoard (manager for the scoreboard of sliding tile game)
-relevant method: addScore()
+5. undo: user can undo the move he just made.
+relevant class:
+BoardManager: manage a board, including swapping tiles, checking for a win, and managing taps.
+GameActivity: the sliding tile game activity
 
-3. store score per user
-relevant class; UserScoreBoard (manager for the scoreboard of the user)
-relevant method: addScore()
+6. User scoreboard: when user enters into the game , he can check his score history of the game.
+relevant class/interface:
+Scoreboard: a database for scoreboard.
+Score: an interface dealing with score
 
-4. update the scoreboard per game
-relevant Interface and its subclass: ScoreBoard; SlidingTileScoreBoard
-relevant method: getTop10(); sort()
+7. Game scoreboard: when user enters into the game, he can check the score history of this game.
+relevant class/ interface:
+Scoreboard: a database for scoreboard
+Score: and interface dealing with score
 
-5.update the scoreboard per user
-relevant class: UserScoreBoard
-relevant method: getTop10(), sort()
-
-
-## Functionality of autosave and standard save
-1. save the game(Specifically for the sliding tile game)
-relevant class: SlidingTileState ( For the sliding tile game, we use the SlidingTileState class to manage and save each board after each step  which is exactly each state of the game, so that we can indirectly save the whole game by saving the last state.)
-
-2.autosave the game(Specifically for the sliding tile game)
-relevant class: SlidingTileState ( We save each board after each step, which can be regarded as the process of autosave)
-
-
-## Functionality of undo
-1. undo
-relevant Interface and subclass: GameInterface; SlidingTileGameInterface
-relevant method: undo()
+8.Slicing image
+9.import image
 
 
-## Functionality of puzzle game complexity
-1. user can choose the complexity of the game
-relevant class: Board & BoardManager
-relevant method: constructor of Board, which includes an input called boardSize to determine the size of the board ; constructor of BoardManager, which includes an input called boardSize to determine the size of the board.
+## Functionality of Sudoku
+1. Start a new game: start a new sudoku game
+relevant class:
+SudokuGenerator: generate a new sudoku game
+GameInterface: main activity for sudoku game
+
+
+2. select difficulty level: player can choose three different difficulty level.
+relevant class: 
+SudokuGameActivity: activity for selecting different game difficulty level.
+SudokuGenerator: generate a new sudoku game.
+
+3. undo: user can undo the move he just made.
+relevant class: 
+GameInterface: main activity for sudoku game.
+
+4. start over: user can press start over button to generate a new board
+relevant class:
+GameInterface: main activity for sudoku game
+
+## Functionality of Subtract Square
+1. start new game: start a new subtract square game
+relevant class: 
+SubtractSquareGame: subtract square game manager
+SubtractSquareState: the state of the subtract square game
+
+2. load game: load previously saved game
+relevant class: 
+GameStateDataBase: a database restoring all game states
+SubtractSquareGameCentreActivity: activity for subtract square game centre.
+SubtractSquareActivity: main activity of subtract square.
+
+3. vs pc: user can choose to play with computer
+relevant class:
+MiniMax Node: minimax strategy of computer.
+
+4. play with another player.
+relevant class:
+SubtractSquareSelectActivity: 
+SubtractSquareStartActivity:
+
+5. user scoreboard: when user enters into the game , he can check his score history of the game.
+relevant class/interface:
+Scoreboard: a database for scoreboard.
+Score: an interface dealing with score
+
+6. game scoreboard: when user enters into the game, he can check the score history of this game.
+relevant class/ interface:
+Scoreboard: a database for scoreboard
+Score: and interface dealing with score
+
+7. undo: user can undo the move he just made.
+relevant class: 
+SubtractSquareActivity: main activity for subtract square.
+
+8. payment: undo exceed 3 times will pop a payment dialog
+relevant class:
+UndoPaymentDialogue: class manage undo payment dialogue.
 
 
 # Design Pattern

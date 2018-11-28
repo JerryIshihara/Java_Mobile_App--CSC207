@@ -24,7 +24,7 @@ public class ScoreBoard extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (NAME VARCHAR, GAME VARCHAR, SCORE INT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (NAME VARCHAR, GAME VARCHAR, SCORE VARCHAR)");
     }
 
     @Override
@@ -55,6 +55,15 @@ public class ScoreBoard extends SQLiteOpenHelper {
     public void deleteScoresByGame(String gameName) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE GAME = '" + gameName + "'");
+    }
+
+    public void deleteUser(String userName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+//        String userName = userManager.getCurrentUserName();
+//        UserManager userManager = UserManager.getInstance();
+
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
     }
 
 }
