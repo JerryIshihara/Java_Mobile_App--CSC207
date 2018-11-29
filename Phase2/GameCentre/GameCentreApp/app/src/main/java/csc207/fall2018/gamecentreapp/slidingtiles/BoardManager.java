@@ -4,17 +4,16 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareState;
+import csc207.fall2018.gamecentreapp.TimeStorable;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-public class BoardManager implements Serializable, Iterable<Integer> {
+public class BoardManager implements Serializable, Iterable<Integer>, TimeStorable {
 
     /**
      * The board being managed.
@@ -23,9 +22,9 @@ public class BoardManager implements Serializable, Iterable<Integer> {
 
     private static final String GAME_NAME = "Sliding Tiles";
 
-//    private int size;
-
     private ArrayList<Integer> pastMove = new ArrayList<>();
+
+    private String time = "00:00";
 
     /**
      * Manage a board that has been pre-populated.
@@ -122,9 +121,12 @@ public class BoardManager implements Serializable, Iterable<Integer> {
     }
 
 
-
     public static String getGameName() {
         return GAME_NAME;
+    }
+
+    public int getNumPastMove() {
+        return pastMove.size();
     }
 
     /**
@@ -211,7 +213,6 @@ public class BoardManager implements Serializable, Iterable<Integer> {
         return undoable;
     }
 
-
     @NonNull
     @Override
     public Iterator<Integer> iterator() {
@@ -231,5 +232,17 @@ public class BoardManager implements Serializable, Iterable<Integer> {
         public Integer next() {
             return pastMove.get(index);
         }
+
+    }
+
+    @Override
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @Override
+    public int getIntTime() {
+        time = time.replace(":", "");
+        return Integer.valueOf(time);
     }
 }

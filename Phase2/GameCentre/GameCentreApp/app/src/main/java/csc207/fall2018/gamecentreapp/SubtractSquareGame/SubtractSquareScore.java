@@ -6,12 +6,12 @@ public class SubtractSquareScore implements Score {
 
     private static final String GAME_NAME = SubtractSquareGame.getGameName();
 
-    private String time;
+    private int time;
 
     private SubtractSquareState subtractSquareState;
 
 
-    public void takeInStateAndTime(SubtractSquareState state, String time) {
+    public void takeInStateAndTime(SubtractSquareState state, int time) {
         this.time = time;
         this.subtractSquareState = state;
     }
@@ -31,9 +31,8 @@ public class SubtractSquareScore implements Score {
         if (subtractSquareState.isP1_turn()) {
             return "0";
         } else {
-            time = time.replace(":", "");
-            float floatScore = Integer.valueOf(time);
-            int intScore = (int) (100 * (1 - (floatScore/(floatScore + 200))));
+            float floatScore = time;
+            int intScore = (int) (100 * (1 - (floatScore / (floatScore + 200))));
             return String.valueOf(intScore);
         }
     }

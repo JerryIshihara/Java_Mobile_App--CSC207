@@ -2,13 +2,14 @@ package csc207.fall2018.gamecentreapp.slidingtiles;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.GridView;
+import android.widget.Chronometer;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +18,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -25,9 +25,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
+import csc207.fall2018.gamecentreapp.DataBase.ScoreBoard;
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.ScoreFactory;
 import csc207.fall2018.gamecentreapp.Session;
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
+import csc207.fall2018.gamecentreapp.Timer;
 
 
 /**
@@ -45,17 +47,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private ArrayList<Button> tileButtons;
 
-    /**
-     * Constants for swiping directions. Should be an enum, probably.
-     */
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
+    private Timer timer;
 
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
+
 
     /**
      * Set up the background image for each button based on the master list
@@ -63,6 +60,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     // Display
     public void display() {
+        if (boardManager.puzzleSolved()) timer.stop();
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
@@ -74,6 +72,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
         final Board board = boardManager.getBoard();
         createTileButtons(this);
         setContentView(R.layout.slidingtile_activity_main);
+        // Add a chronometer for timer.
+        timer = new Timer((Chronometer) findViewById(R.id.sliding_chronometer));
+        timer.setUpTimer(boardManager.getIntTime());
+        timer.start();
+
 
         // Add View to activity
         gridView = this.findViewById(R.id.grid);
@@ -196,6 +199,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     }
 
     private void saveToDataBase() {
+        boardManager.setTime(timer.returnStringTime());
         GameStateDataBase dataBase = new GameStateDataBase(this);
         byte[] stream = null;
 

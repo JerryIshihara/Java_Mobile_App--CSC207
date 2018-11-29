@@ -5,23 +5,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
+import csc207.fall2018.gamecentreapp.DataBase.ScoreBoard;
 import csc207.fall2018.gamecentreapp.Dialogs.DeleteUserDialog;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.Session;
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGameCentreActivity;
-import csc207.fall2018.gamecentreapp.Sudoku.SudokuGameActivity;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities.SubtractSquareGameCentreActivity;
+import csc207.fall2018.gamecentreapp.Sudoku.SudokuGameStartingActivity;
 //import csc207.fall2018.gamecentreapp.UserManager;
 import csc207.fall2018.gamecentreapp.slidingtiles.StartingActivity;
 
 /**
- * A class dealing with user's playing the game
+ * A class dealing with user centre page
  */
 public class UserSpecificActivity extends AppCompatActivity {
 
     //    private UserManager userManager;
 //
 //    private final static String FILE_NAME = "userManager.ser";
+    /**
+     * helper object storing information of current user
+     */
     private Session session;
 
     @Override
@@ -40,7 +46,7 @@ public class UserSpecificActivity extends AppCompatActivity {
 
 
     /**
-     * Deal with clicking Logout
+     * Dealing with clicking return
      *
      * @param view a view of the model.
      */
@@ -51,29 +57,59 @@ public class UserSpecificActivity extends AppCompatActivity {
         startActivity(returnIntent);
     }
 
-
+    /**
+     * Dealing with clicking on sliding tile.
+     * @param view a view of the model.
+     */
     public void onClickSlidingTileGame(View view) {
         Intent slidingTileGameIntent = new Intent(getApplicationContext(), StartingActivity.class);
         startActivity(slidingTileGameIntent);
     }
 
+    /**
+     * Dealing with clicking on subtract square
+     * @param view a view of the model.
+     */
     public void onclickSubtractSquareGame(View view) {
         Intent startSubtractSquare = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(startSubtractSquare);
     }
 
+    /**
+     * Dealing with clicking on sudoku
+     * @param view a view of the model
+     */
     public void onclickSudokugame(View view) {
-        Intent startSudoku = new Intent(getApplicationContext(), SudokuGameActivity.class);
+        Intent startSudoku = new Intent(getApplicationContext(), SudokuGameStartingActivity.class);
         startActivity(startSudoku);
     }
 
+    /**
+     * Dealing with clicking on Delete User
+     * @param view a view of the model
+     */
     public void onclickDeleteUser(View view) {
         openDialog();
     }
 
+    /**
+     * Call DeleteUserDialog class to delete current user in the database.
+     */
     private void openDialog() {
         DeleteUserDialog deleteUserDialog = new DeleteUserDialog();
         deleteUserDialog.show(getSupportFragmentManager(), "Delete User Info");
+    }
+
+    /**
+     * Dealing with clicking on delete all game data
+     * @param view a view of the model
+     */
+    public void onclickDeleteAllInfo(View view) {
+        ScoreBoard scoreBoard = new ScoreBoard(this);
+        GameStateDataBase gameStateDataBase = new GameStateDataBase(this);
+        scoreBoard.deleteAllScores();
+        gameStateDataBase.deleteAll();
+        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
     }
 
 //    private void loadFromFile(String fileName) {

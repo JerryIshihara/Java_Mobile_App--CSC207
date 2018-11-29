@@ -1,4 +1,4 @@
-package csc207.fall2018.gamecentreapp.SubtractSquareGame;
+package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
 public class SubtractSquareStartActivity extends AppCompatActivity {
 

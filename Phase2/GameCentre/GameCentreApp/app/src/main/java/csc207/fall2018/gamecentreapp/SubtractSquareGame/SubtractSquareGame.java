@@ -5,13 +5,14 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
+
+import csc207.fall2018.gamecentreapp.TimeStorable;
 
 /**
  * subtract square game manager
  */
-public class SubtractSquareGame implements Serializable, Iterable<SubtractSquareState> {
+public class SubtractSquareGame implements Serializable, Iterable<SubtractSquareState>, TimeStorable {
 
     /**
      * current state of the game.
@@ -22,11 +23,14 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
 
     private int undoBatch;
 
+    private String time = "00:00";
+
+
 //    private String p1Name;
 //
 //    private String p2Name;
 
-    public ArrayList<SubtractSquareState> pastStates;
+    private ArrayList<SubtractSquareState> pastStates;
 
 
 //    /**
@@ -138,10 +142,9 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         this.pastStates.remove(0);
     }
 
-    private int numState(){
+    private int numState() {
         return this.pastStates.size();
     }
-
 
     @NonNull
     @Override
@@ -162,9 +165,22 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         @Override
         public SubtractSquareState next() {
             SubtractSquareState result = getState(index);
-            index ++;
+            index++;
             return result;
         }
+
+
+    }
+
+    @Override
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @Override
+    public int getIntTime() {
+        time = time.replace(":", "");
+        return Integer.valueOf(time);
     }
 }
 

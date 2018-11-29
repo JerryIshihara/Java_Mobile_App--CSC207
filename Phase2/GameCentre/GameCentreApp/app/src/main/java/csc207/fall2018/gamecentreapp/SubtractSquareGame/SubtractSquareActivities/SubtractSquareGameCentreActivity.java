@@ -1,4 +1,4 @@
-package csc207.fall2018.gamecentreapp.SubtractSquareGame;
+package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +21,7 @@ import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.GameCentreActivity.UserSpecificActivity;
 import csc207.fall2018.gamecentreapp.Session;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
 public class SubtractSquareGameCentreActivity extends AppCompatActivity {
 
@@ -62,6 +63,8 @@ public class SubtractSquareGameCentreActivity extends AppCompatActivity {
     }
 
     public void onclickMyScore(View view) {
+        Intent myScoreBoardIntent = new Intent(this, SubtractSquareMyScoreActivity.class);
+        startActivity(myScoreBoardIntent);
     }
 
     public void onclickGoBack(View view) {

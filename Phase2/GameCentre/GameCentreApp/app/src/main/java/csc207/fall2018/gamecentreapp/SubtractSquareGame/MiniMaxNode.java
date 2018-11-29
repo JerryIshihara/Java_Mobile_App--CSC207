@@ -49,7 +49,7 @@ public class MiniMaxNode {
 
     private boolean dealWithSquarePlusTwo(MiniMaxGame miniMaxGame){
         int i = miniMaxGame.game.getCurrentState().getCurrentTotal() ;
-        int k = 0;
+        int k = 1;
         while(k < i){
             if(k * k + 2 == i){return true;}
             k++;
@@ -59,7 +59,7 @@ public class MiniMaxNode {
 
     private boolean dealWithSquarePlusFive(MiniMaxGame miniMaxGame){
         int i = miniMaxGame.game.getCurrentState().getCurrentTotal() ;
-        int k = 0;
+        int k = 1;
         while(k < i){
             if(k * k + 5 == i){return true;}
             k++;

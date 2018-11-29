@@ -18,10 +18,10 @@
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
+        android:onClick="onclickUndo"
         android:text="Undo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onclickUndo"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/goBack"
@@ -30,8 +30,19 @@
         android:layout_marginStart="220dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/exit_white"
+        android:onClick="onclickGoBack"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Undo"
-        android:onClick="onclickGoBack"/>
+        app:layout_constraintStart_toEndOf="@+id/Undo" />
+
+    <Chronometer
+        android:id="@+id/sliding_chronometer"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

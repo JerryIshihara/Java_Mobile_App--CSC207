@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import csc207.fall2018.gamecentreapp.Score;
+
 public class ScoreBoard extends SQLiteOpenHelper {
 
     private static final String FILE_NAME = "scoreBoard.db";
@@ -33,13 +35,13 @@ public class ScoreBoard extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addScore(String name, String gameName, String score) {
+    public void addScore(Score score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1, name);
-        contentValues.put(COL2, gameName);
-        contentValues.put(COL3, score);
-        db.insert(TABLE_NAME, name, contentValues);
+        contentValues.put(COL1, score.returnPlayerName());
+        contentValues.put(COL2, score.returnGameName());
+        contentValues.put(COL3, score.calculateScore());
+        db.insert(TABLE_NAME, null, contentValues);
     }
 
     public Cursor getScoreByGame(String game) {
@@ -52,11 +54,6 @@ public class ScoreBoard extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE GAME = '" + game + "' AND NAME = '" + name + "' ORDER BY SCORE DESC LIMIT 10", null);
     }
 
-    public void deleteScoresByGame(String gameName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE GAME = '" + gameName + "'");
-    }
-
     public void deleteUser(String userName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -64,6 +61,11 @@ public class ScoreBoard extends SQLiteOpenHelper {
 //        UserManager userManager = UserManager.getInstance();
 
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
+    }
+
+    public void deleteAllScores() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
 }

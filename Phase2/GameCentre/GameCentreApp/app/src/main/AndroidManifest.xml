@@ -23,18 +23,23 @@
         </activity>
         <activity android:name=".GameCentreActivity.RegisterActivity" />
         <activity android:name=".GameCentreActivity.UserSpecificActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareStartActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareStartActivity" />
         <activity android:name=".slidingtiles.StartingActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareScoreActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareGameCentreActivity" />
-        <activity android:name=".Sudoku.GameInterface" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareScoreActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareGameCentreActivity" />
         <activity android:name=".Sudoku.SudokuGameActivity" />
+        <activity android:name=".Sudoku.SudokuGameStartingActivity" />
         <activity android:name=".slidingtiles.GameActivity" />
-        <activity android:name=".SubtractSquareGame.SubtractSquareSelectActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareSelectActivity" />
         <activity android:name=".slidingtiles.SlidingtileSelectSizeActivity" />
         <activity android:name=".slidingtiles.ImageSplitActivity" />
-        <activity android:name=".slidingtiles.ShowActivity"></activity>
+        <activity android:name=".slidingtiles.ShowActivity" />
+        <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareMyScoreActivity" />
+        <activity android:name=".slidingtiles.MyScoreActivity" />
+        <activity android:name=".slidingtiles.SlidingTileScoreBoardActivity" />
+        <activity android:name=".Sudoku.SudokuMyScoreActivity" />
+        <activity android:name=".Sudoku.SudokuScoreBoardActivity"></activity>
     </application>
 
 </manifest>

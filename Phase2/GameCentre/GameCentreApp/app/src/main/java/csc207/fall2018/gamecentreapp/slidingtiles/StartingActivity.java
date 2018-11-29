@@ -245,4 +245,14 @@ public class StartingActivity extends AppCompatActivity {
         Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(), BoardManager.getGameName());
         return cursor.getCount() != 0;
     }
+
+    public void onclickMyScore(View view) {
+        Intent intent = new Intent(this, MyScoreActivity.class);
+        startActivity(intent);
+    }
+
+    public void onclickScoreBoard(View view) {
+        Intent intent = new Intent(this, SlidingTileScoreBoardActivity.class);
+        startActivity(intent);
+    }
 }

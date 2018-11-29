@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
 //    private final static String FILE_NAME = "userManager.ser";
 
 //    private UserManager userManager;
+
+    /**
+     * helper object storing information of current user.
+     */
     private Session session;
 
 
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Dealing with clicking on Login button.
      *
-     * @param view A view of the model/
+     * @param view a view of the model
      */
     public void onclickLoginButton(View view) {
         // first input information
@@ -117,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Dealing with clicking on 'create account'
+     * @param view A view of the model.
+     */
     public void onclickCreateAccount(View view) {
         Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(registerIntent);

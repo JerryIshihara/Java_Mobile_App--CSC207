@@ -6,14 +6,14 @@ public class SudokuScore implements Score {
 
     private static final String GAME_NAME = "Sudoku";
 
-    private String time;
+    private int time;
 
     private String userName;
 
     private int size;
 
 
-    public void takeInSizeTimeName(int size, String time, String userName) {
+    public void takeInSizeTimeName(int size, int time, String userName) {
         this.time = time;
         this.size = size;
         this.userName = userName;
@@ -31,8 +31,7 @@ public class SudokuScore implements Score {
 
     @Override
     public String calculateScore() {
-        time = time.replace(":", "");
-        float floatScore = Integer.valueOf(time);
+        float floatScore = time;
         int intScore;
         if (size == 3) {
             intScore = (int) (100 * (1 - (floatScore / (floatScore + 70))));

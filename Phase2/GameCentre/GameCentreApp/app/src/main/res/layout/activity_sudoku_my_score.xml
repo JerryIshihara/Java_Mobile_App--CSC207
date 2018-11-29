@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/usercentre_background"
-    tools:context=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareScoreActivity">
+    tools:context=".Sudoku.SudokuMyScoreActivity">
+
 
     <ImageView
         android:id="@+id/goback"
@@ -25,12 +26,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
         android:layout_marginTop="50dp"
-        android:text="@string/ranking"
+        android:text="My Score"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Ranking" />
+        tools:text="My Score" />
 
     <ListView
         android:id="@+id/scoreList"
@@ -43,5 +44,6 @@
         android:background="@color/cardview_shadow_start_color"
         app:layout_constraintBottom_toTopOf="@+id/goback"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

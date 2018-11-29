@@ -22,6 +22,8 @@ public class GameStateDataBase extends SQLiteOpenHelper {
 
     public static final String COL3 = "GAME_STATE";
 
+//    public static final String COL4 = "TIME";
+
 
 
     public GameStateDataBase(Context context) {
@@ -49,6 +51,7 @@ public class GameStateDataBase extends SQLiteOpenHelper {
         contentValues.put(COL1, userName/*userManager.getCurrentUserName()*/);
         contentValues.put(COL2, gameName);
         contentValues.put(COL3, state);
+//        contentValues.put(COL4, time);
 
         db.insert(TABLE_NAME, null, contentValues);
     }
@@ -78,5 +81,10 @@ public class GameStateDataBase extends SQLiteOpenHelper {
 //        UserManager userManager = UserManager.getInstance();
 
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
+    }
+
+    public void deleteAll() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 }

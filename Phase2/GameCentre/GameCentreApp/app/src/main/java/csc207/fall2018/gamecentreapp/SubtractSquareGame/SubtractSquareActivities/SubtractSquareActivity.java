@@ -1,9 +1,8 @@
-package csc207.fall2018.gamecentreapp.SubtractSquareGame;
+package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +21,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
+import csc207.fall2018.gamecentreapp.DataBase.ScoreBoard;
 import csc207.fall2018.gamecentreapp.R;
+import csc207.fall2018.gamecentreapp.ScoreFactory;
 import csc207.fall2018.gamecentreapp.Session;
 import csc207.fall2018.gamecentreapp.Dialogs.UndoPaymentDialog;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.MiniMaxNode;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareScore;
+import csc207.fall2018.gamecentreapp.Timer;
+import csc207.fall2018.gamecentreapp.slidingtiles.BoardManager;
+import csc207.fall2018.gamecentreapp.slidingtiles.SlidingTileScore;
 
 public class SubtractSquareActivity extends AppCompatActivity {
 
@@ -34,9 +41,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
 
     private boolean pcModel;
 
-    private Chronometer chronometer;
-
-    private long lastPause ;
+    private Timer timer;
 
 
 //    private int undoBatch = 3;
@@ -46,32 +51,27 @@ public class SubtractSquareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square);
-        chronometer = findViewById(R.id.chronometer);
-        if(lastPause != 0){
-            chronometer.setBase(chronometer.getBase() + SystemClock.elapsedRealtime() - lastPause - 10000);
-        }else{
-            chronometer.setBase(SystemClock.elapsedRealtime() - 10000);
-        }
-        chronometer.setText("00:10");
-        chronometer.start();
+        loadFromFile(TEMP_FILE_NAME);
+
         pcModel = getIntent().getExtras().getBoolean("PC_MODE");
 
-        loadFromFile(TEMP_FILE_NAME);
+        timer = new Timer(findViewById(R.id.chronometer2));
+        timer.setUpTimer(subtractSquareGame.getIntTime());
+        timer.start();
 
         updateUndoTimes();
         updateCurrentTotal();
         updateProgressContext();
         saveToDataBase();
-
     }
 
     public void onclickGoBack(View view) {
         saveToDataBase();
         Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);
-        chronometer = findViewById(R.id.chronometer);
     }
 
+    //TODO: HARD CODE !!
     public void onclickEnter(View view) {
         EditText input = findViewById(R.id.input);
 
@@ -158,6 +158,7 @@ public class SubtractSquareActivity extends AppCompatActivity {
     }
 
     private void saveToDataBase() {
+        subtractSquareGame.setTime(timer.returnStringTime());
         GameStateDataBase dataBase = new GameStateDataBase(this);
         byte[] stream = null;
 
@@ -178,7 +179,10 @@ public class SubtractSquareActivity extends AppCompatActivity {
         TextView progress = (TextView) findViewById(R.id.progress);
         String progressContext;
         if (subtractSquareGame.is_over()) {
+            timer.stop();
+            updateScore(this);
             progressContext = "Game over, " + subtractSquareGame.getWinner() + " win !";
+//            chronometer.stop();
         } else {
             if (pcModel && !(subtractSquareGame.getCurrentState().isP1_turn())) {
                 progressContext = subtractSquareGame.getCurrentPlayerName() + " has made choice";
@@ -224,5 +228,16 @@ public class SubtractSquareActivity extends AppCompatActivity {
     private void openDialog() {
         UndoPaymentDialog undoPaymentDialog = new UndoPaymentDialog();
         undoPaymentDialog.show(getSupportFragmentManager(), "Payment");
+    }
+
+    private void updateScore(Context context) {
+        if (pcModel) {
+            ScoreBoard scoreBoard = new ScoreBoard(context);
+            ScoreFactory factory = new ScoreFactory();
+            SubtractSquareScore score = (SubtractSquareScore) factory.generateScore(SubtractSquareGame.getGameName());
+            subtractSquareGame.setTime(timer.returnStringTime());
+            score.takeInStateAndTime(subtractSquareGame.getCurrentState(), subtractSquareGame.getIntTime());
+            scoreBoard.addScore(score);
+        }
     }
 }

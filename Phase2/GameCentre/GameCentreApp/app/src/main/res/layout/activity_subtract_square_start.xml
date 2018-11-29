@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    tools:context=".SubtractSquareGame.SubtractSquareStartActivity">
+    tools:context=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareStartActivity">
 
     <EditText
         android:id="@+id/p1Name"

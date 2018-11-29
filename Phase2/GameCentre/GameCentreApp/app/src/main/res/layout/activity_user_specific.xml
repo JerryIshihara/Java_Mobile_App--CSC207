@@ -63,6 +63,13 @@
                 app:srcCompat="@drawable/subtractsquare"
                 android:onClick="onclickSubtractSquareGame"/>
 
+            <ImageView
+                android:id="@+id/delete_score"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/delete_game_data"
+                android:onClick="onclickDeleteAllInfo"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

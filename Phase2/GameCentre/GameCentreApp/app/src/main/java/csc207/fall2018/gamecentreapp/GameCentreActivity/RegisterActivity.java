@@ -60,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     //    private final static String FILE_NAME = "userManager.ser";
 //
+    /**
+     * helper object storing information of current user.
+     */
     private Session session;
 //    private UserManager userManager;
 
@@ -75,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Dealing with clicking on Register button.
+     * Dealing with clicking on sign up button.
      *
      * @param view A view of the model
      */
@@ -106,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Dealing with clicking on Return button.
+     * Dealing with clicking on already have an account.
      *
      * @param view A view of the model
      */

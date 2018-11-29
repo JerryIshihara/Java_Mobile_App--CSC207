@@ -1,4 +1,4 @@
-package csc207.fall2018.gamecentreapp.SubtractSquareGame;
+package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,15 +7,13 @@ import android.util.Log;
 import android.view.View;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.Session;
+import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 //import csc207.fall2018.gamecentreapp.UserManager;
 
 public class SubtractSquareSelectActivity extends AppCompatActivity {
