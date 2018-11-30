@@ -27,11 +27,17 @@ class SubtractSquareController extends GameDataBaseAdapter implements Observer {
 
     private SubtractSquareGame subtractSquareGame;
 
-    private boolean pcMode;
+  /**
+   * Whether playing against a computer
+   */
+  private boolean pcMode;
 
     private Timer timer;
 
-    private int undoBatch;
+  /**
+   * Number of undo available
+   */
+  private int undoBatch;
 
     SubtractSquareController(Context context) {
         super(context);
@@ -55,6 +61,10 @@ class SubtractSquareController extends GameDataBaseAdapter implements Observer {
         updateAll();
     }
 
+  /**
+   * Go back to the last state if possible.
+   * @return whether the undo is successful.
+   */
     boolean undoMove(View view) {
         boolean undoable = undoBatch != 0;
         boolean undo = subtractSquareGame.undoMove();
@@ -66,6 +76,10 @@ class SubtractSquareController extends GameDataBaseAdapter implements Observer {
         return undoable;
     }
 
+    /**
+     * Enter and record a number.
+     * @param input the input in the EditText.
+     */
     void enterNumber(View view, EditText input) {
         if (!subtractSquareGame.getCurrentState().getP2Name().equals("PC")) {
             humanMadeChoice(view, input);

@@ -26,7 +26,7 @@ Subtract Square system, Jtest, docstring.
 ### 2. Zhihao Lin
 Part of Backend and UI design of Subtract Square game; Minimax Strategy(Recursive) ;Slice image & import image; Documentation files, docstring.
 ### 3. Hirotaka Ishihara
-DataBase system, sliding tile system, Scoreboard system, jtest, docstring
+DataBase system, login system, sliding tile game, Scoreboard system, app GUI design using Photoshop, fixing bugs, jtest, docstring
 ### 4. Yu Guo
 back end of sudoku system, docstring
 ### 5. Xinda Wang

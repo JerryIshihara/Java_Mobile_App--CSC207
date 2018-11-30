@@ -21,6 +21,10 @@ public class SubtractSquareScoreActivity extends AppCompatActivity implements Di
         display();
     }
 
+    /**
+     * OnClickListener for the Button goback. When clicked navigate back to the
+     * SubtractSquareGameCentreActivity.
+     */
     public void onclickGoBack(View view) {
         Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);

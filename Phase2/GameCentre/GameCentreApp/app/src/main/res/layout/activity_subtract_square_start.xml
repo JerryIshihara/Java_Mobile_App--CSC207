@@ -56,14 +56,14 @@
         android:onClick="onclickStart"/>
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/exit"
-        android:onClick="onclickGoBack"/>
+      android:id="@+id/imageView2"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_marginBottom="19dp"
+      android:layout_marginEnd="28dp"
+      android:onClick="onclickGoBack"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:srcCompat="@drawable/exit"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,8 +9,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
+/**
+ * Test for ScoreFactory
+ */
 public class ScoreFactoryTest {
 
+    /**
+     * Test GenerateScore for different sub-class
+     */
     @Test
     public void testGenerateScore() {
         assertTrue(new ScoreFactory().generateScore(SubtractSquareGame.getGameName()) instanceof SubtractSquareScore);

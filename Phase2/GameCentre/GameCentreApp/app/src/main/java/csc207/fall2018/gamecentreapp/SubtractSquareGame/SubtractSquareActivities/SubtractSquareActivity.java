@@ -52,7 +52,9 @@ public class SubtractSquareActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Open the payment dialog.
+     */
     private void openDialog() {
         UndoPaymentDialog undoPaymentDialog = new UndoPaymentDialog();
         undoPaymentDialog.show(getSupportFragmentManager(), "Payment");

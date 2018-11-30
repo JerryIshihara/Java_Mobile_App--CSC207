@@ -4,7 +4,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test Sudoku Score
+ */
 public class SudokuScoreTest {
+
+    /**
+     * Test info take in get username
+     */
     @Test
     public void testSetAndGet(){
         SudokuScore sudokuScore = new SudokuScore();
@@ -13,6 +20,9 @@ public class SudokuScoreTest {
         assertEquals("Sudoku", sudokuScore.returnGameName());
     }
 
+    /**
+     * Test score calculation
+     */
     @Test
     public void testCalculate(){
         SudokuScore sudokuScore = new SudokuScore();

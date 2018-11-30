@@ -6,8 +6,14 @@ import csc207.fall2018.gamecentreapp.slidingtiles.BoardManager;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for SlidingTile Score
+ */
 public class SlidingTileScoreTest {
 
+    /**
+     * Test info take in and get user name
+     */
     @Test
     public void setAndGet() {
         SlidingTileScore slidingTileScore = new SlidingTileScore();
@@ -17,6 +23,9 @@ public class SlidingTileScoreTest {
 
     }
 
+    /**
+     * Test unique score calculation
+     */
     @Test
     public void calculateScore() {
         SlidingTileScore slidingTileScore = new SlidingTileScore();

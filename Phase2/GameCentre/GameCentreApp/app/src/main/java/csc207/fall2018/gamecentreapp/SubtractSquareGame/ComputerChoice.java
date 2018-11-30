@@ -4,35 +4,62 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * A class which helps PC to play the SubtractSquareGame with the highest probability.
+ */
 public class ComputerChoice {
-
+    /**
+     * The currentState of the game.
+     */
     private SubtractSquareState currentState;
-
+    /**
+     * An ArrayList containing all possible ComputerChoices by making a move.
+     */
     private ArrayList<ComputerChoice> children;
-
+    /**
+     * The score of the game.
+     */
     private int score;
 
-
+    /**
+     * An empty constructor.
+     */
     public ComputerChoice() {
     }
 
+    /**
+     * A private constructor.
+     * @param state a SubtractSquareState
+     */
     private ComputerChoice(SubtractSquareState state) {
         this.currentState = state;
         this.children = new ArrayList<>();
         this.score = 0;
     }
 
+    /**
+     * A helper class.
+     */
     private class MiniMaxGame extends SubtractSquareGame {
         SubtractSquareGame game;
         SubtractSquareState state;
 
+        /**
+         * A constructor of MiniMaxGame
+         * @param game a SubtractSquareGame
+         * @param state a SubtractSquareState
+         */
         MiniMaxGame(SubtractSquareGame game, SubtractSquareState state) {
             super(game.getCurrentState().getP1Name(), game.getCurrentState().getP2Name());
             this.game = game;
             this.state = state;
         }
 
+        /**
+         * Return a new MiniMaxGame by setting a new state
+         * @param state a SubtractSquareState.
+         * @return  a MiniMaxGame
+         */
         MiniMaxGame getNewCurrentState(SubtractSquareState state) {
             return new MiniMaxGame(this.game, state);
         }
@@ -40,6 +67,11 @@ public class ComputerChoice {
 
     }
 
+    /**
+     * Return a best move for PC.
+     * @param game a SubtractSquareGame
+     * @return an integer which represents a  move.
+     */
     public int iterativeMiniMax(SubtractSquareGame game) {
         MiniMaxGame miniMaxGame = new MiniMaxGame(game, game.getCurrentState());
         return iterativeMiniMax(miniMaxGame);
@@ -92,6 +124,11 @@ public class ComputerChoice {
         return false;
     }
 
+    /**
+     * A helper function for iterativeMiniMax with a parameter SubtractSquareGame.
+     * @param miniMaxGame a MiniMaxGame
+     * @return an integer which is a move,.
+     */
     private int iterativeMiniMax(MiniMaxGame miniMaxGame) {
         if (miniMaxGame.game.is_over()) {
             return 0;
@@ -128,7 +165,11 @@ public class ComputerChoice {
         return findMiniMax(node1);
     }
 
-
+    /**
+     * A helper function when the size of children is zero.
+     * @param node1 a ComputerChoice
+     * @param collection an ArrayList of ComputerChoices
+     */
     private void dealWithEmpty(ComputerChoice node1, ArrayList<ComputerChoice> collection) {
         ArrayList<SubtractSquareState> states = new ArrayList<>();
         ArrayList<ComputerChoice> nodes = new ArrayList<>();
@@ -143,6 +184,10 @@ public class ComputerChoice {
         collection.addAll(nodes);
     }
 
+    /**
+     * A helper function when the currentTotal is not zero and the length of children is not zero.
+     * @param node1 a ComputerChoice
+     */
     private void dealWithMax(ComputerChoice node1) {
         ArrayList<Integer> empty = new ArrayList<>();
         for (ComputerChoice node : node1.children) {
@@ -151,6 +196,11 @@ public class ComputerChoice {
         node1.score = Collections.max(empty);
     }
 
+    /**
+     * A helper function to find the Minimax.
+     * @param node1 a ComputerChoice
+     * @return an integer which is a move.
+     */
     private int findMiniMax(ComputerChoice node1) {
         ArrayList<Integer> scores = new ArrayList<>();
         for (ComputerChoice node : node1.children) {

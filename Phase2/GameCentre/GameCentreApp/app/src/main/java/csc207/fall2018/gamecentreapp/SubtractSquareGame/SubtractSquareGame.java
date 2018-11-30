@@ -184,10 +184,17 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         return this.pastStates.get(index);
     }
 
+    /**
+     * Delete the first state in pastStates.
+     */
     private void deleteState() {
         this.pastStates.remove(0);
     }
 
+    /**
+     * Get the length of pastStates.
+     * @return an integer which is the size of pastStates.
+     */
     int numState() {
         return this.pastStates.size();
     }
@@ -198,6 +205,9 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         return new SubtractSquareStateIterator();
     }
 
+    /**
+     * A helper function which allows SubtractSquareGame to be iterable.
+     */
     private class SubtractSquareStateIterator implements Iterator<SubtractSquareState> {
 
         int index = 0;

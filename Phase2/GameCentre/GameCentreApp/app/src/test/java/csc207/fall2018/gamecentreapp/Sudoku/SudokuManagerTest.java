@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class SudokuManagerTest {
+    /**
+     * Make a complete correct sample sudoku board.
+     *
+     * @return an 9 x 9 two dimensional Arraylist representing a sudoku board.
+     */
     private ArrayList<ArrayList<Integer>> makeSampleSudoku() {
         ArrayList<Integer> row0 = new ArrayList<Integer>() {{
             add(5);
@@ -120,11 +125,17 @@ public class SudokuManagerTest {
         }};
     }
 
+    /**
+     * Tesr whether the getGameName and relating methods are correct.
+     */
     @Test
     public void testGetGameName() {
         assertEquals("Sudoku", SudokuManager.getGameName());
     }
 
+    /**
+     * Test whether the getModifiablePosition and relating  methods are correct.
+     */
     @Test
     public void testGetModifiablePosition() {
         SudokuManager sudokuManagerLevelOne = new SudokuManager(1);
@@ -157,6 +168,9 @@ public class SudokuManagerTest {
         }
     }
 
+    /**
+     * Test whether the changeValue and relating methods are correct.
+     */
     @Test
     public void testChangeValue() {
         SudokuManager sudokuManagerLevelOne = new SudokuManager(1);
@@ -170,6 +184,9 @@ public class SudokuManagerTest {
         assertEquals(3, sudokuManagerLevelThree.getSudoku().getValueAt(0, 0));
     }
 
+    /**
+     * Test whether the checkAll and relating methods are correct.
+     */
     @Test
     public void testCheckAll() {
         ArrayList<ArrayList<Integer>> solvedSudoku = makeSampleSudoku();
@@ -179,6 +196,9 @@ public class SudokuManagerTest {
         assertFalse(sudokuManager.checkAll(1, 0, 0));
     }
 
+    /**
+     * Test whether the trackMoves and relating methods are correct.
+     */
     @Test
     public void testTrackMoves() {
         ArrayList<ArrayList<Integer>> solvedSudoku = makeSampleSudoku();
@@ -194,6 +214,9 @@ public class SudokuManagerTest {
         assertEquals(2, sudokuManager.getSudoku().getMoves().size());
     }
 
+    /**
+     * Test whether the checkPuzzleSolved and relating methods are correct.
+     */
     @Test
     public void testCheckPuzzleSolved(){
         ArrayList<ArrayList<Integer>> solvedSudoku = makeSampleSudoku();

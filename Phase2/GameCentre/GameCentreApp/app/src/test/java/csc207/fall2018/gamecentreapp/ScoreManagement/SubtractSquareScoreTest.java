@@ -7,7 +7,14 @@ import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareState;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for Subtract Square Score
+ */
 public class SubtractSquareScoreTest {
+
+    /**
+     * Test info take in and get get user name
+     */
     @Test
     public void testSetAndGet(){
         SubtractSquareState state = new SubtractSquareState("Heng", "Kan");
@@ -17,6 +24,9 @@ public class SubtractSquareScoreTest {
         assertEquals(SubtractSquareGame.getGameName(), subtractSquareScore.returnGameName());
     }
 
+    /**
+     * Test score calculation
+     */
     @Test
     public void testCalculateScore(){
         SubtractSquareState state = new SubtractSquareState("Heng", "Kan");
