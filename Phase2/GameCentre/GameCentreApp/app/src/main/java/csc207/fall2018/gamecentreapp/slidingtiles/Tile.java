@@ -1,12 +1,9 @@
 package csc207.fall2018.gamecentreapp.slidingtiles;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Button;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import csc207.fall2018.gamecentreapp.R;
 
@@ -60,45 +57,10 @@ public class Tile implements Comparable<Tile>, Serializable {
      *
      * @param backgroundId
      */
-    // TODO: hard coded, need to change later
     public Tile(int backgroundId, ArrayList<Integer> size) {
         id = backgroundId + 1;
-        // This looks so ugly.
         if (size.get(0) == 5 && id >= 16) {
-            switch (backgroundId + 1) {
-                case 16:
-                    background = R.drawable.tile_16;
-                    break;
-                case 17:
-                    background = R.drawable.tile_17;
-                    break;
-                case 18:
-                    background = R.drawable.tile_18;
-                    break;
-                case 19:
-                    background = R.drawable.tile_19;
-                    break;
-                case 20:
-                    background = R.drawable.tile_20;
-                    break;
-                case 21:
-                    background = R.drawable.tile_21;
-                    break;
-                case 22:
-                    background = R.drawable.tile_22;
-                    break;
-                case 23:
-                    background = R.drawable.tile_23;
-                    break;
-                case 24:
-                    background = R.drawable.tile_24;
-                    break;
-                case 25:
-                    background = R.drawable.tile_blank;
-                    break;
-                default:
-                    background = R.drawable.tile_blank;
-            }
+            backgroundSetterForFive(backgroundId);
         } else if (size.get(0) == 3 && id == 9) {
             background = R.drawable.tile_blank;
         } else {
@@ -154,6 +116,43 @@ public class Tile implements Comparable<Tile>, Serializable {
                 default:
                     background = R.drawable.tile_blank;
             }
+        }
+    }
+
+    private void backgroundSetterForFive(int backgroundId) {
+        switch (backgroundId + 1) {
+            case 16:
+                background = R.drawable.tile_16;
+                break;
+            case 17:
+                background = R.drawable.tile_17;
+                break;
+            case 18:
+                background = R.drawable.tile_18;
+                break;
+            case 19:
+                background = R.drawable.tile_19;
+                break;
+            case 20:
+                background = R.drawable.tile_20;
+                break;
+            case 21:
+                background = R.drawable.tile_21;
+                break;
+            case 22:
+                background = R.drawable.tile_22;
+                break;
+            case 23:
+                background = R.drawable.tile_23;
+                break;
+            case 24:
+                background = R.drawable.tile_24;
+                break;
+            case 25:
+                background = R.drawable.tile_blank;
+                break;
+            default:
+                background = R.drawable.tile_blank;
         }
     }
 

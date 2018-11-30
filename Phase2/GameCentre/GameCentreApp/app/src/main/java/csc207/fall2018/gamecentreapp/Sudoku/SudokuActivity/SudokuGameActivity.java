@@ -11,41 +11,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-
+import android.widget.*;
 import csc207.fall2018.gamecentreapp.DataBase.DataBase;
 import csc207.fall2018.gamecentreapp.DataBase.GameStateDataBase;
+import csc207.fall2018.gamecentreapp.GameCentreActivity.Session;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.ScoreManagement.ScoreFactory;
 import csc207.fall2018.gamecentreapp.ScoreManagement.SudokuScore;
-import csc207.fall2018.gamecentreapp.GameCentreActivity.Session;
 import csc207.fall2018.gamecentreapp.Sudoku.SudokuManager;
 import csc207.fall2018.gamecentreapp.TimeDiplay.Timer;
 
+import java.io.*;
+import java.util.ArrayList;
+
 public class SudokuGameActivity extends AppCompatActivity {
-
+    /**
+     * AlertDialog for user to enter value.
+     */
     private AlertDialog.Builder enterNumber;
+    /**
+     * The ArrayAdapter for converting ArrayList to GridView.
+     */
     private ArrayAdapter<Object> gridViewArrayAdapter;
+    /**
+     * The ArrayList containing each value at all positions. The value of an empty tile is " ".
+     */
     private ArrayList<Object> allValue;
-
+    /**
+     * The EditText for user input.
+     */
     private EditText input;
-
+    /**
+     * The Timer for recording time.
+     */
     private Timer timer;
+    /**
+     * The GridView representing a Sudoku.
+     */
     private GridView gridOfSudoku;
+    /**
+     * The SudokuManager for the game.
+     */
     private SudokuManager sudokuManager;
 
 
@@ -76,7 +82,8 @@ public class SudokuGameActivity extends AppCompatActivity {
                         int position = getIntent().getExtras().getInt("position");
                         if (checkInputValidity(input.getText().toString())) {
                             int newValue = Integer.parseInt(input.getText().toString());
-                            enteredValue(position, newValue);
+                            allValue.set(position, newValue);
+                            sudokuManager.getSudoku().changeValueAt(position, newValue);
                             Button undoButton = findViewById(R.id.undo);
                             undoButton.setEnabled(true);
                             gridViewArrayAdapter.notifyDataSetChanged();
@@ -88,9 +95,11 @@ public class SudokuGameActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", null);
         generateGrid();
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * Display a sudoku board in GridView through ArrayAdapter.
+     */
     public void generateGrid() {
         ArrayList<ArrayList<Integer>> sudoku = sudokuManager.getSudoku().getSudokuBoard();
         allValue = new ArrayList<>();
@@ -118,24 +127,24 @@ public class SudokuGameActivity extends AppCompatActivity {
         };
         gridOfSudoku.setAdapter(gridViewArrayAdapter);
         gridOfSudoku.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (sudokuManager.getSudoku().getModifiablePositions().contains(position)) {
-                            //Restate EditText input because the view is added to dialog layout before
-                            //so it has a parent layout right now, must remove it or restate a new view.
-                            getIntent().putExtra("position", position);
-                            input = new EditText(SudokuGameActivity.this);
-                            enterNumber.setView(input);
-                            sudokuManager.getSudoku().trackMoves(position);
-                            enterNumber.show();
-                        }
+                (parent, view, position, id) -> {
+                    if (sudokuManager.getSudoku().getModifiablePositions().contains(position)) {
+                        //Restate EditText input because the view is added to dialog layout before
+                        //so it has a parent layout right now, must remove it or restate a new view.
+                        getIntent().putExtra("position", position);
+                        input = new EditText(SudokuGameActivity.this);
+                        enterNumber.setView(input);
+                        sudokuManager.getSudoku().trackMoves(position);
+                        enterNumber.show();
                     }
                 }
         );
 
     }
 
+    /**
+     * Clear the value at the position where user made latest move.
+     */
     public void undo(View v) {
         Button undoButton = (Button) v;
         Animation bounce = AnimationUtils.loadAnimation(SudokuGameActivity.this, R.anim.bounce);
@@ -155,16 +164,21 @@ public class SudokuGameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Start a new sudoku game of the same difficulty.
+     */
     public void startAgain(View v) {
         Button restart = (Button) v;
         Animation bounce = AnimationUtils.loadAnimation(SudokuGameActivity.this, R.anim.bounce);
         restart.setAnimation(bounce);
-//        sudokuManager = new SudokuManager(sudokuManager.getSudokuBoard().size());
         int difficulty = sudokuManager.getDifficulty();
         sudokuManager = new SudokuManager(difficulty);
         generateGrid();
     }
 
+    /**
+     * Check whether is sudoku is solved.
+     */
     public void endGameCheck(View v) {
         boolean puzzleSolved = sudokuManager.checkPuzzleSolved();
         if (puzzleSolved) {
@@ -179,11 +193,9 @@ public class SudokuGameActivity extends AppCompatActivity {
         }
     }
 
-    public void enteredValue(int position, int newValue) {
-        allValue.set(position, newValue);
-        sudokuManager.getSudoku().changeValueAt(position, newValue);
-    }
-
+    /**
+     * Check whether the user input is valid. Only one to nine can be accepted.
+     */
     public boolean checkInputValidity(String input) {
         return input.length() == 1 && input.matches("-?([1-9]\\d*)");
     }
@@ -210,13 +222,18 @@ public class SudokuGameActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Go back to the SudokuGameStartingActivity.
+     */
     public void onclickGoBack(View view) {
         saveToDataBase();
         Intent intent = new Intent(this, SudokuGameStartingActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Save to the database.
+     */
     private void saveToDataBase() {
         sudokuManager.setTime(timer.returnIntTime());
         GameStateDataBase dataBase = new GameStateDataBase(this);
@@ -235,6 +252,9 @@ public class SudokuGameActivity extends AppCompatActivity {
         dataBase.saveState(session.getCurrentUserName(), SudokuManager.getGameName(), stream);
     }
 
+    /**
+     * Update the score.
+     */
     private void updateScore() {
         DataBase dataBase = new DataBase(this);
         ScoreFactory factory = new ScoreFactory();

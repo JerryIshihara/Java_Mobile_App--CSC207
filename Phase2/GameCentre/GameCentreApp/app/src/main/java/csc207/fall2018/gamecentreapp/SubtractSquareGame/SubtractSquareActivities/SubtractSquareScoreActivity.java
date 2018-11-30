@@ -13,20 +13,12 @@ import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
 public class SubtractSquareScoreActivity extends AppCompatActivity implements DisplayScore {
 
-//    ScoreBoard scoreBoard;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square_score);
 
         display();
-
-
-//        ArrayList<String> scores = loadGameScore(this, SubtractSquareGame.getGameName());
-//
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, scores);
-//        listView.setAdapter(arrayAdapter);
     }
 
     public void onclickGoBack(View view) {

@@ -1,5 +1,7 @@
 package csc207.fall2018.gamecentreapp.slidingtiles;
 
+import android.support.annotation.NonNull;
+
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.io.Serializable;
@@ -27,22 +29,14 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      */
     private Tile[][] tiles;
 
-    /**
-     * A new board of tiles in row-major order.
-     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
-     *
-     * @param tiles the tiles for the board
-     */
-//    Board(List<Tile> tiles) {
-//        Iterator<Tile> iter = tiles.iterator();
-//        for (int row = 0; row != Board.NUM_ROWS; row++) {
-//            for (int col = 0; col != Board.NUM_COLS; col++) {
-//                this.tiles[row][col] = iter.next();
-//            }
-//        }
-//    }
 
-    public Board(List<Tile> tiles, int size) {
+    /**
+     * The constructor of the Board class.
+     *
+     * @param tiles the tiles.
+     * @param size  the size.
+     */
+    Board(List<Tile> tiles, int size) {
         NUM_COLS = size;
         NUM_ROWS = size;
         this.tiles = new Tile[NUM_ROWS][NUM_COLS];
@@ -98,6 +92,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
                 '}';
     }
 
+    @NonNull
     @Override
     public Iterator<Tile> iterator() {
         return new TileIterator();

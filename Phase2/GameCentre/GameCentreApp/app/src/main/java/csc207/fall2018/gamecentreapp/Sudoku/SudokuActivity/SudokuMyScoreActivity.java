@@ -20,6 +20,9 @@ public class SudokuMyScoreActivity extends AppCompatActivity implements DisplayS
         display();
     }
 
+    /**
+     * Navigate back to the SudokuGameStartingActivity.
+     */
     public void onclickGoBack(View view) {
         Intent intent = new Intent(this, SudokuGameStartingActivity.class);
         startActivity(intent);

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import csc207.fall2018.gamecentreapp.R;
-//import csc207.fall2018.gamecentreapp.UserManager;
 
 
 /**

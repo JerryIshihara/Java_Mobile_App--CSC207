@@ -8,20 +8,37 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class GameStateDataBase extends SQLiteOpenHelper {
 
+    /**
+     * String FILE_NAME "gameDataBase.db"
+     */
     private static final String FILE_NAME = "gameDataBase.db";
 
+    /**
+     * String TABLE_NAME  "gameStates"
+     */
     private static final String TABLE_NAME = "gameStates";
 
-    public static final String COL1 = "NAME";
+    /**
+     * String COL1  "NAME"
+     */
+    private static final String COL1 = "NAME";
 
-    public static final String COL2 = "GAME";
+    /**
+     * String COL2  "GAME"
+     */
+    private static final String COL2 = "GAME";
 
+    /**
+     * String COL3 "GAME_STATE"
+     */
     public static final String COL3 = "GAME_STATE";
 
-//    public static final String COL4 = "TIME";
 
-
-
+    /**
+     * The constructor of the GameStateDataBase class.
+     *
+     * @param context the context
+     */
     public GameStateDataBase(Context context) {
         super(context, FILE_NAME, null, 1);
     }
@@ -37,49 +54,61 @@ public class GameStateDataBase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * save the state.
+     *
+     * @param userName name of the user.
+     * @param gameName name of the game.
+     * @param state    the state.
+     */
     public void saveState(String userName, String gameName, byte[] state) {
         SQLiteDatabase db = this.getWritableDatabase();
         deleteState(userName, gameName);
 
-//        UserManager userManager = UserManager.getInstance();
-
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1, userName/*userManager.getCurrentUserName()*/);
+        contentValues.put(COL1, userName);
         contentValues.put(COL2, gameName);
         contentValues.put(COL3, state);
-//        contentValues.put(COL4, time);
-
         db.insert(TABLE_NAME, null, contentValues);
     }
 
+    /**
+     * delete the state.
+     *
+     * @param userName name of the user.
+     * @param gameName name of the game.
+     */
     public void deleteState(String userName, String gameName) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-//        String userName = userManager.getCurrentUserName();
-//        UserManager userManager = UserManager.getInstance();
-
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "' AND GAME = '" + gameName + "'");
     }
 
+    /**
+     * Return the state according to the name of the user and game.
+     *
+     * @param userName the name of the user
+     * @param gameName the name of the game
+     * @return the state according to the user and game.
+     */
     public Cursor getStateByGame(String userName, String gameName) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-//        UserManager userManager = UserManager.getInstance();
-//        String userName = userManager.getCurrentUserName();
-
         return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "' AND GAME = '" + gameName + "'", null);
     }
 
-    public void deleteUser(String userName) {
+    /**
+     * delete the user.
+     *
+     * @param userName the name of the user.
+     */
+    void deleteUser(String userName) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-//        String userName = userManager.getCurrentUserName();
-//        UserManager userManager = UserManager.getInstance();
-
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
     }
 
-    public void deleteAll() {
+    /**
+     * delete all information.
+     */
+    void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
     }

@@ -33,8 +33,6 @@
         <activity android:name=".slidingtiles.SlidingTileActivity.GameActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareSelectActivity" />
         <activity android:name=".slidingtiles.SlidingTileActivity.SlidingtileSelectSizeActivity" />
-        <activity android:name=".slidingtiles.ImageSplitActivity" />
-        <activity android:name=".slidingtiles.ShowActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareMyScoreActivity" />
         <activity android:name=".slidingtiles.SlidingTileActivity.MyScoreActivity" />
         <activity android:name=".slidingtiles.SlidingTileActivity.SlidingTileScoreBoardActivity" />

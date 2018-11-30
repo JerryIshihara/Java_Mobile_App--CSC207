@@ -21,7 +21,7 @@ import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 import csc207.fall2018.gamecentreapp.TimeDiplay.Timer;
 import csc207.fall2018.gamecentreapp.DataBaseAdapter.GameDataBaseAdapter;
 
-public class SubtractSquareController extends GameDataBaseAdapter implements Observer {
+class SubtractSquareController extends GameDataBaseAdapter implements Observer {
 
     private Context context;
 
@@ -33,22 +33,29 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
 
     private int undoBatch;
 
-    public SubtractSquareController(Context context) {
+    SubtractSquareController(Context context) {
         super(context);
         this.context = context;
     }
 
-    public void startGame(boolean pcMode) {
-        this.pcMode = pcMode;
+
+    /**
+     * @param input EditText
+     */
+    void startGame(EditText input) {
         this.subtractSquareGame = (SubtractSquareGame) loadFromDataBase(context, SubtractSquareGame.getGameName());
         this.subtractSquareGame.addObserver(this);
+        this.pcMode = subtractSquareGame.getCurrentState().getP2Name().equals("PC");
+        if (pcMode && !subtractSquareGame.getCurrentState().isP1_turn()) {
+            input.setText(String.valueOf(pcMadeChoice()));
+        }
         timer = new Timer(((Activity) context).findViewById(R.id.chronometer2));
         timer.setUpTimer(subtractSquareGame.getIntTime());
         timer.start();
         updateAll();
     }
 
-    public boolean undoMove(View view) {
+    boolean undoMove(View view) {
         boolean undoable = undoBatch != 0;
         boolean undo = subtractSquareGame.undoMove();
         if (undoable) {
@@ -59,54 +66,82 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         return undoable;
     }
 
-    // TODO: HARD CODED
-    public void enterNumber(View view, EditText input) {
-//        EditText input = view.findViewById(R.id.input);
-        if (!pcMode) {
-            String move = input.getText().toString();
-            if (subtractSquareGame.isValidMove(move)) {
-                subtractSquareGame.applyMove(move);
-                saveToDataBase(view.getContext(), subtractSquareGame, SubtractSquareGame.getGameName());
-                input.setText("");
-            } else {
-                Toast.makeText(view.getContext().getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
-            }
+    void enterNumber(View view, EditText input) {
+        if (!subtractSquareGame.getCurrentState().getP2Name().equals("PC")) {
+            humanMadeChoice(view, input);
         } else {
-            ComputerChoice pcChoice = new ComputerChoice();
             if (subtractSquareGame.getCurrentState().isP1_turn()) {
                 String move = input.getText().toString();
                 if (subtractSquareGame.isValidMove(move)) {
                     subtractSquareGame.applyMove(move);
-                    saveToDataBase(view.getContext(), subtractSquareGame, SubtractSquareGame.getGameName());
                     // PC CHOICE
-                    int choice = pcChoice.iterativeMiniMax(subtractSquareGame);
-                    input.setText(String.valueOf(choice));
+                    input.setText(String.valueOf(pcMadeChoice()));
                 } else {
-                    Toast.makeText(view.getContext().getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
+                    makeNotValidToast(view);
                 }
             } else {
                 String move = input.getText().toString();
-                if (subtractSquareGame.isValidMove(move)) {
-                    subtractSquareGame.applyMove(move);
-                    saveToDataBase(view.getContext(), subtractSquareGame, SubtractSquareGame.getGameName());
-                    input.setText("");
-                } else {
-                    Toast.makeText(view.getContext().getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
-                    int choice = pcChoice.iterativeMiniMax(subtractSquareGame);
-                    input.setText(String.valueOf(choice));
-                }
+                subtractSquareGame.applyMove(move);
+                input.setText("");
             }
         }
         saveToDataBase(view.getContext(), subtractSquareGame, SubtractSquareGame.getGameName());
     }
 
+    /**
+     * Make a Toast message when user input is not valid.
+     *
+     * @param view View
+     */
+    private void makeNotValidToast(View view) {
+        Toast.makeText(view.getContext().getApplicationContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Process a human made choice. Only a square number is accepted.
+     *
+     * @param view  View
+     * @param input the user input in the EditText
+     */
+    private void humanMadeChoice(View view, EditText input) {
+        String move = input.getText().toString();
+        if (subtractSquareGame.isValidMove(move)) {
+            subtractSquareGame.applyMove(move);
+            input.setText("");
+        } else {
+            makeNotValidToast(view);
+        }
+    }
+
+    /**
+     * Get a choice made by computer.
+     *
+     * @return a choice made by computer
+     */
+    private int pcMadeChoice() {
+        ComputerChoice pcChoice = new ComputerChoice();
+        return pcChoice.iterativeMiniMax(subtractSquareGame);
+    }
+
+    /**
+     * Quit the current game and save.
+     *
+     * @param context Context
+     */
     public void exit(Context context) {
         subtractSquareGame.setTime(timer.returnIntTime());
         timer.stop();
         saveToDataBase(context, subtractSquareGame, SubtractSquareGame.getGameName());
     }
 
-    public void twoPlayerNewGame(View view, String p1, String p2) {
+    /**
+     * Create a game between two human players.
+     *
+     * @param view View
+     * @param p1   name of the first player
+     * @param p2   name of the second player
+     */
+    void twoPlayerNewGame(View view, String p1, String p2) {
         if (!(p1.equals("") || p2.equals(""))) {
             if (p2.equals("PC")) {
                 Toast.makeText(view.getContext().getApplicationContext(), "PC is a reserved name for PC MODE", Toast.LENGTH_SHORT).show();
@@ -122,17 +157,26 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         }
     }
 
-    public void PCNewGame(View view) {
+    /**
+     * Create a game against the computer.
+     *
+     * @param view View
+     */
+    void PCNewGame(View view) {
         Session session = Session.getInstance(view.getContext());
         subtractSquareGame = new SubtractSquareGame(session.getCurrentUserName(), "PC");
         saveToDataBase(view.getContext(), subtractSquareGame, SubtractSquareGame.getGameName());
-
         Intent selectComputer = new Intent(view.getContext().getApplicationContext(), SubtractSquareActivity.class);
-        selectComputer.putExtra("PC_MODE", true);
         view.getContext().startActivity(selectComputer);
     }
 
-    public void loadGameAttempt(View view) {
+    /**
+     * Try to load an existing game.
+     *
+     * @param view View
+     */
+    void loadGameAttempt(View view) {
+
         Object loadable = loadFromDataBase(view.getContext(), SubtractSquareGame.getGameName());
         if (loadable == null) {
             Toast.makeText(view.getContext(), "No previous played game, start new one!", Toast.LENGTH_SHORT).show();
@@ -145,25 +189,19 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         }
     }
 
-
-//    private void updateTimer() {
-//        timer = new Timer(view.findViewById(R.id.chronometer2));
-//        timer.setUpTimer(subtractSquareGame.getIntTime());
-//        timer.start();
-//        if (subtractSquareGame.is_over()) {
-//            timer.stop();
-//        }
-//    }
-
+    /**
+     * Update and display whose turn it is and whether the game is over.
+     */
     private void updateProgressContext() {
-        TextView progress = (TextView) ((Activity) context).findViewById(R.id.progress);
+        TextView progress = ((Activity) context).findViewById(R.id.progress);
         String progressContext;
         if (subtractSquareGame.is_over()) {
             progressContext = "Game over, " + subtractSquareGame.getWinner() + " win !";
             timer.stop(); //chronometer.stop();
         } else {
+            boolean pcMode = subtractSquareGame.getCurrentState().getP2Name().equals("PC");
             if (pcMode && !(subtractSquareGame.getCurrentState().isP1_turn())) {
-                progressContext = subtractSquareGame.getCurrentPlayerName() + " has made choice";
+                progressContext = "PC has made choice, press ENTER";
             } else {
                 progressContext = subtractSquareGame.getCurrentPlayerName() + "'s turn";
             }
@@ -171,12 +209,18 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         progress.setText(progressContext);
     }
 
+    /**
+     * Update and display the current total of the game
+     */
     private void updateCurrentTotal() {
-        TextView gameNumber = (TextView) ((Activity) context).findViewById(R.id.gameNumber);
+        TextView gameNumber = ((Activity) context).findViewById(R.id.gameNumber);
         int currentTotal = subtractSquareGame.getCurrentState().getCurrentTotal();
         gameNumber.setText(String.valueOf(currentTotal));
     }
 
+    /**
+     * Update and display the number of undo moves allowed for thr user.
+     */
     private void updateUndoTimes() {
         undoBatch = subtractSquareGame.getUndoBatch();
         TextView undoTimes = ((Activity) context).findViewById(R.id.undoTimes);
@@ -184,6 +228,9 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         undoTimes.setText(undoText);
     }
 
+    /**
+     * Update score and record it to the database when a user has finished a game against computer.
+     */
     private void updateScore() {
         if (pcMode && subtractSquareGame.is_over()) {
             DataBase dataBase = new DataBase(context);
@@ -195,10 +242,12 @@ public class SubtractSquareController extends GameDataBaseAdapter implements Obs
         }
     }
 
+    /**
+     * Update all needed states to display the game.
+     */
     private void updateAll() {
         updateCurrentTotal();
         updateProgressContext();
-//        updateTimer();
         updateScore();
         updateUndoTimes();
     }

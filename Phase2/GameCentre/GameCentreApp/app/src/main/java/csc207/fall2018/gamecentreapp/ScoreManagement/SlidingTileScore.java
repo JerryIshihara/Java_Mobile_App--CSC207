@@ -1,21 +1,42 @@
 package csc207.fall2018.gamecentreapp.ScoreManagement;
 
-import csc207.fall2018.gamecentreapp.ScoreManagement.Score;
 import csc207.fall2018.gamecentreapp.slidingtiles.BoardManager;
 
 public class SlidingTileScore implements Score {
 
+    /**
+     * String GAME_NAME  BoardManager.getGameName()
+     */
     private static final String GAME_NAME = BoardManager.getGameName();
 
+    /**
+     * int time.
+     */
     private int time; //Seconds
 
+    /**
+     * String userName.
+     */
     private String userName;
 
+    /**
+     * int size
+     */
     private int size;
 
+    /**
+     * int numMove.
+     */
     private int numMove;
 
-
+    /**
+     * Require these information.
+     *
+     * @param size the size.
+     * @param time the time.
+     * @param userName the user name.
+     * @param numMove the number move.
+     */
     public void takeInSizeTimeName(int size, int time, String userName, int numMove) {
         this.time = time;
         this.size = size;

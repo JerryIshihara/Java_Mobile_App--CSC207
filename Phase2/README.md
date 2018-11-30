@@ -13,124 +13,109 @@ Firstly, user is directed to login/ signup interface, where he can either choose
 
 
 # Functionalities
-## Functionality of login/signup & user specific interface
+## Functionality of Game Centre System
 1. log in/ sign up: user can choose to create a new account if he hasn't got one or log in directly.
 2. delete account: user can choose to delete his account in the user specific interface.
 3. delete game data: user can choose to delete his game data
 relevant class: 
+Session: A class contains current user information
 User: a class representing the users of the game
-Session:
 UserDataBase: a database restoring all users
+MainActivity: A class dealing with main page.
+RegisterActivity: A class dealing with Registering.
+UserSpecificActivity:  A class dealing with user centre page.
 
 ## Functionality of Sliding Tile
 1. Start new game: start a new sliding tile game.
+2. load saved game: load the previous saved game.
+5. select difficulty level: player can choose either 3*3 or 4*4 or 5*5 sliding board game, representing relatively easy, medium and difficult.
+6. save game: save current game state.
+7. undo: user can undo the move he just made.
+8. time counting: the game shows time counting.
+
 relevant class:
-Board: the sliding tiles board
-BoardManager: manage a board, including swapping tiles, checking for a win, and managing taps.
-Tile: A Tile in a sliding tiles puzzle.
+GameActivity: The game activity.
+SlidingtileSelectSizeActivity: 
+StartingActivity: The initial activity for the sliding puzzle tile game.
+CustomAdapter:
 MovementController:
-
-2. load saved game: load the previous saved game
-relevant class:
-GameStateDataBase: a database restoring all game states
-StartingActivity: The initial activity for the sliding puzzle tile game.
-
-3. save game: save current game state.
-relevant class:
-GameStateDataBase: a database restoring all game states
-StartingActivity: The initial activity for the sliding puzzle tile game.
-
-4. select difficulty level: player can choose either 3*3 or 4*4 or 5*5 sliding board game, representing relatively easy, medium and difficult. 
-relevant class: 
-SlidingtileSelectSizeActivity: an activity relevant to selecting difficulty.
-
-5. undo: user can undo the move he just made.
-relevant class:
-BoardManager: manage a board, including swapping tiles, checking for a win, and managing taps.
-GameActivity: the sliding tile game activity
-
-6. User scoreboard: when user enters into the game , he can check his score history of the game.
-relevant class/interface:
-Scoreboard: a database for scoreboard.
-Score: an interface dealing with score
-
-7. Game scoreboard: when user enters into the game, he can check the score history of this game.
-relevant class/ interface:
-Scoreboard: a database for scoreboard
-Score: and interface dealing with score
-
-8.Slicing image
-9.import image
+SlidingTileActivityController:
+GameDataBaseAdapter:
+Board:The sliding tiles board.
+BoardManager: Manage a board, including swapping tiles, checking for a win, and managing taps.
+Tile: A Tile in a sliding tiles puzzle.
 
 
 ## Functionality of Sudoku
-1. Start a new game: start a new sudoku game
-relevant class:
-SudokuGenerator: generate a new sudoku game
-GameInterface: main activity for sudoku game
+1. Start new game: start a new sliding tile game.
+2. load saved game: load the previous saved game.
+5. select difficulty level: player can choose difficulty.
+6. auto save: the state can be autosaved.
+7. undo: user can undo the move he just made.
+8. time counting: the game shows time counting.
+9. user can choose to generate a new board.
 
+Relevant Class:
+SodukuManager: 
+Sudoku:
+SudokuGameActivity: 
+SudokuStartingActivity:
 
-2. select difficulty level: player can choose three different difficulty level.
-relevant class: 
-SudokuGameActivity: activity for selecting different game difficulty level.
-SudokuGenerator: generate a new sudoku game.
-
-3. undo: user can undo the move he just made.
-relevant class: 
-GameInterface: main activity for sudoku game.
-
-4. start over: user can press start over button to generate a new board
-relevant class:
-GameInterface: main activity for sudoku game
 
 ## Functionality of Subtract Square
-1. start new game: start a new subtract square game
-relevant class: 
-SubtractSquareGame: subtract square game manager
-SubtractSquareState: the state of the subtract square game
-
-2. load game: load previously saved game
-relevant class: 
-GameStateDataBase: a database restoring all game states
-SubtractSquareGameCentreActivity: activity for subtract square game centre.
-SubtractSquareActivity: main activity of subtract square.
-
-3. vs pc: user can choose to play with computer
-relevant class:
-MiniMax Node: minimax strategy of computer.
-
-4. play with another player.
-relevant class:
-SubtractSquareSelectActivity: 
-SubtractSquareStartActivity:
-
-5. user scoreboard: when user enters into the game , he can check his score history of the game.
-relevant class/interface:
-Scoreboard: a database for scoreboard.
-Score: an interface dealing with score
-
-6. game scoreboard: when user enters into the game, he can check the score history of this game.
-relevant class/ interface:
-Scoreboard: a database for scoreboard
-Score: and interface dealing with score
-
+1. Start new game: start a new sliding tile game.
+2. load saved game: load the previous saved game.
+5. pc mode: player can choose to play with computer.
+6. auto save: the state can be autosaved.
 7. undo: user can undo the move he just made.
-relevant class: 
-SubtractSquareActivity: main activity for subtract square.
+8. time counting: the game shows time counting.
+9. user can choose to generate a new board.
+10. payment: if player's undo exceed 3 times, he wil be directed to payemnt interface:
 
-8. payment: undo exceed 3 times will pop a payment dialog
-relevant class:
-UndoPaymentDialogue: class manage undo payment dialogue.
+Relevant Class:
+SubtractSquareActivity:
+SubtractSquareGameCentreActivity:
+SubtractSquareController
+SubtractSquareSelectActivity:
+SubtractSquareStartActivity
+GameDataBaseAdapter
+ComputerChoice
+SubtractSquareGame:subtract square game manager
+SubtractSquareState: The state of the SubtractSquare game.
 
+## Functionality of Scoreboard:
+1. scoreboard of current user in different game.
+2. show scoreboard of all players in different game.
+
+Relevant Class/ Interface:
+SubtractSquareMyScoreActivity
+SubtractSquareScoreActivity
+MyScoreActivity
+SlidingTileScoreBoardActivity
+SudokuMyScoreActivity
+SudokuScoreBoardActivity
+ScoreDataBaseAdapter
+ScoreViewController
+DisplayScore
+Score
+SlidingTileScore
+SubtractSquareScore
+SudokuScore
 
 # Design Pattern
-1. SingleTon Pattern (there is only one instance of a class is created in the Java):
-relevant classes: SlidingTileStateManager, UserManager. The reason why we use SingleTon for these two classes is that there can only be one user playing only one game after logging in.
-
-2. Observer Pattern (A class extending Observable class is an object which notifies classes or interfaces implementing Observer):
-relevant classes implementing Observer: GameActivity; SlidingTileGameActivity;
-relevant classes extending Observable: 
-
-3. Adaptor (a software design pattern that allows the interface of an existing class to be used as another interface.):
-relevant classes: CustomAdapter.  The class CustomAdapter
-is a class adapter as it uses inheritance extending the superclass BaseAdapter and can only wrap a class.
+a)	Facade:
+In database system, we have three different classes to store game states, users and scoreboards separately. So, every time we need to access different classes to get different kind of data. In order to solve this problem, we use fa??ade design pattern to provide a unified class, which is DataBase class in our case, to a set of classes (GameStateDataBase, UserDataBase, Scoreboard) in a subsystem. As a result, we can access all data by just calling DataBase, which makes the subsystem easier to use.
+b)	Singleton:
+In Game Centre system, we use Session class to store information of the current user. Since there must be only one current use, we use Singleton pattern to implement this class. 
+The single instance is a private static attribute. The accessor function is a public static method: 
+c)	Model-View-Controller:
+We consider each separate system consists of data, presentation of that data that is responsive to changes in the model and translator between interaction between User and View and actions for the Model to perform. That???s why we use Model-View-Controller pattern in every system as shown in the ???structure of program??? part.
+d)	Factory Design Pattern:
+Since different games have different ways to calculate score, we implement three classes to represent score of each game (SubtractSquareScore, SudokuScore, SlidingTileScore). Therefore, we need to call different classes, when we refer to the score of different games. To solve this problem, we provide a class called ScoreFactory for creating families of related objects without specifying their concrete classes by using Factory design pattern. For more details:
+Above is the method under ScoreFactory. It generates different score class based on the parameter ???gameName???. As a result, every time we want to get a score class of a specific game, we only need to call ScoreFactory.
+e)	Adapter Design Pattern:
+Since we need to convert the interface of database into another interface clients expect, we use adapter design pattern and implement adapter classes in each system.  Adapter lets classes work together that couldn't otherwise because of incompatible interfaces. That???s why we use it in every controller block as shown in the ???structure of program??? part.
+f)	Iterator:
+In SubtractSquareGame class, we want to implement a method to access past states sequentially without exposing its underlying representation. That is why we use iterator design pattern. In order to achieve that, we let SubtractSquareGame implements iterable<SubtractSquareState> and write a iterator() method with helper class SubtractSquareStateIterator.
+g)	Observer Design Pattern:
+Again, for SubtractSquareGame class, we want SubtractSquareController get notified and update automatically when previous one changes state. That???s why we use Observer pattern to define a one-to-many dependency between these two classes. More specifically, we let SubtractSquareController implements Observer, and let SubtractSquareGame extends Observable.

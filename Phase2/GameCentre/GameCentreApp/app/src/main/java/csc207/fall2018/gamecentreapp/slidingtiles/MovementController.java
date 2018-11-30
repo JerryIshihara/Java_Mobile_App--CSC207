@@ -6,16 +6,34 @@ import android.widget.Toast;
 
 public class MovementController {
 
+    /**
+     * BoardManager boardManager  null
+     */
     private BoardManager boardManager = null;
 
-    public MovementController() {
+    /**
+     * The constructor of the MovementController.
+     */
+    MovementController() {
     }
 
-    public void setBoardManager(BoardManager boardManager) {
+    /**
+     * Set the board manager.
+     *
+     * @param boardManager the board manager.
+     */
+    void setBoardManager(BoardManager boardManager) {
         this.boardManager = boardManager;
     }
 
-    public void processTapMovement(Context context, int position, boolean display) {
+    /**
+     * Return the information according to the movement of the player.
+     *
+     * @param context  the context.
+     * @param position the position.
+     * @param display  the display
+     */
+    void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);
             if (boardManager.puzzleSolved()) {

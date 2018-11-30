@@ -9,7 +9,7 @@ import csc207.fall2018.gamecentreapp.Dialogs.DeleteUserDialog;
 import csc207.fall2018.gamecentreapp.R;
 import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities.SubtractSquareGameCentreActivity;
 import csc207.fall2018.gamecentreapp.Sudoku.SudokuActivity.SudokuGameStartingActivity;
-//import csc207.fall2018.gamecentreapp.UserManager;
+
 import csc207.fall2018.gamecentreapp.slidingtiles.SlidingTileActivity.StartingActivity;
 
 /**

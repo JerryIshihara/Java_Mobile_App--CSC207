@@ -1,18 +1,34 @@
 package csc207.fall2018.gamecentreapp.ScoreManagement;
 
-import csc207.fall2018.gamecentreapp.ScoreManagement.Score;
-
 public class SudokuScore implements Score {
 
+    /**
+     * String GAME_NAME  "Sudoku".
+     */
     private static final String GAME_NAME = "Sudoku";
 
+    /**
+     * int time.
+     */
     private int time;
 
+    /**
+     * String userName.
+     */
     private String userName;
 
+    /**
+     * String size.
+     */
     private int size;
 
-
+    /**
+     * Need these information.
+     *
+     * @param size     the size.
+     * @param time     the time.
+     * @param userName the user name.
+     */
     public void takeInSizeTimeName(int size, int time, String userName) {
         this.time = time;
         this.size = size;

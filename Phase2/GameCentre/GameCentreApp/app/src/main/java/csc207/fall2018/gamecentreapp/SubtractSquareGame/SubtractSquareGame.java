@@ -13,35 +13,34 @@ import csc207.fall2018.gamecentreapp.TimeDiplay.TimeStorable;
  * subtract square game manager
  */
 public class SubtractSquareGame extends Observable implements Serializable, Iterable<SubtractSquareState>, TimeStorable {
-
     /**
-     * current state of the game.
+     * The game name for the game
      */
     private static final String GAME_NAME = "Subtract Square";
-
+    /**
+     * current state of the game
+     */
     private SubtractSquareState currentState;
 
+    /**
+     * The number of undo moves allowed
+     */
     private int undoBatch;
-
+    /**
+     * Time for the game
+     */
     private int time;
-
-
-//    private String p1Name;
-//
-//    private String p2Name;
-
+    /**
+     * An ArrayList of all past states for the game
+     */
     private ArrayList<SubtractSquareState> pastStates;
 
-
-//    /**
-//     * initialize a game
-//     */
-//    private SubtractSquareGame(String p1Name, String p2Name, int count) {
-//        SubtractSquareGame.p1Name = p1Name;
-//        SubtractSquareGame.p2Name = p2Name;
-//        this.currentState = new SubtractSquareState(true, count);
-//    }
-
+    /**
+     * Initialize a SubtractSquareGame.
+     *
+     * @param p1Name name of p1.
+     * @param p2Name name of p2.
+     */
     public SubtractSquareGame(String p1Name, String p2Name) {
         this.undoBatch = 3;
         this.currentState = new SubtractSquareState(p1Name, p2Name);
@@ -49,30 +48,47 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         this.pastStates = new ArrayList<>();
     }
 
-//    public String getP1Name() {
-//        return p1Name;
-//    }
-//
-//    public String getP2Name() {
-//        return p2Name;
-//    }
-
+    /**
+     * Get the name of the game, which is "Subtract Square"
+     *
+     * @return "Subtract Square"
+     */
     public static String getGameName() {
         return GAME_NAME;
     }
 
+    /**
+     * Get the name of current player.
+     *
+     * @return the name of the current player
+     */
     public String getCurrentPlayerName() {
         return currentState.isP1_turn() ? currentState.getP1Name() : currentState.getP2Name();
     }
 
+    /**
+     * Get the current state for the game.
+     *
+     * @return the current state for the game
+     */
     public SubtractSquareState getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Get the number of undo moves allowed.
+     *
+     * @return the number of undo moves allowed
+     */
     public int getUndoBatch() {
         return undoBatch;
     }
 
+    /**
+     * Apply a move so that the currentState could be changed.
+     *
+     * @param move a string showing the move of the player.
+     */
     public void applyMove(String move) {
         this.pastStates.add(0, this.currentState);
         this.currentState = currentState.makeMove(move);
@@ -80,6 +96,12 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         notifyObservers();
 
     }
+
+    /**
+     * Go back to the last state while playing the game.
+     *
+     * @return a boolean which represents whether the game could go back to last state or not.
+     */
 
     public boolean undoMove() {
         Iterator<SubtractSquareState> stateIterator = pastStates.iterator();
@@ -94,12 +116,20 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         return undoable;
     }
 
-
+    /**
+     * Return whether the game is over.
+     *
+     * @return a boolean showing whether the game is over or not.
+     */
     public boolean is_over() {
         return currentState.getCurrentTotal() == 0;
     }
 
-
+    /**
+     * Get the winner's name.
+     *
+     * @return a string showing who the winner is.
+     */
     public String getWinner() {
         if (is_over()) {
             return (currentState.isP1_turn()) ? currentState.getP2Name() : currentState.getP1Name();
@@ -107,7 +137,12 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         return "Not finished";
     }
 
-
+    /**
+     * Return whether the move is possible.
+     *
+     * @param move a string representing a move.
+     * @return a boolean representing whether the move is possible or not.
+     */
     public boolean isValidMove(String move) {
         if (isInteger(move)) {
             int moveInt = Integer.parseInt(move);
@@ -116,6 +151,12 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
         return false;
     }
 
+    /**
+     * Return whether a String can be converted to numbers.
+     *
+     * @param str the string we want to test for.
+     * @return a boolean showing whether the string is digital.
+     */
     private boolean isInteger(String str) {
         return str.matches("-?(0|[1-9]\\d*)");
     }
@@ -126,13 +167,19 @@ public class SubtractSquareGame extends Observable implements Serializable, Iter
      * @param n int which is checked.
      * @return a boolean whether n is a square number.
      */
-     boolean checkSquare(int n) {
+    boolean checkSquare(int n) {
         for (int i = 1; i <= n; i++) {
             if (i * i == n) return true;
         }
         return false;
     }
 
+    /**
+     * Get the particular state in the pastStates.
+     *
+     * @param index the specific index of the state we want in the pastStates.
+     * @return subtractSquareState
+     */
     private SubtractSquareState getState(int index) {
         return this.pastStates.get(index);
     }

@@ -47,7 +47,7 @@ public class SubtractSquareStateTest {
         SubtractSquareState state = new SubtractSquareState("H", "K");
         state.setCurrentTotal(9);
         ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 4, 9));
-        assertEquals(numbers, state.getPossibleMoves() );
+        assertEquals(numbers, state.getPossibleMoves());
     }
 
     @Test
@@ -68,6 +68,10 @@ public class SubtractSquareStateTest {
         assertEquals(newState.getP2Name(), state.getP2Name());
     }
 
-
-
+    @Test
+    public void testPosibleMoves() {
+        SubtractSquareState state = new SubtractSquareState("H", "K");
+        state.setCurrentTotal(9);
+        assertEquals(3, state.getPossibleMoves().size());
+    }
 }

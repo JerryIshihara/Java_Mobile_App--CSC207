@@ -1,9 +1,8 @@
 package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import java.io.Serializable;
-import java.util.Random;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * The state of the SubtractSquare game.
@@ -11,20 +10,17 @@ import java.util.ArrayList;
 
 public class SubtractSquareState implements Serializable {
 
-    //    private static final int WIN = 1;
-//
-//    private static final int LOSE = -1;
-//
-//    private static final int DRAW = 0;
-
-
     /**
-     * whether it is p1's turn.
+     * Whether it is p1's turn.
      */
     private boolean p1Turn;
-
+    /**
+     * The name of p1.
+     */
     private String p1Name;
-
+    /**
+     * The name of p2.
+     */
     private String p2Name;
 
     /**
@@ -33,26 +29,43 @@ public class SubtractSquareState implements Serializable {
     private int currentTotal;
 
 
-    // New Game state
+    /**
+     * Initialize SubtractSquareState.
+     *
+     * @param p1Name name of player 1.
+     * @param p2Name name of player 2.
+     */
     public SubtractSquareState(String p1Name, String p2Name) {
         this.p1Turn = true;
         this.p1Name = p1Name;
         this.p2Name = p2Name;
-        // can be adjust by difficulty
-//        this.currentTotal = getRandomInt(200, 500);
     }
 
-    public void randomize() {
-        this.currentTotal = getRandomInt(200, 500);
+    /**
+     * Set the currentTotal between 200 and 500 which could be a number randomly.
+     */
+
+    void randomize() {
+        this.currentTotal = getRandomInt();
     }
 
-    public void setCurrentTotal(int currentTotal) {
+    /**
+     * Set the current number for the game.
+     *
+     * @param currentTotal the new current total for the game
+     */
+    void setCurrentTotal(int currentTotal) {
         this.currentTotal = currentTotal;
     }
 
-
-
-
+    /**
+     * Private constructor for generating new SubtractSquareState after a move.
+     *
+     * @param p1_turn       whether it is p1's turn.
+     * @param current_total the current number for the game.
+     * @param p1Name        the name of p1.
+     * @param p2Name        the name of p2.
+     */
     private SubtractSquareState(boolean p1_turn, int current_total, String p1Name, String p2Name) {
         this.p1Name = p1Name;
         this.p2Name = p2Name;
@@ -60,10 +73,20 @@ public class SubtractSquareState implements Serializable {
         this.currentTotal = current_total;
     }
 
+    /**
+     * Get the name of p1.
+     *
+     * @return the name of p1.
+     */
     public String getP1Name() {
         return p1Name;
     }
 
+    /**
+     * Get the name of p2.
+     *
+     * @return the name of p2.
+     */
     public String getP2Name() {
         return p2Name;
     }
@@ -83,7 +106,7 @@ public class SubtractSquareState implements Serializable {
      *
      * @return a list containing of all moves.
      */
-    public ArrayList<Integer> getPossibleMoves() {
+    ArrayList<Integer> getPossibleMoves() {
         ArrayList<Integer> moves = new ArrayList<>();
         int i = 1;
         while (i * i <= this.currentTotal) {
@@ -113,29 +136,14 @@ public class SubtractSquareState implements Serializable {
         return new SubtractSquareState(!p1Turn, this.currentTotal - moveInt, this.p1Name, this.p2Name);
     }
 
-//    /**
-//     * Return the rough outcome.
-//     *
-//     * @return an int which shows win, draw or lose.
-//     */
-//    public int roughOutcome() {
-//        if (checkSquare(this.current_total)) {
-//            return WIN;
-//        }
-//        int i = 1;
-//        while (i < Math.sqrt(current_total)) {
-//            if (!checkSquare(current_total - i * i)) {
-//                return DRAW;
-//            }
-//            i++;
-//        }
-//        return LOSE;
-//    }
-
-
-    private int getRandomInt(int min, int max) {
+    /**
+     * Return a random integer between min and max, inclusive.
+     *
+     * @return a random integer between min and max, inclusive.
+     */
+    private int getRandomInt() {
         Random randInt = new Random();
-        return randInt.nextInt((max - min) + 1) + min;
+        return randInt.nextInt((500 - 200) + 1) + 200;
     }
 
 }

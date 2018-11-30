@@ -107,7 +107,7 @@ public class SudokuManagerTest {
             add(1);
             add(7);
         }};
-        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>() {{
+        return new ArrayList<ArrayList<Integer>>() {{
             add(row0);
             add(row1);
             add(row2);
@@ -118,7 +118,6 @@ public class SudokuManagerTest {
             add(row7);
             add(row8);
         }};
-        return result;
     }
 
     @Test
@@ -134,9 +133,9 @@ public class SudokuManagerTest {
         ArrayList<Integer> modifiablePositionLevelOne = sudokuManagerLevelOne.getSudoku().getModifiablePositions();
         ArrayList<Integer> modifiablePositionLevelTwo = sudokuManagerLevelTwo.getSudoku().getModifiablePositions();
         ArrayList<Integer> modifiablePositionLevelThree = sudokuManagerLevelThree.getSudoku().getModifiablePositions();
-        assertEquals(9, modifiablePositionLevelOne.size());
-        assertEquals(18, modifiablePositionLevelTwo.size());
-        assertEquals(27, modifiablePositionLevelThree.size());
+        assertEquals(18, modifiablePositionLevelOne.size());
+        assertEquals(27, modifiablePositionLevelTwo.size());
+        assertEquals(36, modifiablePositionLevelThree.size());
         for (int i = 0; i < 81; i++) {
             int row = i % 9;
             int col = i / 9;
@@ -166,9 +165,9 @@ public class SudokuManagerTest {
         sudokuManagerLevelOne.getSudoku().changeValueAt(0, 1);
         sudokuManagerLevelTwo.getSudoku().changeValueAt(0, 2);
         sudokuManagerLevelThree.getSudoku().changeValueAt(0, 3);
-        assertEquals(1, (int) sudokuManagerLevelOne.getSudoku().getValueAt(0, 0));
-        assertEquals(2, (int) sudokuManagerLevelTwo.getSudoku().getValueAt(0,0));
-        assertEquals(3, (int) sudokuManagerLevelThree.getSudoku().getValueAt(0, 0));
+        assertEquals(1, sudokuManagerLevelOne.getSudoku().getValueAt(0, 0));
+        assertEquals(2, sudokuManagerLevelTwo.getSudoku().getValueAt(0,0));
+        assertEquals(3, sudokuManagerLevelThree.getSudoku().getValueAt(0, 0));
     }
 
     @Test
@@ -193,6 +192,29 @@ public class SudokuManagerTest {
         assertEquals(2, sudokuManager.getSudoku().getMoves().size());
         sudokuManager.getSudoku().trackMoves(77);
         assertEquals(2, sudokuManager.getSudoku().getMoves().size());
+    }
+
+    @Test
+    public void testCheckPuzzleSolved(){
+        ArrayList<ArrayList<Integer>> solvedSudoku = makeSampleSudoku();
+        SudokuManager sudokuManager = new SudokuManager(1);
+        sudokuManager.getSudoku().setSudokuBoard(solvedSudoku);
+        assertTrue(sudokuManager.checkPuzzleSolved());
+        sudokuManager.getSudoku().changeValueAt(66, 3);
+        assertFalse(sudokuManager.checkPuzzleSolved());
+    }
+
+    @Test
+    public void testGetDifficulty(){
+        SudokuManager sudokuManager = new SudokuManager(1);
+        assertEquals(1, sudokuManager.getDifficulty());
+    }
+
+    @Test
+    public void testTime(){
+        SudokuManager sudokuManager = new SudokuManager(1);
+        sudokuManager.setTime(1000);
+        assertEquals(1000, sudokuManager.getIntTime());
     }
 
 }

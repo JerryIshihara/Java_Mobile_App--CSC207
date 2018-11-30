@@ -37,13 +37,7 @@ public class ComputerChoice {
             return new MiniMaxGame(this.game, state);
         }
 
-        String getP1Name() {
-            return this.game.getCurrentState().getP1Name();
-        }
 
-        String getP2Name() {
-            return this.game.getCurrentState().getP2Name();
-        }
     }
 
     public int iterativeMiniMax(SubtractSquareGame game) {
@@ -51,11 +45,23 @@ public class ComputerChoice {
         return iterativeMiniMax(miniMaxGame);
     }
 
+    /**
+     * Check whether the current total of miniMaxGame is a square number.
+     *
+     * @param miniMaxGame the current MiniMaxGame to check
+     * @return whether the current total of miniMaxGame is a square number
+     */
     private boolean dealWithSquare(MiniMaxGame miniMaxGame) {
         return (miniMaxGame.game.checkSquare(miniMaxGame.game.getCurrentState().getCurrentTotal()));
 
     }
 
+    /**
+     * Check whether the current total of miniMaxGame is a square number plus two.
+     *
+     * @param miniMaxGame the current MiniMaxGame to check
+     * @return whether the current total of miniMaxGame is a square number plus two
+     */
     private boolean dealWithSquarePlusTwo(MiniMaxGame miniMaxGame) {
         int i = miniMaxGame.game.getCurrentState().getCurrentTotal();
         int k = 1;
@@ -68,6 +74,12 @@ public class ComputerChoice {
         return false;
     }
 
+    /**
+     * Check whether the current total of miniMaxGame is a square number plus five.
+     *
+     * @param miniMaxGame the current MiniMaxGame to check
+     * @return whether the current total of miniMaxGame is a square number plus five
+     */
     private boolean dealWithSquarePlusFive(MiniMaxGame miniMaxGame) {
         int i = miniMaxGame.game.getCurrentState().getCurrentTotal();
         int k = 1;
@@ -95,7 +107,7 @@ public class ComputerChoice {
         }
         if (miniMaxGame.state.getCurrentTotal() > 40) {
             ArrayList<Integer> moves = miniMaxGame.state.getPossibleMoves();
-            int index = getRandomInt(0, moves.size() - 1);
+            int index = getRandomInt(moves.size() - 1);
             return moves.get(index);
         }
         ArrayList<ComputerChoice> collection = new ArrayList<>();
@@ -106,7 +118,7 @@ public class ComputerChoice {
             node1 = collection.remove(collection.size() - 1);
             MiniMaxGame newGame = miniMaxGame.getNewCurrentState(node1.currentState);
             if (newGame.state.getCurrentTotal() == 0) {
-                dealWithEnd(newGame, node1);
+                node1.score = (newGame.state.isP1_turn()) ? 1 : -1;
             } else if (node1.children.size() == 0) {
                 dealWithEmpty(node1, collection);
             } else {
@@ -116,18 +128,6 @@ public class ComputerChoice {
         return findMiniMax(node1);
     }
 
-    private void dealWithEnd(MiniMaxGame newGame, ComputerChoice node1) {
-        MiniMaxGame newGame2 = newGame.getNewCurrentState(node1.currentState);
-        String winner = (newGame2.state.isP1_turn()) ? newGame2.state.getP2Name() : newGame2.state.getP1Name();
-        String player = newGame2.state.isP1_turn() ? newGame2.state.getP1Name() : newGame2.state.getP2Name();
-        if (winner.equals(player)) {
-            node1.score = 1;
-        } else if (!winner.equals(newGame2.state.getP1Name()) && !winner.equals(newGame2.state.getP2Name())) {
-            node1.score = 0;
-        } else {
-            node1.score = -1;
-        }
-    }
 
     private void dealWithEmpty(ComputerChoice node1, ArrayList<ComputerChoice> collection) {
         ArrayList<SubtractSquareState> states = new ArrayList<>();
@@ -140,9 +140,7 @@ public class ComputerChoice {
         }
         node1.children = nodes;
         collection.add(node1);
-        for (ComputerChoice node : nodes) {
-            collection.add(node);
-        }
+        collection.addAll(nodes);
     }
 
     private void dealWithMax(ComputerChoice node1) {
@@ -164,13 +162,15 @@ public class ComputerChoice {
     }
 
 
-    private int getRandomInt(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
+    /**
+     * Return a random integer between min and max, inclusive.
+     *
+     * @param max the maximum for thr random integer.
+     * @return a random integer between min and max, inclusive.
+     */
+    private int getRandomInt(int max) {
         Random randInt = new Random();
-        return randInt.nextInt((max - min) + 1) + min;
+        return randInt.nextInt(max + 1);
     }
 }
 

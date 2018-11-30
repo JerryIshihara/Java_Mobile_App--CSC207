@@ -26,9 +26,13 @@ import csc207.fall2018.gamecentreapp.Sudoku.SudokuManager;
 
 
 public class SudokuGameStartingActivity extends AppCompatActivity {
-
+    /**
+     * SudokuManager for the game.
+     */
     private SudokuManager sudokuManager;
-
+    /**
+     * File name for saving and loading..
+     */
     static final String FILE_NAME = "tmp.ser";
 
 
@@ -38,33 +42,39 @@ public class SudokuGameStartingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sudoku_game);
     }
 
+    /**
+     * OnClickListener for Button levelOne.
+     */
     public void onClickLevelOne(View view) {
         Button button = findViewById(R.id.levelOne);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.its_me);
         button.setAnimation(anim);
         switchToGame(1);
-//        overridePendingTransition(R.anim.slide_back_left, R.anim.slide_back_right);
     }
 
+    /**
+     * OnClickListener for Button levelTwo.
+     */
     public void onClickLevelTwo(View view) {
         Button button = findViewById(R.id.levelTwo);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.its_me);
         button.setAnimation(anim);
         switchToGame(2);
-//        overridePendingTransition(R.anim.slide_back_left, R.anim.slide_back_right);
     }
 
+    /**
+     * OnClickListener for Button levelThree.
+     */
     public void onClickLevelThree(View view) {
         Button button = findViewById(R.id.levelThree);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.its_me);
         button.setAnimation(anim);
         switchToGame(3);
-//        Intent intent = new Intent(this, SudokuGameActivity.class);
-//        intent.putExtra("Level_Message", 4);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_back_left, R.anim.slide_back_right);
     }
 
+    /**
+     * Navigate to SudokuGameActivity with a SudokuManager of the given difficulty .
+     */
     private void switchToGame(int difficulty) {
         sudokuManager = new SudokuManager(difficulty);
         saveToFile(FILE_NAME);
@@ -73,21 +83,34 @@ public class SudokuGameStartingActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_back_left, R.anim.slide_back_right);
     }
 
+    /**
+     * OnClickListener for Button myscore. When clicked, navigate to the SudokuMyScoreActivity.
+     */
     public void onclickMyScore(View view) {
         Intent intent = new Intent(this, SudokuMyScoreActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * OnClickListener for Button scoreboard. When clicked, navigate to the SudokuScoreBoardActivity.
+     */
     public void onclickScoreBoard(View view) {
         Intent intent = new Intent(this, SudokuScoreBoardActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * OnClickListener for Button goBack. When clicked, navigate to the UserSpecificActivity.
+     */
     public void onclickGoBack(View view) {
         Intent intent = new Intent(this, UserSpecificActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * OnClickListener for Button loadSudoku. When clicked, if there is a saved game load that game
+     * and navigate to the SudokuGameActivity..
+     */
     public void onclickLoadGame(View view) {
         boolean loadable = loadFromDataBase();
         if (loadable) {
@@ -97,7 +120,10 @@ public class SudokuGameStartingActivity extends AppCompatActivity {
         }
     }
 
-    private boolean loadFromDataBase(/*byte[] byteState*/) {
+    /**
+     * Load from database.
+     */
+    private boolean loadFromDataBase() {
         GameStateDataBase dataBase = new GameStateDataBase(this);
         Session session = Session.getInstance(this);
         Cursor cursor = dataBase.getStateByGame(session.getCurrentUserName(), SudokuManager.getGameName());
@@ -121,6 +147,9 @@ public class SudokuGameStartingActivity extends AppCompatActivity {
         return result;
     }
 
+    /**
+     * Save to file.
+     */
     private void saveToFile(String fileName) {
         try {
             File outputFile = new File(getFilesDir(), fileName);

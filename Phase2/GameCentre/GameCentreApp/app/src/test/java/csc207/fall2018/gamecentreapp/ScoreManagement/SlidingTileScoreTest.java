@@ -7,8 +7,9 @@ import csc207.fall2018.gamecentreapp.slidingtiles.BoardManager;
 import static org.junit.Assert.*;
 
 public class SlidingTileScoreTest {
+
     @Test
-    public void setAndGet(){
+    public void setAndGet() {
         SlidingTileScore slidingTileScore = new SlidingTileScore();
         slidingTileScore.takeInSizeTimeName(4, 100, "Heng", 60);
         assertEquals("Heng", slidingTileScore.returnPlayerName());
@@ -17,10 +18,10 @@ public class SlidingTileScoreTest {
     }
 
     @Test
-    public void calculateScore(){
+    public void calculateScore() {
         SlidingTileScore slidingTileScore = new SlidingTileScore();
         slidingTileScore.takeInSizeTimeName(4, 100, "Heng", 51);
-        assertEquals("40", slidingTileScore.calculateScore());
+        assertEquals("39", slidingTileScore.calculateScore());
         slidingTileScore.takeInSizeTimeName(3, 100, "Heng", 51);
         assertEquals("25", slidingTileScore.calculateScore());
         slidingTileScore.takeInSizeTimeName(5, 100, "Heng", 101);

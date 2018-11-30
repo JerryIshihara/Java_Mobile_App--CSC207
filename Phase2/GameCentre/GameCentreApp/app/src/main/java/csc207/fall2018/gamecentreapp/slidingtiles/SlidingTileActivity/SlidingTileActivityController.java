@@ -15,19 +15,32 @@ import csc207.fall2018.gamecentreapp.GameCentreActivity.Session;
 import csc207.fall2018.gamecentreapp.TimeDiplay.Timer;
 import csc207.fall2018.gamecentreapp.slidingtiles.BoardManager;
 
-public class SlidingTileActivityController extends GameDataBaseAdapter {
+class SlidingTileActivityController extends GameDataBaseAdapter {
 
+    /**
+     * Time timer.
+     */
     private Timer timer;
 
+    /**
+     * Context context.
+     */
     private Context context;
 
 
+    /**
+     * the constructor of the SlingTileActivityController class.
+     * @param context the context.
+     */
     SlidingTileActivityController(Context context) {
         super(context);
         this.context = context;
     }
 
 
+    /**
+     * Start the game.
+     */
     public void startGame() {
         BoardManager boardManager = (BoardManager) loadFromDataBase(context, BoardManager.getGameName());
         timer = new Timer(((Activity) context).findViewById(R.id.sliding_chronometer));
@@ -35,6 +48,10 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
         timer.start();
     }
 
+    /**
+     * Attempt to load the saved game.
+     * @param view the view.
+     */
     public void loadSavedGameAttempt(View view) {
         Object loadable = loadFromDataBase(view.getContext(), BoardManager.getGameName());
         if (loadable != null) {
@@ -44,6 +61,12 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
         }
     }
 
+    /**
+     * Attempt to save the game.
+     *
+     * @param view the view.
+     * @param boardManager the boardManager.
+     */
     public void saveGameAttempt(View view, BoardManager boardManager) {
         boardManager.setTime(timer.returnIntTime());
         saveToDataBase(view.getContext(), boardManager, BoardManager.getGameName());
@@ -51,6 +74,12 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
     }
 
 
+    /**
+     * Selete the new game size.
+     *
+     * @param view the view.
+     * @param size the size.
+     */
     public void seleteNewGameSize(View view, int size) {
         BoardManager boardManager = new BoardManager(size);
         saveToDataBase(view.getContext(), boardManager, BoardManager.getGameName());
@@ -58,6 +87,12 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
         view.getContext().startActivity(tmp);
     }
 
+    /**
+     * Update the game.
+     *
+     * @param context the context.
+     * @param boardManager the boardManager.
+     */
     public void update(Context context, BoardManager boardManager){
         boolean isSolved = boardManager.puzzleSolved();
         if (isSolved) {
@@ -67,6 +102,12 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
         }
     }
 
+    /**
+     * Update the score.
+     *
+     * @param context the context.
+     * @param boardManager the boardManager.
+     */
     private void updateScore(Context context, BoardManager boardManager) {
         DataBase dataBase = new DataBase(context);
         ScoreFactory factory = new ScoreFactory();
@@ -77,6 +118,12 @@ public class SlidingTileActivityController extends GameDataBaseAdapter {
         dataBase.addScore(score);
     }
 
+    /**
+     * Attempt to exit the game.
+     *
+     * @param view the view.
+     * @param boardManager the boardManager.
+     */
     public void exitAttempt(View view, BoardManager boardManager){
         boardManager.setTime(timer.returnIntTime());
         saveToDataBase(view.getContext(), boardManager, BoardManager.getGameName());

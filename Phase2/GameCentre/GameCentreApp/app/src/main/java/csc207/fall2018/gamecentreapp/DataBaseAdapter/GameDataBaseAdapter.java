@@ -18,40 +18,22 @@ public abstract class GameDataBaseAdapter {
 
     private static final String COL_INDEX = "GAME_STATE";
 
+    /**
+     * The constructor of the GameDataBaseAdapter class.
+     *
+     * @param context the context
+     */
     public GameDataBaseAdapter(Context context) {
         this.dataBase = new DataBase(context);
     }
 
-    //    String TEMP_FILE = "temp.ser";
-
-//    default void saveToFile(Context context, Object object) {
-//        try {
-//            File outputFile = new File(context.getFilesDir(), TEMP_FILE);
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
-//            objectOutputStream.writeObject(object);
-//            objectOutputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-//
-//    default Object loadFromFile(Context context) {
-//        try {
-//            File inputFile = new File(context.getFilesDir(), TEMP_FILE);
-//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
-//            Object game = objectInputStream.readObject();
-//            objectInputStream.close();
-//            return game;
-//        } catch (FileNotFoundException e) {
-//            Log.e("login activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("login activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-//        }
-//        return null;
-//    }
-
+    /**
+     * Save it to database.
+     *
+     * @param context  the context.
+     * @param object   the object.
+     * @param gameName the name of the game.
+     */
     protected void saveToDataBase(Context context, Object object, String gameName) {
         byte[] stream = null;
         try {
@@ -66,6 +48,13 @@ public abstract class GameDataBaseAdapter {
         dataBase.saveState(context, gameName, stream);
     }
 
+    /**
+     * Check if load from database.
+     *
+     * @param context  the context.
+     * @param gameName the name of the game.
+     * @return whether load from database.
+     */
     public Object loadFromDataBase(Context context, String gameName) {
         Cursor cursor = dataBase.getStateByGame(context, gameName);
 
@@ -82,7 +71,6 @@ public abstract class GameDataBaseAdapter {
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
                 return objectInputStream.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                // Error in de-serialization
                 e.printStackTrace();
             }
         }

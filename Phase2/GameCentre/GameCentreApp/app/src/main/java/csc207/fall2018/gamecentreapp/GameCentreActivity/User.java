@@ -57,21 +57,13 @@ public class User {
         this.userName = userName;
     }
 
-
+    /**
+     * Return the name of the user.
+     *
+     * @return the user name.
+     */
     public String toString() {
         return getUserName();
     }
 }
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        User user = (User) o;
-//        return getUserName().equals(user.getUserName());
-//    }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(getUserName());
-//    }
-//}

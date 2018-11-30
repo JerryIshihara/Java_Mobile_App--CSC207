@@ -48,7 +48,7 @@ public abstract class ScoreDataBaseAdapter {
      * @param gameName name of the game
      * @return ArrayList<String></>
      */
-    public ArrayList<String> loadUserScore(Context context, String gameName) {
+    protected ArrayList<String> loadUserScore(Context context, String gameName) {
         DataBase dataBase = new DataBase(context);
         Session session = Session.getInstance(context);
         Cursor c = dataBase.getScoreByGameAndName(session.getCurrentUserName(), gameName);
@@ -62,7 +62,7 @@ public abstract class ScoreDataBaseAdapter {
      * @param gameName name of the game.
      * @return ArrayList<String></>
      */
-    public ArrayList<String> loadGameScore(Context context, String gameName) {
+    protected ArrayList<String> loadGameScore(Context context, String gameName) {
         DataBase dataBase = new DataBase(context);
 
         Cursor c = dataBase.getScoreByGame(gameName);

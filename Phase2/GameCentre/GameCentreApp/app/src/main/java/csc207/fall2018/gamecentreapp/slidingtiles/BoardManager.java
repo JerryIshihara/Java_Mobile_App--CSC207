@@ -20,10 +20,19 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
      */
     private Board board;
 
+    /**
+     * String GAME_NAME  "Sliding Tiles"
+     */
     private static final String GAME_NAME = "Sliding Tiles";
 
+    /**
+     * pastMove  new ArrayList<>()
+     */
     private ArrayList<Integer> pastMove = new ArrayList<>();
 
+    /**
+     * int time.
+     */
     private int time;
 
     /**
@@ -44,23 +53,13 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         return board;
     }
 
-//    /**
-//     * Manage a new shuffled board.
-//     */
-//    BoardManager() {
-//        List<Tile> tiles = new ArrayList<>();
-//        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
-//        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-//            tiles.add(new Tile(tileNum));
-//        }
-//        Collections.shuffle(tiles);
-//        this.board = new Board(tiles);
-//    }
 
-
-    // TODO: hard coded, need to change later
+    /**
+     * The constructor of the BoardManager class.
+     *
+     * @param size the size.
+     */
     public BoardManager(int size) {
-//        this.size = size;
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = size * size;
         ArrayList<Integer> tmpSize = new ArrayList<>();
@@ -68,15 +67,13 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
             tiles.add(new Tile(tileNum, tmpSize));
         }
-//        Collections.shuffle(tiles);
         shuffle(tiles);
-//        ArrayList<Integer> tmpSize = new ArrayList<>();
-//        tmpSize.add(size);
         this.board = new Board(tiles, size);
     }
 
-
-    //TODO: complete shuffle for a solvable game
+    /**
+     * shuffle the board 200 times.
+     */
     private void shuffle(List<Tile> tileList) {
         int i = 0;
         while (i != 200) {
@@ -85,6 +82,9 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         }
     }
 
+    /**
+     * Shuffle the board for one time
+     */
     private void shuffleOnetime(List<Tile> tileList) {
         int numTile = tileList.size();
         int blankIndex = findBlankTile(tileList);
@@ -111,20 +111,36 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         tileList.set(blankIndex, random);
     }
 
+    /**
+     * find the position of the blank tile
+     *
+     * @return return the position of the blank tile
+     */
     private int findBlankTile(List<Tile> tileList) {
+        int result = 0;
         for (int i = 0; i < tileList.size(); i++) {
             if (tileList.get(i).getId() == tileList.size()) {
-                return i;
+                result = i;
             }
         }
-        return -1;
+        return result;
     }
 
 
+    /**
+     * Return the name of the game.
+     *
+     * @return the game name.
+     */
     public static String getGameName() {
         return GAME_NAME;
     }
 
+    /**
+     * Return the number of past move.
+     *
+     * @return the number of past move.
+     */
     public int getNumPastMove() {
         return pastMove.size();
     }
@@ -186,7 +202,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
      *
      * @param position the position
      */
-    public void touchMove(int position) {
+    void touchMove(int position) {
         this.pastMove.add(0, findBlankTile());
         this.pastMove.add(0, position);
         int row = position / board.NUM_COLS;    // fixed, not Board.NUM_ROWS
@@ -197,6 +213,11 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         }
     }
 
+    /**
+     * Return whether the game can undo.
+     *
+     * @return whether the game can undo now.
+     */
     public boolean UndoMove() {
         Iterator<Integer> moveIterator = pastMove.iterator();
         boolean undoable = moveIterator.hasNext();

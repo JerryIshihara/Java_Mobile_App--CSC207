@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import csc207.fall2018.gamecentreapp.R;
-//import csc207.fall2018.gamecentreapp.UserManager;
 
 /**
  * A class dealing with Registering.
@@ -34,8 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onclickRegisterButton(View view) {
         // first input information
-        final EditText userNameInput = (EditText) findViewById(R.id.userName);
-        final EditText userPasswordInput = (EditText) findViewById(R.id.password);
+        final EditText userNameInput = findViewById(R.id.userName);
+        final EditText userPasswordInput = findViewById(R.id.password);
         String userName = userNameInput.getText().toString();
         String userPassword = userPasswordInput.getText().toString();
         // create new User

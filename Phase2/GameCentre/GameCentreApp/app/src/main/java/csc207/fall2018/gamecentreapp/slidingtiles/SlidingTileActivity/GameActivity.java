@@ -35,10 +35,20 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private ArrayList<Button> tileButtons;
 
+    /**
+     * The controller of the SlingTimeActivity.
+     */
     private SlidingTileActivityController slidingTileActivityController;
 
     // Grid View and calculated column height and width based on device size
+    /**
+     * GestureDetectGridView gridView.
+     */
     private GestureDetectGridView gridView;
+
+    /**
+     * int columnWidth; int columnHeight.
+     */
     private static int columnWidth, columnHeight;
 
 
@@ -121,64 +131,27 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
     }
 
-//    /**
-//     * Dispatch onPause() to fragments.
-//     */
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        saveToDataBase();
-//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
-//    }
-
-
-//    /**
-//     * Load the board manager from fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    private void loadFromFile(String fileName) {
-//        try {
-//            File inputFile = new File(getFilesDir(), fileName);
-//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(inputFile));
-//            boardManager = (BoardManager) objectInputStream.readObject();
-//            objectInputStream.close();
-//        } catch (FileNotFoundException e) {
-//            Log.e("login activity", "File not found: " + e.toString());
-//        } catch (IOException e) {
-//            Log.e("login activity", "Can not read file: " + e.toString());
-//        } catch (ClassNotFoundException e) {
-//            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-//        }
-//    }
-//
-//    /**
-//     * Save the board manager to fileName.
-//     *
-//     * @param fileName the name of the file
-//     */
-//    public void saveToFile(String fileName) {
-//        try {
-//            File outputFile = new File(getFilesDir(), fileName);
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
-//            objectOutputStream.writeObject(boardManager);
-//            objectOutputStream.close();
-//        } catch (IOException e) {
-//            Log.e("Exception", "File write failed: " + e.toString());
-//        }
-//    }
-
     @Override
     public void update(Observable o, Object arg) {
         display();
     }
 
+    /**
+     * Click to go back.
+     *
+     * @param view the view
+     */
     public void onclickGoBack(View view) {
         slidingTileActivityController.exitAttempt(view, boardManager);
         Intent goBackIntent = new Intent(this, StartingActivity.class);
         startActivity(goBackIntent);
     }
 
+    /**
+     * Click to undo.
+     *
+     * @param view the view.
+     */
     public void onclickUndo(View view) {
         boolean undoable = boardManager.UndoMove();
         if (!undoable) {
@@ -186,24 +159,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
     }
 
-//    private void saveToDataBase() {
-//        boardManager.setTime(timer.returnIntTime());
-//        GameStateDataBase dataBase = new GameStateDataBase(this);
-//        byte[] stream = null;
-//
-//        try {
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-//            objectOutputStream.writeObject(boardManager);
-//            stream = byteArrayOutputStream.toByteArray();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Session session = Session.getInstance(this);
-//        dataBase.deleteState(session.getCurrentUserName(), BoardManager.getGameName());
-//        dataBase.saveState(session.getCurrentUserName(), BoardManager.getGameName(), stream);
-//    }
 
+    /**
+     * Click to save the game.
+     *
+     * @param view the view.
+     */
     public void onclickSaveGame(View view) {
         slidingTileActivityController.saveGameAttempt(view, boardManager);
     }

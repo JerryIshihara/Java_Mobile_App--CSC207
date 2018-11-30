@@ -7,7 +7,6 @@ public class Timer {
 
     private Chronometer chronometer;
 
-
     public Timer(Chronometer chronometer) {
         this.chronometer = chronometer;
     }

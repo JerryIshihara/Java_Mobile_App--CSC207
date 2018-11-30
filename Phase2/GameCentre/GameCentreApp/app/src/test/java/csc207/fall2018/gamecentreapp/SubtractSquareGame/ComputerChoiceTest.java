@@ -2,9 +2,8 @@ package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import org.junit.Test;
 
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ComputerChoiceTest {
 
@@ -22,37 +21,16 @@ public class ComputerChoiceTest {
         assertEquals(9, new ComputerChoice().iterativeMiniMax(game));
         game.getCurrentState().setCurrentTotal(10);
         assertEquals(1, new ComputerChoice().iterativeMiniMax(game));
-
-
-
+        game.getCurrentState().setCurrentTotal(0);
+        assertEquals(0, new ComputerChoice().iterativeMiniMax(game));
+        game.getCurrentState().setCurrentTotal(15);
+        assertEquals(1, new ComputerChoice().iterativeMiniMax(game));
     }
 
-    private boolean dealWithSquare(int n) {
-        return (new SubtractSquareGame("", "").checkSquare(n));
-
+    @Test
+    public void testPCWin() {
+        SubtractSquareGame game = new SubtractSquareGame("Henry", "Mike");
+        game.getCurrentState().setCurrentTotal(2);
+        assertEquals(1, new ComputerChoice().iterativeMiniMax(game));
     }
-
-    private boolean dealWithSquarePlusTwo(int n) {
-        int k = 1;
-        while (k < n) {
-            if (k * k + 2 == n) {
-                return true;
-            }
-            k++;
-        }
-        return false;
-    }
-
-    private boolean dealWithSquarePlusFive(int n) {
-        int k = 1;
-        while (k < n) {
-            if (k * k + 5 == n) {
-                return true;
-            }
-            k++;
-        }
-        return false;
-    }
-
-
 }

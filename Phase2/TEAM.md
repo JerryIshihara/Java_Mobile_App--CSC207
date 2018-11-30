@@ -22,9 +22,15 @@ phone: 647-222-7155
 username: wangx438
 ## Contribution
 ### 1. Heng Kan
-
+Subtract Square system, Jtest, docstring.
 ### 2. Zhihao Lin
 Part of Backend and UI design of Subtract Square game; Minimax Strategy(Recursive) ;Slice image & import image; Documentation files, docstring.
+### 3. Hirotaka Ishihara
+DataBase system, sliding tile system, Scoreboard system, jtest, docstring
+### 4. Yu Guo
+back end of sudoku system, docstring
+### 5. Xinda Wang
+front end of sudoku system, docstring, Jtest.
 ##  Communication Tools
 We use emails and Facebooks to communicate with each other, so that we can easily exchange our ideas.
 ##  Team Contract

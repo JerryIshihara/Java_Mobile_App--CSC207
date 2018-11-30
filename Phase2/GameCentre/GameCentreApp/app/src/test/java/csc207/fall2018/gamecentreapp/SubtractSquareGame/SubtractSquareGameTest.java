@@ -2,6 +2,9 @@ package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 public class SubtractSquareGameTest {
@@ -82,7 +85,7 @@ public class SubtractSquareGameTest {
     }
 
     @Test
-    public void testCheckSquare(){
+    public void testCheckSquare() {
         SubtractSquareGame game = new SubtractSquareGame("H", "K");
         assertTrue(game.checkSquare(9));
         assertFalse(game.checkSquare(6));
@@ -93,6 +96,16 @@ public class SubtractSquareGameTest {
         SubtractSquareGame game = new SubtractSquareGame("H", "K");
         game.setTime(5);
         assertEquals(5, game.getIntTime());
+    }
+
+    @Test
+    public void testIterator() {
+        SubtractSquareGame subtractSquareGame = new SubtractSquareGame("", "");
+        subtractSquareGame.applyMove("9");
+        subtractSquareGame.applyMove("9");
+        Iterator<SubtractSquareState> iter = subtractSquareGame.iterator();
+        assertTrue(iter.hasNext());
+        assertEquals(subtractSquareGame.getCurrentState().getCurrentTotal() + 9, iter.next().getCurrentTotal());
     }
 }
 
