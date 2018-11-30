@@ -1,18 +1,18 @@
 package csc207.fall2018.gamecentreapp.SubtractSquareGame;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
-import csc207.fall2018.gamecentreapp.TimeStorable;
+import csc207.fall2018.gamecentreapp.TimeDiplay.TimeStorable;
 
 /**
  * subtract square game manager
  */
-public class SubtractSquareGame implements Serializable, Iterable<SubtractSquareState>, TimeStorable {
+public class SubtractSquareGame extends Observable implements Serializable, Iterable<SubtractSquareState>, TimeStorable {
 
     /**
      * current state of the game.
@@ -23,7 +23,7 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
 
     private int undoBatch;
 
-    private String time = "00:00";
+    private int time;
 
 
 //    private String p1Name;
@@ -45,6 +45,7 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
     public SubtractSquareGame(String p1Name, String p2Name) {
         this.undoBatch = 3;
         this.currentState = new SubtractSquareState(p1Name, p2Name);
+        this.currentState.randomize();
         this.pastStates = new ArrayList<>();
     }
 
@@ -72,17 +73,12 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         return undoBatch;
     }
 
-    public void setUndoBatch(int undoBatch) {
-        this.undoBatch = undoBatch;
-    }
-
     public void applyMove(String move) {
-        try {
-            this.pastStates.add(0, this.currentState);
-            this.currentState = currentState.makeMove(move);
-        } catch (NumberFormatException e) {
-            Log.e("Exception", "Parse failed: " + e.toString());
-        }
+        this.pastStates.add(0, this.currentState);
+        this.currentState = currentState.makeMove(move);
+        setChanged();
+        notifyObservers();
+
     }
 
     public boolean undoMove() {
@@ -91,7 +87,10 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         if (undoable) {
             this.currentState = stateIterator.next();
             deleteState();
+            undoBatch = (undoBatch == 0) ? 3 : undoBatch - 1;
         }
+        setChanged();
+        notifyObservers();
         return undoable;
     }
 
@@ -117,7 +116,7 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         return false;
     }
 
-    public boolean isInteger(String str) {
+    private boolean isInteger(String str) {
         return str.matches("-?(0|[1-9]\\d*)");
     }
 
@@ -127,7 +126,7 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
      * @param n int which is checked.
      * @return a boolean whether n is a square number.
      */
-    public boolean checkSquare(int n) {
+     boolean checkSquare(int n) {
         for (int i = 1; i <= n; i++) {
             if (i * i == n) return true;
         }
@@ -142,7 +141,7 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
         this.pastStates.remove(0);
     }
 
-    private int numState() {
+    int numState() {
         return this.pastStates.size();
     }
 
@@ -168,19 +167,16 @@ public class SubtractSquareGame implements Serializable, Iterable<SubtractSquare
             index++;
             return result;
         }
-
-
     }
 
     @Override
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
     @Override
     public int getIntTime() {
-        time = time.replace(":", "");
-        return Integer.valueOf(time);
+        return time;
     }
 }
 

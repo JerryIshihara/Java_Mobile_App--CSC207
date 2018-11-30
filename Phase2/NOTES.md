@@ -191,3 +191,20 @@
 *addScore()*
 *getTop10()*
 *sort()*
+# 11/24 Meeting Record
+Decided to implement subtract square game and sudoku. 
+Micheal and Hugo will be responsible for sudoku part; Jason and Henry will be responsible of subtract square part.
+We also discussed the functionality of sudoku, which should contains undo, level selection, autosave, scoreboard for both user and game, start over, load previous saved game, time counting. Meanwhile, the functionality of subtract square should contain all mentioned before plus 'vs pc mode'.
+Hirotaka will be responsible for optimizing the sliding tile game, game centre, and other rest parts.
+
+# 11/27 Meeting Record
+Discussed finishing work:
+Jason will be responsible for all documentation, including README.md, TEAM.md, Walkthrough.
+Micheal and Henry will write Jtest in java.
+Hirotaka will optimize design pattern  and eliminate code smell.
+Hugo will be responsible for docstring.
+
+# 11/29 Meeting Record
+We discussed code walkthrough and reached an agreement to divide it into two parts. First part will focus on structure of the program. Additionally, we will mention the most important classes in our program briefly. Second part will be separated into four parts: Scoreboard implementation, design pattern, unit test and other codes proud of.
+Jason will use UML to show the structure
+Hugo, Henry and Hirotaka will be responsible for the second part.

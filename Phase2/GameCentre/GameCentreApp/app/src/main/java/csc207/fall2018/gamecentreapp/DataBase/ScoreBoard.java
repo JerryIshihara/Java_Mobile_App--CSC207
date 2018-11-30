@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import csc207.fall2018.gamecentreapp.Score;
+import csc207.fall2018.gamecentreapp.ScoreManagement.Score;
 
 public class ScoreBoard extends SQLiteOpenHelper {
 
@@ -35,7 +35,7 @@ public class ScoreBoard extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addScore(Score score) {
+    /*public*/ void addScore(Score score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL1, score.returnPlayerName());
@@ -56,10 +56,6 @@ public class ScoreBoard extends SQLiteOpenHelper {
 
     public void deleteUser(String userName) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-//        String userName = userManager.getCurrentUserName();
-//        UserManager userManager = UserManager.getInstance();
-
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + userName + "'");
     }
 

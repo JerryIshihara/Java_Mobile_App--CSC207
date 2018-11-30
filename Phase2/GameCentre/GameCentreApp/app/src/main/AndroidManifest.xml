@@ -25,21 +25,21 @@
         <activity android:name=".GameCentreActivity.UserSpecificActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareStartActivity" />
-        <activity android:name=".slidingtiles.StartingActivity" />
+        <activity android:name=".slidingtiles.SlidingTileActivity.StartingActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareScoreActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareGameCentreActivity" />
-        <activity android:name=".Sudoku.SudokuGameActivity" />
-        <activity android:name=".Sudoku.SudokuGameStartingActivity" />
-        <activity android:name=".slidingtiles.GameActivity" />
+        <activity android:name=".Sudoku.SudokuActivity.SudokuGameActivity" />
+        <activity android:name=".Sudoku.SudokuActivity.SudokuGameStartingActivity" />
+        <activity android:name=".slidingtiles.SlidingTileActivity.GameActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareSelectActivity" />
-        <activity android:name=".slidingtiles.SlidingtileSelectSizeActivity" />
+        <activity android:name=".slidingtiles.SlidingTileActivity.SlidingtileSelectSizeActivity" />
         <activity android:name=".slidingtiles.ImageSplitActivity" />
         <activity android:name=".slidingtiles.ShowActivity" />
         <activity android:name=".SubtractSquareGame.SubtractSquareActivities.SubtractSquareMyScoreActivity" />
-        <activity android:name=".slidingtiles.MyScoreActivity" />
-        <activity android:name=".slidingtiles.SlidingTileScoreBoardActivity" />
-        <activity android:name=".Sudoku.SudokuMyScoreActivity" />
-        <activity android:name=".Sudoku.SudokuScoreBoardActivity"></activity>
+        <activity android:name=".slidingtiles.SlidingTileActivity.MyScoreActivity" />
+        <activity android:name=".slidingtiles.SlidingTileActivity.SlidingTileScoreBoardActivity" />
+        <activity android:name=".Sudoku.SudokuActivity.SudokuMyScoreActivity" />
+        <activity android:name=".Sudoku.SudokuActivity.SudokuScoreBoardActivity"></activity>
     </application>
 
 </manifest>

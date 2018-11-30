@@ -24,7 +24,7 @@ username: wangx438
 ### 1. Heng Kan
 
 ### 2. Zhihao Lin
-Part of Backend and UI design of Subtract Square game; Minimax Strategy(Recursive) ;Slice image & import image; Documentation files.
+Part of Backend and UI design of Subtract Square game; Minimax Strategy(Recursive) ;Slice image & import image; Documentation files, docstring.
 ##  Communication Tools
 We use emails and Facebooks to communicate with each other, so that we can easily exchange our ideas.
 ##  Team Contract

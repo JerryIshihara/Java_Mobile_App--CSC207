@@ -9,12 +9,14 @@ First, create a new Android project. Then input project from external model.
 
 
 # How to run the program
-Firstly, user is directed to login interface, where he can either choose Create Account if he hasn't registered yet or login directly. Afterwards, he is directed to user interface, in which he can choose three different games to play, which are sliding tile, sudoku, subtract square. After user clicks a game, he enters into game start interface and can start playing the game! Different games have common functionalities. For example, save game, load game, user scoreboard, game scoreboard, etc. Meanwhile, they have their own functionalities as well. For instance, Sudoku has start over button which can regenerate a board to play, Subtract square has 'vs computer' mode and Sliding tile can choose different level of complexity. For more details about the functionality of different games, please check the Functionalities part.
+Firstly, user is directed to login/ signup interface, where he can either choose Create Account if he hasn't registered yet or login directly. Afterwards, he is directed to user interface, in which he can choose to play three different games (sliding tile, sudoku, subtract square), delete account or delete game data. After user clicks a game, he enters into game start interface and can start playing the game! Different games have common functionalities. For example, save game, load game, user scoreboard, game scoreboard, etc. Meanwhile, they have their own functionalities as well. For instance, Sudoku has start over button which can generate a new board to play, Subtract square has 'vs computer' mode and Sliding tile can choose different level of complexity. For more details about the functionality of different games, please check the Functionalities part.
 
 
 # Functionalities
-## Functionality of Game launch centre
-1. log in/ sign up: user can choose to create a new account if he hasn't gotten one or log in directly.
+## Functionality of login/signup & user specific interface
+1. log in/ sign up: user can choose to create a new account if he hasn't got one or log in directly.
+2. delete account: user can choose to delete his account in the user specific interface.
+3. delete game data: user can choose to delete his game data
 relevant class: 
 User: a class representing the users of the game
 Session:

@@ -10,20 +10,18 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.ScoreDisplayable;
+import csc207.fall2018.gamecentreapp.ScoreManagement.DisplayScore;
+import csc207.fall2018.gamecentreapp.ScoreManagement.ScoreViewController;
 import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
-public class SubtractSquareMyScoreActivity extends AppCompatActivity implements ScoreDisplayable {
+public class SubtractSquareMyScoreActivity extends AppCompatActivity implements DisplayScore {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square_my_score);
 
-        ArrayList<String> scores= loadUserScore(this, SubtractSquareGame.getGameName());
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, scores);
-        ListView listView = findViewById(R.id.scoreList);
-        listView.setAdapter(arrayAdapter);
+        display();
     }
 
 //    private ArrayList<String> loadScoreForDisplay(Cursor c) {
@@ -52,5 +50,12 @@ public class SubtractSquareMyScoreActivity extends AppCompatActivity implements 
     public void onclickGoBack(View view) {
         Intent goBackIntent = new Intent(this, SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);
+    }
+
+    @Override
+    public void display() {
+        ListView listView = this.findViewById(R.id.scoreList);
+        ScoreViewController scoreViewController = new ScoreViewController(this);
+        scoreViewController.showMyScoreByGame(listView, SubtractSquareGame.getGameName());
     }
 }

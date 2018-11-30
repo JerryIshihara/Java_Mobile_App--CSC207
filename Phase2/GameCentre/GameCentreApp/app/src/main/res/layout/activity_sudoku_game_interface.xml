@@ -5,7 +5,7 @@
     style="@style/Base.TextAppearance.AppCompat.Headline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sudoku.SudokuGameActivity"
+    tools:context=".Sudoku.SudokuActivity.SudokuGameActivity"
     android:background="@drawable/card_board">
 
     <GridView

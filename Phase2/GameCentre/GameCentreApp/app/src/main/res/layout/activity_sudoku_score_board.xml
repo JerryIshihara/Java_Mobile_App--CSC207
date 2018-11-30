@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/usercentre_background"
-    tools:context=".Sudoku.SudokuScoreBoardActivity">
+    tools:context=".Sudoku.SudokuActivity.SudokuScoreBoardActivity">
 
     <ImageView
         android:id="@+id/goback"

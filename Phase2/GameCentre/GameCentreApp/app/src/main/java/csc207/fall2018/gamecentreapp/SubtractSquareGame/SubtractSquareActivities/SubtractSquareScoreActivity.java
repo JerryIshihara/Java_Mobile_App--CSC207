@@ -1,38 +1,43 @@
 package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.DataBase.ScoreBoard;
-import csc207.fall2018.gamecentreapp.ScoreDisplayable;
+import csc207.fall2018.gamecentreapp.ScoreManagement.DisplayScore;
+import csc207.fall2018.gamecentreapp.ScoreManagement.ScoreViewController;
 import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
 
-public class SubtractSquareScoreActivity extends AppCompatActivity implements ScoreDisplayable {
+public class SubtractSquareScoreActivity extends AppCompatActivity implements DisplayScore {
 
-    ScoreBoard scoreBoard;
+//    ScoreBoard scoreBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtract_square_score);
 
-        ListView listView = findViewById(R.id.scoreList);
-        ArrayList<String> scores = loadGameScore(this, SubtractSquareGame.getGameName());
+        display();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, scores);
-        listView.setAdapter(arrayAdapter);
+
+//        ArrayList<String> scores = loadGameScore(this, SubtractSquareGame.getGameName());
+//
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, scores);
+//        listView.setAdapter(arrayAdapter);
     }
 
     public void onclickGoBack(View view) {
         Intent goBackIntent = new Intent(getApplicationContext(), SubtractSquareGameCentreActivity.class);
         startActivity(goBackIntent);
+    }
+
+    @Override
+    public void display() {
+        ListView listView = this.findViewById(R.id.scoreList);
+        ScoreViewController scoreViewController = new ScoreViewController(this);
+        scoreViewController.showGlobalScoreByGame(listView, SubtractSquareGame.getGameName());
     }
 }

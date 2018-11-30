@@ -5,7 +5,7 @@
     android:id="@+id/starting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="csc207.fall2018.gamecentreapp.slidingtiles.StartingActivity">
+    tools:context="csc207.fall2018.gamecentreapp.slidingtiles.SlidingTileActivity.StartingActivity">
 
     <TextView
         android:id="@+id/GameText"
@@ -39,21 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/GameText"
         android:layout_marginStart="118dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="170dp"
         android:layout_toStartOf="@+id/StartButton"
         android:text="Load Saved Game"
-        app:layout_constraintBottom_toTopOf="@+id/SaveButton"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/SaveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/GameText"
-        android:layout_marginStart="143dp"
-        android:layout_marginBottom="101dp"
-        android:layout_toEndOf="@+id/StartButton"
-        android:text="Save Game"
         app:layout_constraintBottom_toTopOf="@+id/goBack"
         app:layout_constraintStart_toStartOf="parent" />
 

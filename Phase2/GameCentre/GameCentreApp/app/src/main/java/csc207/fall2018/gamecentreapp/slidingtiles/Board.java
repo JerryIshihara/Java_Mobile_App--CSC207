@@ -15,12 +15,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * The number of rows.
      */
-    int NUM_ROWS;
+    public int NUM_ROWS;
 
     /**
      * The number of columns.
      */
-    int NUM_COLS;
+    public int NUM_COLS;
 
     /**
      * The tiles on the board in row-major order.
@@ -42,7 +42,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 //        }
 //    }
 
-    Board(List<Tile> tiles, int size) {
+    public Board(List<Tile> tiles, int size) {
         NUM_COLS = size;
         NUM_ROWS = size;
         this.tiles = new Tile[NUM_ROWS][NUM_COLS];
@@ -70,7 +70,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    Tile getTile(int row, int col) {
+    public Tile getTile(int row, int col) {
         return tiles[row][col];
     }
 

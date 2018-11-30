@@ -6,10 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import csc207.fall2018.gamecentreapp.Session;
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
-//import csc207.fall2018.gamecentreapp.UserManager;
-
 public class GameStateDataBase extends SQLiteOpenHelper {
 
     private static final String FILE_NAME = "gameDataBase.db";
@@ -43,7 +39,7 @@ public class GameStateDataBase extends SQLiteOpenHelper {
 
     public void saveState(String userName, String gameName, byte[] state) {
         SQLiteDatabase db = this.getWritableDatabase();
-        deleteState(userName, SubtractSquareGame.getGameName());
+        deleteState(userName, gameName);
 
 //        UserManager userManager = UserManager.getInstance();
 

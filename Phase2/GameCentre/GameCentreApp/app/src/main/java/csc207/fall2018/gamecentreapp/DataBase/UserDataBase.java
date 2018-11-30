@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import csc207.fall2018.gamecentreapp.User;
+import csc207.fall2018.gamecentreapp.GameCentreActivity.User;
 
 public class UserDataBase extends SQLiteOpenHelper {
 
@@ -19,7 +19,7 @@ public class UserDataBase extends SQLiteOpenHelper {
     private static final String COL2 = "PASSWORD";
 
 
-    public UserDataBase(Context context) {
+    UserDataBase(Context context) {
         super(context, FILE_NAME, null, 1);
     }
 
@@ -34,7 +34,7 @@ public class UserDataBase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addUser(User user) {
+    void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -44,12 +44,12 @@ public class UserDataBase extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, contentValues);
     }
 
-    public void deleteUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + user.getUserName() + "'");
-    }
+//    public void deleteUser(User user) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE NAME = '" + user.getUserName() + "'");
+//    }
 
-    public boolean hasUser(User user) {
+    boolean hasUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE NAME = '" + user.getUserName() + "'", null);
         return (c != null && c.getCount() > 0);
@@ -62,11 +62,11 @@ public class UserDataBase extends SQLiteOpenHelper {
     }
 
 
-    public boolean checkUserValidation(User user) {
+    boolean checkUserValidation(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         if (c != null && c.getCount() > 0) {
-            c.moveToFirst();
+//            c.moveToFirst();
             int nameIndex = c.getColumnIndex(COL1);
             while (c.moveToNext()) {
                 if (c.getString(nameIndex).equals(user.getUserName())) {
@@ -78,7 +78,7 @@ public class UserDataBase extends SQLiteOpenHelper {
         return false;
     }
 
-    public void deleteUser(String userName) {
+    void deleteUser(String userName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
 //        String userName = userManager.getCurrentUserName();

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wall_paper"
-    tools:context=".Sudoku.SudokuGameStartingActivity">
+    tools:context=".Sudoku.SudokuActivity.SudokuGameStartingActivity">
 
     <TextView
         android:id="@+id/title"

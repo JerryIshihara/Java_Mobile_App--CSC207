@@ -3,27 +3,21 @@ package csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareActivitie
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 import csc207.fall2018.gamecentreapp.R;
-import csc207.fall2018.gamecentreapp.Session;
-import csc207.fall2018.gamecentreapp.SubtractSquareGame.SubtractSquareGame;
+import csc207.fall2018.gamecentreapp.GameCentreActivity.Session;
 //import csc207.fall2018.gamecentreapp.UserManager;
 
 public class SubtractSquareSelectActivity extends AppCompatActivity {
 
-    SubtractSquareGame subtractSquareGame;
+    //    SubtractSquareGame subtractSquareGame;
+    private SubtractSquareController subtractSquareController;
 
     //    UserManager userManager;
     private Session session;
 
-    private final static String TEMP_FILE_NAME = "temp_file.ser";
+//    private final static String TEMP_FILE_NAME = "temp_file.ser";
 
 //    private final static String USER_FILE_NAME = "userManager.ser";
 
@@ -33,6 +27,7 @@ public class SubtractSquareSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subtract_square_select);
 
         session = Session.getInstance(this);
+        subtractSquareController = new SubtractSquareController(this);
     }
 
     public void onclickSelectTwoPlayers(View view) {
@@ -42,12 +37,7 @@ public class SubtractSquareSelectActivity extends AppCompatActivity {
 
     public void onclickSelectComputer(View view) {
 //        loadFromUserFile();
-        subtractSquareGame = new SubtractSquareGame(session.getCurrentUserName(), "PC");
-        saveToFile(TEMP_FILE_NAME);
-
-        Intent selectComputer = new Intent(getApplicationContext(), SubtractSquareActivity.class);
-        selectComputer.putExtra("PC_MODE", true);
-        startActivity(selectComputer);
+        subtractSquareController.PCNewGame(view);
     }
 
     public void onclickGoBack(View view) {
@@ -72,15 +62,15 @@ public class SubtractSquareSelectActivity extends AppCompatActivity {
 //    }
 //
 //
-    public void saveToFile(String fileName) {
-        try {
-            File outputFile = new File(getFilesDir(), fileName);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
-            objectOutputStream.writeObject(subtractSquareGame);
-            objectOutputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
+//    public void saveToFile(String fileName) {
+//        try {
+//            File outputFile = new File(getFilesDir(), fileName);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(outputFile));
+//            objectOutputStream.writeObject(subtractSquareGame);
+//            objectOutputStream.close();
+//        } catch (IOException e) {
+//            Log.e("Exception", "File write failed: " + e.toString());
+//        }
+//    }
 
 }

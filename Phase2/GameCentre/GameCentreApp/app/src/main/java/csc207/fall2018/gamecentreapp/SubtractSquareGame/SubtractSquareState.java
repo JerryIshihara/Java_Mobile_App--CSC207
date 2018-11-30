@@ -33,14 +33,24 @@ public class SubtractSquareState implements Serializable {
     private int currentTotal;
 
 
-    // New Game State
+    // New Game state
     public SubtractSquareState(String p1Name, String p2Name) {
         this.p1Turn = true;
         this.p1Name = p1Name;
         this.p2Name = p2Name;
         // can be adjust by difficulty
+//        this.currentTotal = getRandomInt(200, 500);
+    }
+
+    public void randomize() {
         this.currentTotal = getRandomInt(200, 500);
     }
+
+    public void setCurrentTotal(int currentTotal) {
+        this.currentTotal = currentTotal;
+    }
+
+
 
 
     private SubtractSquareState(boolean p1_turn, int current_total, String p1Name, String p2Name) {
@@ -124,10 +134,6 @@ public class SubtractSquareState implements Serializable {
 
 
     private int getRandomInt(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
         Random randInt = new Random();
         return randInt.nextInt((max - min) + 1) + min;
     }

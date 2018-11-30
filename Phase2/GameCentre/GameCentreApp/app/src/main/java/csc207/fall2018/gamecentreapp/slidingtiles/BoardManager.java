@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import csc207.fall2018.gamecentreapp.TimeStorable;
+import csc207.fall2018.gamecentreapp.TimeDiplay.TimeStorable;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -24,14 +24,14 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
 
     private ArrayList<Integer> pastMove = new ArrayList<>();
 
-    private String time = "00:00";
+    private int time;
 
     /**
      * Manage a board that has been pre-populated.
      *
      * @param board the board
      */
-    BoardManager(Board board) {
+    public BoardManager(Board board) {
         this.board = board;
     }
 
@@ -40,7 +40,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
      *
      * @return the current board
      */
-    Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -59,7 +59,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
 
 
     // TODO: hard coded, need to change later
-    BoardManager(int size) {
+    public BoardManager(int size) {
 //        this.size = size;
         List<Tile> tiles = new ArrayList<>();
         final int numTiles = size * size;
@@ -134,7 +134,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
      *
      * @return whether the tiles are in row-major order
      */
-    boolean puzzleSolved() {
+    public boolean puzzleSolved() {
         boolean solved = true;
         Iterator<Tile> currentBoard = getBoard().iterator();
         int curId = currentBoard.next().getId();
@@ -186,7 +186,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
      *
      * @param position the position
      */
-    void touchMove(int position) {
+    public void touchMove(int position) {
         this.pastMove.add(0, findBlankTile());
         this.pastMove.add(0, position);
         int row = position / board.NUM_COLS;    // fixed, not Board.NUM_ROWS
@@ -197,7 +197,7 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
         }
     }
 
-    boolean UndoMove() {
+    public boolean UndoMove() {
         Iterator<Integer> moveIterator = pastMove.iterator();
         boolean undoable = moveIterator.hasNext();
         if (undoable) {
@@ -236,13 +236,12 @@ public class BoardManager implements Serializable, Iterable<Integer>, TimeStorab
     }
 
     @Override
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
     @Override
     public int getIntTime() {
-        time = time.replace(":", "");
-        return Integer.valueOf(time);
+        return time;
     }
 }
