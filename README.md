@@ -1,5 +1,5 @@
 # Overview
-A game center application implemented in Java. There are three built-in games:
+A game centre application implemented in Java. There are three built-in games:
 - Sliding Tile
 - Sudoku
 - Subtract Square (has AI mode with mini-max strategy)
@@ -11,7 +11,7 @@ The app is developed with local database which stores different users informatio
 <img src='demo/structure.png'>
 
 # Functionalities
-## Functionality of Game Centre System
+## Game Centre
 1. log in/ sign up: user can choose to create a new account if he hasn't got one or log in directly.
 2. delete account: user can choose to delete his account in the user specific interface.
 3. delete game data: user can choose to delete his game data
