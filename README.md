@@ -1,13 +1,3 @@
-# Set up instruction
-1. Get URL from Markus: [https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0621](https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0621)
-2. Use Android studio to clone the address:
-First, create a new Android project. Then input project from external model.
-3. Add Phase2 to the gradle project path.
-4. Select explicit model groups. Then use default gradle wrapper.
-5. You might get the message "Unregistered VS root detected", and you should choose "Add root".
-6. Then download Phase1 file from Markus and drag it into the Phase2 file.
-
-
 # How to run the program
 Firstly, user is directed to login/ signup interface, where he can either choose Create Account if he hasn't registered yet or login directly. Afterwards, he is directed to user interface, in which he can choose to play three different games (sliding tile, sudoku, subtract square), delete account or delete game data. After user clicks a game, he enters into game start interface and can start playing the game! Different games have common functionalities. For example, save game, load game, user scoreboard, game scoreboard, etc. Meanwhile, they have their own functionalities as well. For instance, Sudoku has start over button which can generate a new board to play, Subtract square has 'vs computer' mode and Sliding tile can choose different level of complexity. For more details about the functionality of different games, please check the Functionalities part.
 
@@ -33,19 +23,6 @@ UserSpecificActivity:  A class dealing with user centre page.
 7. undo: user can undo the move he just made.
 8. time counting: the game shows time counting.
 
-relevant class:
-GameActivity: The game activity.
-SlidingtileSelectSizeActivity: 
-StartingActivity: The initial activity for the sliding puzzle tile game.
-CustomAdapter:
-MovementController:
-SlidingTileActivityController:
-GameDataBaseAdapter:
-Board:The sliding tiles board.
-BoardManager: Manage a board, including swapping tiles, checking for a win, and managing taps.
-Tile: A Tile in a sliding tiles puzzle.
-
-
 ## Functionality of Sudoku
 1. Start new game: start a new sliding tile game.
 2. load saved game: load the previous saved game.
@@ -54,13 +31,6 @@ Tile: A Tile in a sliding tiles puzzle.
 7. undo: user can undo the move he just made.
 8. time counting: the game shows time counting.
 9. user can choose to generate a new board.
-
-Relevant Class:
-SodukuManager: 
-Sudoku:
-SudokuGameActivity: 
-SudokuStartingActivity:
-
 
 ## Functionality of Subtract Square
 1. Start new game: start a new sliding tile game.
@@ -72,50 +42,35 @@ SudokuStartingActivity:
 9. user can choose to generate a new board.
 10. payment: if player's undo exceed 3 times, he wil be directed to payemnt interface:
 
-Relevant Class:
-SubtractSquareActivity:
-SubtractSquareGameCentreActivity:
-SubtractSquareController
-SubtractSquareSelectActivity:
-SubtractSquareStartActivity
-GameDataBaseAdapter
-ComputerChoice
-SubtractSquareGame:subtract square game manager
-SubtractSquareState: The state of the SubtractSquare game.
-
 ## Functionality of Scoreboard:
 1. scoreboard of current user in different game.
 2. show scoreboard of all players in different game.
 
-Relevant Class/ Interface:
-SubtractSquareMyScoreActivity
-SubtractSquareScoreActivity
-MyScoreActivity
-SlidingTileScoreBoardActivity
-SudokuMyScoreActivity
-SudokuScoreBoardActivity
-ScoreDataBaseAdapter
-ScoreViewController
-DisplayScore
-Score
-SlidingTileScore
-SubtractSquareScore
-SudokuScore
-
 # Design Pattern
-a)	Facade:
+- ### Facade
+
 In database system, we have three different classes to store game states, users and scoreboards separately. So, every time we need to access different classes to get different kind of data. In order to solve this problem, we use fa??ade design pattern to provide a unified class, which is DataBase class in our case, to a set of classes (GameStateDataBase, UserDataBase, Scoreboard) in a subsystem. As a result, we can access all data by just calling DataBase, which makes the subsystem easier to use.
-b)	Singleton:
+
+- ### Singleton
+
 In Game Centre system, we use Session class to store information of the current user. Since there must be only one current use, we use Singleton pattern to implement this class. 
-The single instance is a private static attribute. The accessor function is a public static method: 
-c)	Model-View-Controller:
+
+- ### Model-View-Controller
 We consider each separate system consists of data, presentation of that data that is responsive to changes in the model and translator between interaction between User and View and actions for the Model to perform. That???s why we use Model-View-Controller pattern in every system as shown in the ???structure of program??? part.
-d)	Factory Design Pattern:
+
+- ### Factory Design Pattern
+
 Since different games have different ways to calculate score, we implement three classes to represent score of each game (SubtractSquareScore, SudokuScore, SlidingTileScore). Therefore, we need to call different classes, when we refer to the score of different games. To solve this problem, we provide a class called ScoreFactory for creating families of related objects without specifying their concrete classes by using Factory design pattern. For more details:
 Above is the method under ScoreFactory. It generates different score class based on the parameter ???gameName???. As a result, every time we want to get a score class of a specific game, we only need to call ScoreFactory.
-e)	Adapter Design Pattern:
-Since we need to convert the interface of database into another interface clients expect, we use adapter design pattern and implement adapter classes in each system.  Adapter lets classes work together that couldn't otherwise because of incompatible interfaces. That???s why we use it in every controller block as shown in the ???structure of program??? part.
-f)	Iterator:
+
+- ### Adapter Design Pattern
+
+Since we need to convert the interface of database into another interface clients expect, we use adapter design pattern and implement adapter classes in each system.  Adapter lets classes work together that couldn't otherwise because of incompatible interfaces. That's why we use it in every controller block as shown in the 'structure of program' part.
+
+- ### Iterator
+
 In SubtractSquareGame class, we want to implement a method to access past states sequentially without exposing its underlying representation. That is why we use iterator design pattern. In order to achieve that, we let SubtractSquareGame implements iterable<SubtractSquareState> and write a iterator() method with helper class SubtractSquareStateIterator.
-g)	Observer Design Pattern:
+  
+- ### Observer Design Pattern:
+
 Again, for SubtractSquareGame class, we want SubtractSquareController get notified and update automatically when previous one changes state. That???s why we use Observer pattern to define a one-to-many dependency between these two classes. More specifically, we let SubtractSquareController implements Observer, and let SubtractSquareGame extends Observable.
