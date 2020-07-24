@@ -1,21 +1,22 @@
-# How to run the program
-Firstly, user is directed to login/ signup interface, where he can either choose Create Account if he hasn't registered yet or login directly. Afterwards, he is directed to user interface, in which he can choose to play three different games (sliding tile, sudoku, subtract square), delete account or delete game data. After user clicks a game, he enters into game start interface and can start playing the game! Different games have common functionalities. For example, save game, load game, user scoreboard, game scoreboard, etc. Meanwhile, they have their own functionalities as well. For instance, Sudoku has start over button which can generate a new board to play, Subtract square has 'vs computer' mode and Sliding tile can choose different level of complexity. For more details about the functionality of different games, please check the Functionalities part.
+# Overview
+A game center application implemented in Java. There are three built-in games:
+- Sliding Tile
+- Sudoku
+- Subtract Square (has AI mode with mini-max strategy)
 
+The app is developed with local database which stores different users information such as saved game state, game scores etc. Also provides socket for more games.
+
+# OOP-Design
+
+<img src='demo/structure.png'>
 
 # Functionalities
 ## Functionality of Game Centre System
 1. log in/ sign up: user can choose to create a new account if he hasn't got one or log in directly.
 2. delete account: user can choose to delete his account in the user specific interface.
 3. delete game data: user can choose to delete his game data
-relevant class: 
-Session: A class contains current user information
-User: a class representing the users of the game
-UserDataBase: a database restoring all users
-MainActivity: A class dealing with main page.
-RegisterActivity: A class dealing with Registering.
-UserSpecificActivity:  A class dealing with user centre page.
 
-## Functionality of Sliding Tile
+## Sliding Tile Game
 1. Start new game: start a new sliding tile game.
 2. load saved game: load the previous saved game.
 5. select difficulty level: player can choose either 3*3 or 4*4 or 5*5 sliding board game, representing relatively easy, medium and difficult.
@@ -23,7 +24,7 @@ UserSpecificActivity:  A class dealing with user centre page.
 7. undo: user can undo the move he just made.
 8. time counting: the game shows time counting.
 
-## Functionality of Sudoku
+## Sudoku Game
 1. Start new game: start a new sliding tile game.
 2. load saved game: load the previous saved game.
 5. select difficulty level: player can choose difficulty.
@@ -32,7 +33,7 @@ UserSpecificActivity:  A class dealing with user centre page.
 8. time counting: the game shows time counting.
 9. user can choose to generate a new board.
 
-## Functionality of Subtract Square
+## Subtract Square Game
 1. Start new game: start a new sliding tile game.
 2. load saved game: load the previous saved game.
 5. pc mode: player can choose to play with computer.
@@ -42,7 +43,7 @@ UserSpecificActivity:  A class dealing with user centre page.
 9. user can choose to generate a new board.
 10. payment: if player's undo exceed 3 times, he wil be directed to payemnt interface:
 
-## Functionality of Scoreboard:
+## Scoreboard:
 1. scoreboard of current user in different game.
 2. show scoreboard of all players in different game.
 
