@@ -43,7 +43,7 @@ The app is developed with local database which stores different users informatio
 9. user can choose to generate a new board.
 10. payment: if player's undo exceed 3 times, he wil be directed to payemnt interface:
 
-## Scoreboard:
+## Scoreboard
 1. scoreboard of current user in different game.
 2. show scoreboard of all players in different game.
 
